@@ -1,26 +1,22 @@
-<section class="page-header">
-    <h1>Campus Voices</h1>
-    <p>Stories, reflections and voices from our student community.</p>
-</section>
+<?= partial('partials/page-header', [
+    'title' => 'Campus Voices',
+    'subtitle' => 'Stories, reflections and voices from our student community.',
+]) ?>
 
-<section class="section">
+<section class="mx-auto max-w-6xl px-6 py-14">
     <?php if (empty($articles)): ?>
-    <div class="empty-state">No articles yet.</div>
+    <?= partial('partials/empty-state', ['message' => 'No articles yet.']) ?>
     <?php else: ?>
-    <div class="listing-grid">
+    <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         <?php foreach ($articles as $article): ?>
-        <div class="listing-card">
-            <?php if ($article['featured_image_url']): ?>
-            <img src="<?= e($article['featured_image_url']) ?>" alt="<?= e($article['title']) ?>">
-            <?php endif; ?>
-            <div class="body">
-                <?php if ($article['featured']): ?><span style="color:#b45309;font-size:0.75rem;font-weight:600;">FEATURED</span><?php endif; ?>
-                <h3><a href="/campus-voices/<?= e($article['slug']) ?>"><?= e($article['title']) ?></a></h3>
-                <p>by <?= e($article['student_name']) ?></p>
-                <?php if ($article['summary']): ?><p><?= e($article['summary']) ?></p><?php endif; ?>
-                <div class="meta"><?= (int) $article['reading_time'] ?> min read</div>
-            </div>
-        </div>
+        <?= partial('partials/listing-card', [
+            'url' => '/campus-voices/' . $article['slug'],
+            'image' => $article['featured_image_url'] ?: null,
+            'title' => $article['title'],
+            'excerpt' => $article['summary'] ? 'by ' . $article['student_name'] . ' — ' . $article['summary'] : 'by ' . $article['student_name'],
+            'meta' => ((int) $article['reading_time']) . ' min read',
+            'badge' => $article['featured'] ? 'Featured' : null,
+        ]) ?>
         <?php endforeach; ?>
     </div>
     <?php endif; ?>

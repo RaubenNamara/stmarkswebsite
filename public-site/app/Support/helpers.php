@@ -19,3 +19,11 @@ if (!function_exists('asset_url')) {
         return \StMarks\Shared\Support\Assets::resolve($path);
     }
 }
+
+if (!function_exists('partial')) {
+    /** Thin wrapper so page templates can render a shared partial (e.g. listing-card) without a use statement. */
+    function partial(string $template, array $data = []): string
+    {
+        return \StMarks\PublicSite\Support\View::renderPartial($template, $data);
+    }
+}

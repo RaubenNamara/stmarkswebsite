@@ -7,6 +7,7 @@ namespace StMarks\Shared\Services;
 use StMarks\Shared\Models\GalleryEvent;
 use StMarks\Shared\Models\GalleryImage;
 use StMarks\Shared\Support\Assets;
+use StMarks\Shared\Support\PublicSiteBuildService;
 
 class GalleryService extends Service
 {
@@ -43,6 +44,7 @@ class GalleryService extends Service
             return $uploadError;
         }
 
+        PublicSiteBuildService::trigger();
         return ['ok' => true, 'id' => $id];
     }
 
@@ -56,6 +58,7 @@ class GalleryService extends Service
             return ['ok' => false, 'errors' => $errors];
         }
         $this->eventModel->update($id, ['title' => htmlspecialchars(trim($data['title']), ENT_QUOTES, 'UTF-8')]);
+        PublicSiteBuildService::trigger();
         return ['ok' => true, 'id' => $id];
     }
 
@@ -66,7 +69,11 @@ class GalleryService extends Service
             return ['ok' => false, 'errors' => ['general' => 'Event not found']];
         }
         $uploadError = $this->storeImages($eventId, $imageFiles);
-        return $uploadError ?? ['ok' => true];
+        if ($uploadError !== null) {
+            return $uploadError;
+        }
+        PublicSiteBuildService::trigger();
+        return ['ok' => true];
     }
 
     public function deleteImage(int $imageId): bool
@@ -76,7 +83,11 @@ class GalleryService extends Service
             return false;
         }
         $this->uploadService->delete($image['image_path'] ?? null);
-        return $this->imageModel->delete($imageId);
+        $deleted = $this->imageModel->delete($imageId);
+        if ($deleted) {
+            PublicSiteBuildService::trigger();
+        }
+        return $deleted;
     }
 
     public function deleteEvent(int $id): bool
@@ -88,7 +99,11 @@ class GalleryService extends Service
             $this->uploadService->delete($image['image_path'] ?? null);
         }
         // gallery_images has ON DELETE CASCADE on gallery_event_id, so this also removes the rows.
-        return $this->eventModel->delete($id);
+        $deleted = $this->eventModel->delete($id);
+        if ($deleted) {
+            PublicSiteBuildService::trigger();
+        }
+        return $deleted;
     }
 
     /** @return array{ok:false,errors:array}|null */

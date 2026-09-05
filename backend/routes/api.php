@@ -26,6 +26,7 @@ use StMarks\Backend\Controllers\Admin\SmosaFeedbackController;
 use StMarks\Backend\Controllers\Admin\StaffController;
 use StMarks\Backend\Controllers\Admin\StudentLeadershipController;
 use StMarks\Backend\Controllers\AuthController;
+use StMarks\Backend\Controllers\Public as PublicApi;
 use StMarks\Shared\Support\Router;
 
 // Health check - no auth, useful for confirming the front controller/router pipeline works.
@@ -162,4 +163,47 @@ Router::group(['prefix' => '/api/admin', 'middleware' => ['auth']], function ():
     Router::post('/campus-voices/{id}', CampusVoiceController::class . '@update', ['csrf']);
     Router::post('/campus-voices/{id}/toggle-featured', CampusVoiceController::class . '@toggleFeatured', ['csrf']);
     Router::delete('/campus-voices/{id}', CampusVoiceController::class . '@destroy', ['csrf']);
+});
+
+// Public read-only API, consumed by public-frontend/ (no auth - same data the old server-rendered
+// public-site templates read directly from these same Services, just JSON-shaped instead of HTML).
+Router::group(['prefix' => '/api/public'], function (): void {
+    Router::get('/news', PublicApi\NewsController::class . '@index');
+    Router::get('/news/{slug}', PublicApi\NewsController::class . '@show');
+
+    Router::get('/posts', PublicApi\PostController::class . '@index');
+    Router::get('/posts/{slug}', PublicApi\PostController::class . '@show');
+
+    Router::get('/clubs', PublicApi\ClubController::class . '@index');
+    Router::get('/clubs/{slug}', PublicApi\ClubController::class . '@show');
+
+    Router::get('/campus-voices', PublicApi\CampusVoiceController::class . '@index');
+    Router::get('/campus-voices/{slug}', PublicApi\CampusVoiceController::class . '@show');
+
+    Router::get('/staff', PublicApi\StaffController::class . '@index');
+    Router::get('/gallery', PublicApi\GalleryController::class . '@index');
+
+    Router::get('/fee-structures', PublicApi\FeeStructureController::class . '@index');
+    Router::get('/fee-structures/{id}/pdf', PublicApi\FeeStructureController::class . '@pdf');
+
+    Router::get('/performances', PublicApi\PerformanceController::class . '@index');
+    Router::get('/performances/{id}/pdf', PublicApi\PerformanceController::class . '@pdf');
+
+    Router::get('/board-members', PublicApi\BoardMemberController::class . '@index');
+    Router::get('/high-achievers', PublicApi\HighAchieverController::class . '@index');
+    Router::get('/co-curricular', PublicApi\CoCurricularController::class . '@index');
+    Router::get('/mentorship', PublicApi\MentorshipController::class . '@index');
+    Router::get('/girl-boy-talk', PublicApi\GirlBoyTalkController::class . '@index');
+    Router::get('/inspiration-night', PublicApi\InspirationNightController::class . '@index');
+    Router::get('/smosa-alumni', PublicApi\SmosaAlumniController::class . '@index');
+    Router::get('/christmas-cantata', PublicApi\ChristmasCantataController::class . '@index');
+    Router::get('/chaplaincy', PublicApi\ChaplaincyController::class . '@index');
+    Router::get('/student-leadership', PublicApi\StudentLeadershipController::class . '@index');
+
+    Router::post('/contact', PublicApi\ContactController::class . '@store', ['rate_limit:contact,10,300']);
+    Router::post('/apply', PublicApi\JobApplicationController::class . '@store', ['rate_limit:apply,10,300']);
+    Router::get('/smosa-feedback/status', PublicApi\SmosaFeedbackController::class . '@status');
+    Router::post('/smosa-feedback', PublicApi\SmosaFeedbackController::class . '@store', ['rate_limit:smosa_feedback,10,300']);
+
+    Router::post('/page-view', PublicApi\PageViewController::class . '@store');
 });

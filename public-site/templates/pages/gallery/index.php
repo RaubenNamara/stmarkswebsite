@@ -1,23 +1,23 @@
-<section class="page-header">
-    <h1>Gallery</h1>
-</section>
+<?= partial('partials/page-header', ['title' => 'Gallery']) ?>
 
-<section class="section">
+<section class="mx-auto max-w-6xl px-6 py-14">
     <?php if (empty($events)): ?>
-    <div class="empty-state">No gallery events yet.</div>
+    <?= partial('partials/empty-state', ['message' => 'No gallery events yet.']) ?>
     <?php else: ?>
-    <?php foreach ($events as $event): ?>
-    <div class="card">
-        <h2><?= e($event['title']) ?></h2>
-        <div class="listing-grid">
-            <?php foreach (array_slice($event['images'], 0, 12) as $img): ?>
-            <img src="<?= e($img['image_url']) ?>" alt="" style="height:150px;object-fit:cover;border-radius:0.5rem;">
-            <?php endforeach; ?>
+    <div class="space-y-8">
+        <?php foreach ($events as $event): ?>
+        <div class="card">
+            <h2 class="text-lg font-semibold text-gray-900"><?= e($event['title']) ?></h2>
+            <div class="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4">
+                <?php foreach (array_slice($event['images'], 0, 12) as $img): ?>
+                <img src="<?= e($img['image_url']) ?>" alt="" class="h-36 w-full rounded-lg object-cover">
+                <?php endforeach; ?>
+            </div>
+            <?php if (count($event['images']) > 12): ?>
+            <p class="mt-3 text-sm text-gray-500">+<?= count($event['images']) - 12 ?> more photos</p>
+            <?php endif; ?>
         </div>
-        <?php if (count($event['images']) > 12): ?>
-        <p style="margin-top:0.75rem;color:#6b7280;font-size:0.875rem;">+<?= count($event['images']) - 12 ?> more photos</p>
-        <?php endif; ?>
+        <?php endforeach; ?>
     </div>
-    <?php endforeach; ?>
     <?php endif; ?>
 </section>

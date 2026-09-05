@@ -6,6 +6,7 @@ namespace StMarks\Shared\Services;
 
 use StMarks\Shared\Models\Model;
 use StMarks\Shared\Support\Assets;
+use StMarks\Shared\Support\PublicSiteBuildService;
 
 /**
  * Shared logic for domains that are a flat table with a single optional photo and no video
@@ -52,7 +53,11 @@ abstract class SinglePhotoContentService extends Service
         }
 
         $id = $this->model->create($data);
-        return $id === false ? ['ok' => false, 'errors' => ['general' => 'Failed to create']] : ['ok' => true, 'id' => $id];
+        if ($id === false) {
+            return ['ok' => false, 'errors' => ['general' => 'Failed to create']];
+        }
+        PublicSiteBuildService::trigger();
+        return ['ok' => true, 'id' => $id];
     }
 
     public function update(int $id, array $data, ?array $photoFile): array
@@ -78,6 +83,7 @@ abstract class SinglePhotoContentService extends Service
         }
 
         $this->model->update($id, $data);
+        PublicSiteBuildService::trigger();
         return ['ok' => true, 'id' => $id];
     }
 
@@ -88,7 +94,11 @@ abstract class SinglePhotoContentService extends Service
             return false;
         }
         $this->uploadService->delete($existing[$this->photoColumn] ?? null);
-        return $this->model->delete($id);
+        $deleted = $this->model->delete($id);
+        if ($deleted) {
+            PublicSiteBuildService::trigger();
+        }
+        return $deleted;
     }
 
     protected function withUrl(array $row): array

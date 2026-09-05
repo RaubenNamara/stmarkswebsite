@@ -6,6 +6,7 @@ namespace StMarks\Shared\Services;
 
 use StMarks\Shared\Models\News;
 use StMarks\Shared\Support\Assets;
+use StMarks\Shared\Support\PublicSiteBuildService;
 
 class NewsService extends Service
 {
@@ -80,6 +81,7 @@ class NewsService extends Service
             return ['ok' => false, 'errors' => ['general' => 'Failed to create news item']];
         }
 
+        PublicSiteBuildService::trigger();
         return ['ok' => true, 'id' => $id];
     }
 
@@ -118,6 +120,7 @@ class NewsService extends Service
 
         $this->newsModel->update($id, $data);
 
+        PublicSiteBuildService::trigger();
         return ['ok' => true, 'id' => $id];
     }
 
@@ -149,6 +152,10 @@ class NewsService extends Service
         }
 
         $this->uploadService->delete($existing['image_path'] ?? null);
-        return $this->newsModel->delete($id);
+        $deleted = $this->newsModel->delete($id);
+        if ($deleted) {
+            PublicSiteBuildService::trigger();
+        }
+        return $deleted;
     }
 }

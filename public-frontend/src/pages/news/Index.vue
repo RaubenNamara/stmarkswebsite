@@ -1,0 +1,30 @@
+<script setup lang="ts">
+import { useHead } from '@unhead/vue'
+import { api } from '../../services/api'
+import ListingCard from '../../components/ListingCard.vue'
+import PageHeader from '../../components/PageHeader.vue'
+import EmptyState from '../../components/EmptyState.vue'
+
+useHead({ title: 'News' })
+
+const { data } = await api.get('/news', { params: { limit: 100 } })
+const newsItems = data.data.news as Array<Record<string, any>>
+</script>
+
+<template>
+  <PageHeader title="News" />
+
+  <section class="mx-auto max-w-6xl px-6 py-14">
+    <EmptyState v-if="!newsItems.length" message="No news yet." />
+    <div v-else class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      <ListingCard
+        v-for="item in newsItems"
+        :key="item.id"
+        :url="`/news/${item.slug}`"
+        :image="item.image_url"
+        :title="item.title"
+        :excerpt="item.excerpt"
+      />
+    </div>
+  </section>
+</template>

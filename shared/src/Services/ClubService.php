@@ -7,6 +7,7 @@ namespace StMarks\Shared\Services;
 use StMarks\Shared\Models\Club;
 use StMarks\Shared\Models\ClubImage;
 use StMarks\Shared\Support\Assets;
+use StMarks\Shared\Support\PublicSiteBuildService;
 
 class ClubService extends Service
 {
@@ -60,6 +61,7 @@ class ClubService extends Service
             return $uploadError;
         }
 
+        PublicSiteBuildService::trigger();
         return ['ok' => true, 'id' => $id];
     }
 
@@ -88,6 +90,7 @@ class ClubService extends Service
             return $uploadError;
         }
 
+        PublicSiteBuildService::trigger();
         return ['ok' => true, 'id' => $id];
     }
 
@@ -98,7 +101,11 @@ class ClubService extends Service
             return false;
         }
         $this->uploadService->delete($image['image_path'] ?? null);
-        return $this->imageModel->delete($imageId);
+        $deleted = $this->imageModel->delete($imageId);
+        if ($deleted) {
+            PublicSiteBuildService::trigger();
+        }
+        return $deleted;
     }
 
     public function delete(int $id): bool
@@ -110,7 +117,11 @@ class ClubService extends Service
             $this->uploadService->delete($image['image_path'] ?? null);
         }
         // club_images has ON DELETE CASCADE on club_id, so this also removes the rows.
-        return $this->clubModel->delete($id);
+        $deleted = $this->clubModel->delete($id);
+        if ($deleted) {
+            PublicSiteBuildService::trigger();
+        }
+        return $deleted;
     }
 
     /** @return array{ok:false,errors:array}|null */

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace StMarks\Shared\Services;
 
 use StMarks\Shared\Models\Post;
+use StMarks\Shared\Support\PublicSiteBuildService;
 
 class PostService extends Service
 {
@@ -50,7 +51,11 @@ class PostService extends Service
         $data['is_published'] = isset($data['is_published']) ? (int) (bool) $data['is_published'] : 1;
 
         $id = $this->postModel->create($data);
-        return $id === false ? ['ok' => false, 'errors' => ['general' => 'Failed to create post']] : ['ok' => true, 'id' => $id];
+        if ($id === false) {
+            return ['ok' => false, 'errors' => ['general' => 'Failed to create post']];
+        }
+        PublicSiteBuildService::trigger();
+        return ['ok' => true, 'id' => $id];
     }
 
     public function update(int $id, array $data): array
@@ -73,11 +78,16 @@ class PostService extends Service
         $data['is_published'] = isset($data['is_published']) ? (int) (bool) $data['is_published'] : (int) $existing['is_published'];
 
         $this->postModel->update($id, $data);
+        PublicSiteBuildService::trigger();
         return ['ok' => true, 'id' => $id];
     }
 
     public function delete(int $id): bool
     {
-        return $this->postModel->delete($id);
+        $deleted = $this->postModel->delete($id);
+        if ($deleted) {
+            PublicSiteBuildService::trigger();
+        }
+        return $deleted;
     }
 }

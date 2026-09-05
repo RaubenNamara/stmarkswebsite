@@ -6,6 +6,7 @@ namespace StMarks\Shared\Services;
 
 use StMarks\Shared\Models\CampusVoice;
 use StMarks\Shared\Support\Assets;
+use StMarks\Shared\Support\PublicSiteBuildService;
 
 /**
  * Ports the old Laravel CampusVoice model's boot-time slug generation, auto-summary, and
@@ -74,7 +75,11 @@ class CampusVoiceService extends Service
         }
 
         $id = $this->model->create($row);
-        return $id === false ? ['ok' => false, 'errors' => ['general' => 'Failed to create']] : ['ok' => true, 'id' => $id];
+        if ($id === false) {
+            return ['ok' => false, 'errors' => ['general' => 'Failed to create']];
+        }
+        PublicSiteBuildService::trigger();
+        return ['ok' => true, 'id' => $id];
     }
 
     public function update(int $id, array $data, ?array $imageFile): array
@@ -104,6 +109,7 @@ class CampusVoiceService extends Service
         }
 
         $this->model->update($id, $row);
+        PublicSiteBuildService::trigger();
         return ['ok' => true, 'id' => $id];
     }
 
@@ -114,6 +120,7 @@ class CampusVoiceService extends Service
             return ['ok' => false, 'errors' => ['general' => 'Not found']];
         }
         $this->model->update($id, ['featured' => $existing['featured'] ? 0 : 1]);
+        PublicSiteBuildService::trigger();
         return ['ok' => true];
     }
 
@@ -124,7 +131,11 @@ class CampusVoiceService extends Service
             return false;
         }
         $this->uploadService->delete($existing['featured_image'] ?? null);
-        return $this->model->delete($id);
+        $deleted = $this->model->delete($id);
+        if ($deleted) {
+            PublicSiteBuildService::trigger();
+        }
+        return $deleted;
     }
 
     private function prepareRow(array $data): array

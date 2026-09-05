@@ -1,16 +1,14 @@
-<section class="page-header">
-    <h1>Core Values — GREET</h1>
-</section>
+<?= partial('partials/page-header', ['title' => 'Core Values — GREET']) ?>
 
-<section class="section">
-    <div class="card-grid">
-        <div class="card accent-blue"><h3>Godliness</h3></div>
-        <div class="card accent-gold"><h3>Reliability</h3></div>
-        <div class="card accent-blue"><h3>Ethics</h3></div>
-        <div class="card accent-gold"><h3>Excellence</h3></div>
-        <div class="card accent-blue"><h3>Team Work</h3></div>
+<section class="mx-auto max-w-6xl space-y-6 px-6 py-14">
+    <div class="grid gap-6 sm:grid-cols-3 lg:grid-cols-5">
+        <div class="card border-t-4 border-brand-navy text-center"><h3 class="font-semibold text-gray-900">Godliness</h3></div>
+        <div class="card border-t-4 border-brand-gold text-center"><h3 class="font-semibold text-gray-900">Reliability</h3></div>
+        <div class="card border-t-4 border-brand-navy text-center"><h3 class="font-semibold text-gray-900">Ethics</h3></div>
+        <div class="card border-t-4 border-brand-gold text-center"><h3 class="font-semibold text-gray-900">Excellence</h3></div>
+        <div class="card border-t-4 border-brand-navy text-center"><h3 class="font-semibold text-gray-900">Team Work</h3></div>
     </div>
     <div class="card">
-        <p>These five values guide every member of the St. Mark's College Namagoma community — students, staff, and leadership alike — in pursuit of our motto, <strong>"To Be Not To Seem."</strong></p>
+        <p class="text-gray-600">These five values guide every member of the St. Mark's College Namagoma community — students, staff, and leadership alike — in pursuit of our motto, <strong>"To Be Not To Seem."</strong></p>
     </div>
 </section>

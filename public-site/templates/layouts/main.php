@@ -10,9 +10,9 @@
     <?php endif; ?>
     <link rel="stylesheet" href="/assets/app.css">
 </head>
-<body>
+<body class="flex min-h-screen flex-col bg-gray-50 text-gray-900">
 <?= View::renderPartial('partials/nav') ?>
-<main>
+<main class="flex-1">
 <?= $content ?>
 </main>
 <?= View::renderPartial('partials/footer') ?>

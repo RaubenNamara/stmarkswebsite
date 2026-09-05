@@ -1,22 +1,17 @@
-<section class="page-header">
-    <h1>Clubs</h1>
-</section>
+<?= partial('partials/page-header', ['title' => 'Clubs']) ?>
 
-<section class="section">
+<section class="mx-auto max-w-6xl px-6 py-14">
     <?php if (empty($clubs)): ?>
-    <div class="empty-state">No clubs yet.</div>
+    <?= partial('partials/empty-state', ['message' => 'No clubs yet.']) ?>
     <?php else: ?>
-    <div class="listing-grid">
+    <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         <?php foreach ($clubs as $club): ?>
-        <div class="listing-card">
-            <?php if (!empty($club['images'][0]['image_url'])): ?>
-            <img src="<?= e($club['images'][0]['image_url']) ?>" alt="<?= e($club['title']) ?>">
-            <?php endif; ?>
-            <div class="body">
-                <h3><a href="/clubs/<?= e($club['slug']) ?>"><?= e($club['title']) ?></a></h3>
-                <?php if ($club['content']): ?><p><?= e(mb_strimwidth(strip_tags($club['content']), 0, 150, '...')) ?></p><?php endif; ?>
-            </div>
-        </div>
+        <?= partial('partials/listing-card', [
+            'url' => '/clubs/' . $club['slug'],
+            'image' => $club['images'][0]['image_url'] ?? null,
+            'title' => $club['title'],
+            'excerpt' => $club['content'] ? mb_strimwidth(strip_tags($club['content']), 0, 150, '...') : null,
+        ]) ?>
         <?php endforeach; ?>
     </div>
     <?php endif; ?>

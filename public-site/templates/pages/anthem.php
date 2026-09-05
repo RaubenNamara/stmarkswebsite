@@ -13,23 +13,23 @@ $stanzas = [
     ["St. Mark's College so competent and strong,", "The staff is qualified and bold.", "Let us be not to seem, to develop our motherland,", "Uganda long, long live,", "Long, our founders long live."],
 ];
 ?>
-<section class="page-header">
-    <h1>School Anthem</h1>
-    <p>Our anthem — a pledge of faith, discipline, and excellence. Chorus repeats after every stanza.</p>
-</section>
+<?= partial('partials/page-header', [
+    'title' => 'School Anthem',
+    'subtitle' => 'Our anthem — a pledge of faith, discipline, and excellence. Chorus repeats after every stanza.',
+]) ?>
 
-<section class="section">
-    <div class="card-grid">
+<section class="mx-auto max-w-6xl px-6 py-14">
+    <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         <?php foreach ($stanzas as $i => $lines): ?>
-        <div class="card accent-blue">
-            <h2><?= $i + 1 ?>. Stanza</h2>
+        <div class="card border-t-4 border-brand-navy">
+            <h2 class="font-semibold text-gray-900"><?= $i + 1 ?>. Stanza</h2>
             <?php foreach ($lines as $line): ?>
-                <p style="margin:0 0 0.4rem;"><?= e($line) ?></p>
+                <p class="mt-1 text-sm text-gray-600"><?= e($line) ?></p>
             <?php endforeach; ?>
-            <hr style="margin:1.25rem 0; border:none; border-top:1px solid #e5e7eb;">
-            <p style="font-weight:600; color:#172554; margin-bottom:0.5rem;">Chorus (repeat after every stanza)</p>
+            <hr class="my-5 border-gray-200">
+            <p class="mb-2 font-semibold text-brand-navy">Chorus (repeat after every stanza)</p>
             <?php foreach ($chorus as $line): ?>
-                <p style="margin:0 0 0.2rem; font-size:0.9rem;"><?= e($line) ?></p>
+                <p class="text-sm text-gray-500"><?= e($line) ?></p>
             <?php endforeach; ?>
         </div>
         <?php endforeach; ?>

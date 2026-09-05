@@ -1,18 +1,19 @@
-# Project-root front controller for the new stack, unifying public-site/backend/admin-frontend
+# Project-root front controller for the new stack, unifying public-frontend/backend/admin-frontend
 # under one local origin (http://localhost/stmarkswebsite/...) without any Apache vhost/system
-# config changes - everything here stays inside the project. The old Laravel app has been
-# removed entirely (was previously left at /stmarkswebsite/public/ during the parallel build).
+# config changes. The public site is now public-frontend/dist/ - a prerendered Vue 3 (vite-ssg)
+# build, one real static .html file per route (see public-frontend/vite.config.ts's
+# includedRoutes) - not a PHP front controller. The old Laravel app has been removed entirely;
+# public-site/ (the previous PHP-rendered version) is retired now that this replaces it.
 #
 # Real files/directories at the project root (the /admin/, /api/ and /uploads/ junctions
-# included, plus /assets/ and /robots.txt which mirror public-site/public/'s copies - see
-# below) are served as-is; anything else is handed to public-site's front controller, which
-# resolves it via Config::get('PUBLIC_SITE_BASE_PATH') - see public-site/public/index.php.
+# included) are served as-is; everything else tries a real prerendered page
+# (public-frontend/dist/<path>.html, vite-ssg's flat naming) before falling back to the SPA shell
+# (dist/index.html) for a genuinely unmatched path, letting the client-side router respond.
 #
-# backend/ and public-site/ already protect their own non-public/ subdirectories via their own
-# root .htaccess (deny-all except their public/ subfolder) regardless of this file, so it's not
-# repeated here. shared/ has never had that protection (nothing ever routed a bare project-root
-# request anywhere before this file existed) - denied below since this rewrite is what makes it
-# newly reachable.
+# backend/ already protects its own non-public/ subdirectories via its own root .htaccess
+# (deny-all except its public/ subfolder) regardless of this file. shared/ has never had that
+# protection (nothing ever routed a bare project-root request anywhere before this file existed)
+# - denied below since this rewrite is what makes it newly reachable.
 
 <FilesMatch "^\.env|composer\.(json|lock)|package(-lock)?\.json|\.gitattributes$">
     <IfModule mod_authz_core.c>
@@ -32,13 +33,22 @@
 
     # The bare docroot request ("/") would otherwise match the -d check below (REQUEST_FILENAME
     # resolves to the project root itself, which obviously exists as a directory) and fall
-    # through to Apache's directory listing, since there's no index.php/html actually sitting at
-    # the project root - only routes the real ^ - [L] passthrough below is meant to catch.
-    RewriteRule ^$ public-site/public/index.php [L]
+    # through to Apache's directory listing - this has to run before that check, not after.
+    RewriteRule ^$ public-frontend/dist/index.html [L]
 
     RewriteCond %{REQUEST_FILENAME} -f [OR]
     RewriteCond %{REQUEST_FILENAME} -d
     RewriteRule ^ - [L]
 
-    RewriteRule ^ public-site/public/index.php [L]
+    # A real built asset (JS/CSS/etc. under dist/assets/, hashed filenames from the Vite build).
+    # Relative -f/-d tests here resolve against the server's DOCUMENT_ROOT (C:/xampp/htdocs), not
+    # this .htaccess's own directory, so the full path from there has to be spelled out.
+    RewriteCond %{DOCUMENT_ROOT}/stmarkswebsite/public-frontend/dist/$1 -f
+    RewriteRule ^(.*)$ public-frontend/dist/$1 [L]
+
+    # A real prerendered page (vite-ssg's flat "<path>.html" naming).
+    RewriteCond %{DOCUMENT_ROOT}/stmarkswebsite/public-frontend/dist/$1.html -f
+    RewriteRule ^(.*)$ public-frontend/dist/$1.html [L]
+
+    RewriteRule ^ public-frontend/dist/index.html [L]
 </IfModule>

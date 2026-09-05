@@ -31,6 +31,9 @@ backend/vendor
 public-site/vendor
 admin-frontend/node_modules
 admin-frontend/dist
+public-site/node_modules
+public-frontend/node_modules
+public-frontend/dist
 storage/uploads/*
 !storage/uploads/.gitkeep
 
@@ -39,3 +42,6 @@ uploads/*
 api/uploads/*
 backend/public/uploads/*
 public-site/public/uploads/*
+
+# assets is physically public-site/public/assets/ - same duplication issue as uploads above
+assets/*

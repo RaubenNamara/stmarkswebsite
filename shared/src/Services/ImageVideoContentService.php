@@ -6,6 +6,7 @@ namespace StMarks\Shared\Services;
 
 use StMarks\Shared\Models\Model;
 use StMarks\Shared\Support\Assets;
+use StMarks\Shared\Support\PublicSiteBuildService;
 
 /**
  * Shared create/update/delete/list logic for the ~7 domains that are just "a flat table with an
@@ -57,7 +58,11 @@ abstract class ImageVideoContentService extends Service
         }
 
         $id = $this->model->create($data);
-        return $id === false ? ['ok' => false, 'errors' => ['general' => 'Failed to create']] : ['ok' => true, 'id' => $id];
+        if ($id === false) {
+            return ['ok' => false, 'errors' => ['general' => 'Failed to create']];
+        }
+        PublicSiteBuildService::trigger();
+        return ['ok' => true, 'id' => $id];
     }
 
     public function update(int $id, array $data, ?array $imageFile, ?array $videoFile): array
@@ -85,6 +90,7 @@ abstract class ImageVideoContentService extends Service
         }
 
         $this->model->update($id, $data);
+        PublicSiteBuildService::trigger();
         return ['ok' => true, 'id' => $id];
     }
 
@@ -96,7 +102,11 @@ abstract class ImageVideoContentService extends Service
         }
         $this->uploadService->delete($existing[$this->imageColumn] ?? null);
         $this->uploadService->delete($existing[$this->videoColumn] ?? null);
-        return $this->model->delete($id);
+        $deleted = $this->model->delete($id);
+        if ($deleted) {
+            PublicSiteBuildService::trigger();
+        }
+        return $deleted;
     }
 
     /** @return array{ok:false,errors:array}|null null means no error */

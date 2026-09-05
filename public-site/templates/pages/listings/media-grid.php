@@ -16,31 +16,29 @@
 $imageField ??= 'image_url';
 $videoField ??= 'video_url';
 ?>
-<section class="page-header">
-    <h1><?= e($pageTitle) ?></h1>
-</section>
+<?= partial('partials/page-header', ['title' => $pageTitle]) ?>
 
-<section class="section">
+<section class="mx-auto max-w-6xl px-6 py-14">
     <?php if (empty($items)): ?>
-    <div class="empty-state">Nothing here yet.</div>
+    <?= partial('partials/empty-state', ['message' => 'Nothing here yet.']) ?>
     <?php else: ?>
-    <div class="listing-grid">
+    <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         <?php foreach ($items as $item): ?>
-        <div class="listing-card">
-            <?php if (!empty($item[$imageField])): ?>
-            <img src="<?= e($item[$imageField]) ?>" alt="<?= e($item[$titleField]) ?>">
-            <?php elseif (!empty($item[$videoField])): ?>
-            <video src="<?= e($item[$videoField]) ?>" controls></video>
-            <?php endif; ?>
-            <div class="body">
-                <h3><?= e($item[$titleField]) ?></h3>
-                <?php foreach ($textFields as $column => $label): ?>
-                    <?php if (!empty($item[$column])): ?>
-                    <p><?= e(mb_strimwidth(strip_tags((string) $item[$column]), 0, 180, '...')) ?></p>
-                    <?php endif; ?>
-                <?php endforeach; ?>
-            </div>
-        </div>
+        <?php
+        $excerpt = null;
+        foreach ($textFields as $column => $label) {
+            if (!empty($item[$column])) {
+                $excerpt = mb_strimwidth(strip_tags((string) $item[$column]), 0, 180, '...');
+                break;
+            }
+        }
+        ?>
+        <?= partial('partials/listing-card', [
+            'image' => $item[$imageField] ?? null,
+            'video' => $item[$videoField] ?? null,
+            'title' => $item[$titleField],
+            'excerpt' => $excerpt,
+        ]) ?>
         <?php endforeach; ?>
     </div>
     <?php endif; ?>

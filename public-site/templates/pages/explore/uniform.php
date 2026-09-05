@@ -1,21 +1,21 @@
-<section class="page-header">
-    <h1>School Uniform</h1>
-    <p>Our uniform reflects discipline, identity, and excellence.</p>
-</section>
+<?= partial('partials/page-header', [
+    'title' => 'School Uniform',
+    'subtitle' => 'Our uniform reflects discipline, identity, and excellence.',
+]) ?>
 
-<section class="section">
+<section class="mx-auto max-w-6xl space-y-6 px-6 py-14">
     <div class="card">
-        <h2>Academic Uniform</h2>
-        <div class="card-grid">
-            <div><h3>O-Level Students</h3><ul><li>Cream Shirts / Blouses</li><li>Navy Blue Trousers / Skirts</li></ul></div>
-            <div><h3>A-Level Students</h3><ul><li>Blue Shirts / Blouses</li><li>Navy Blue Trousers / Skirts</li></ul></div>
-            <div><h3>School Sweater</h3><ul><li>Navy Blue Sweater</li><li>Light Blue Stripes at the Neck and Sleeves</li></ul></div>
+        <h2 class="text-xl font-bold text-gray-900">Academic Uniform</h2>
+        <div class="mt-6 grid gap-6 sm:grid-cols-3">
+            <div><h3 class="font-semibold text-gray-900">O-Level Students</h3><ul class="mt-2 list-disc space-y-1 pl-5 text-sm text-gray-600"><li>Cream Shirts / Blouses</li><li>Navy Blue Trousers / Skirts</li></ul></div>
+            <div><h3 class="font-semibold text-gray-900">A-Level Students</h3><ul class="mt-2 list-disc space-y-1 pl-5 text-sm text-gray-600"><li>Blue Shirts / Blouses</li><li>Navy Blue Trousers / Skirts</li></ul></div>
+            <div><h3 class="font-semibold text-gray-900">School Sweater</h3><ul class="mt-2 list-disc space-y-1 pl-5 text-sm text-gray-600"><li>Navy Blue Sweater</li><li>Light Blue Stripes at the Neck and Sleeves</li></ul></div>
         </div>
     </div>
 
     <div class="card">
-        <h2>Out-of-Class Uniform</h2>
-        <ul>
+        <h2 class="text-xl font-bold text-gray-900">Out-of-Class Uniform</h2>
+        <ul class="mt-3 list-disc space-y-1 pl-5 text-sm text-gray-600">
             <li>Plain Red T-Shirts (Different colors per class)</li>
             <li>Black Skirts / Trousers</li>
             <li>Students should bring only skirts/trousers — strict adherence required</li>
@@ -27,8 +27,8 @@
     </div>
 
     <div class="card">
-        <h2>Uniform Package (Available at School)</h2>
-        <ul>
+        <h2 class="text-xl font-bold text-gray-900">Uniform Package (Available at School)</h2>
+        <ul class="mt-3 list-disc space-y-1 pl-5 text-sm text-gray-600">
             <li>School Sweater</li>
             <li>2 Shirts / Blouses</li>
             <li>2 Trousers / Skirts</li>
