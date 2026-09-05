@@ -23,15 +23,13 @@ Homestead.json
 Homestead.yaml
 Thumbs.db
 
-# New eSpace-style stack (shared/, backend/, public-site/, admin-frontend/)
+# eSpace-style stack (shared/, backend/, public-frontend/, admin-frontend/)
 shared/storage/cache
 shared/storage/logs
 shared/vendor
 backend/vendor
-public-site/vendor
 admin-frontend/node_modules
 admin-frontend/dist
-public-site/node_modules
 public-frontend/node_modules
 public-frontend/dist
 storage/uploads/*
@@ -41,7 +39,3 @@ storage/uploads/*
 uploads/*
 api/uploads/*
 backend/public/uploads/*
-public-site/public/uploads/*
-
-# assets is physically public-site/public/assets/ - same duplication issue as uploads above
-assets/*
