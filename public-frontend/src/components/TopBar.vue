@@ -5,25 +5,25 @@ const socialIcons = ['x', 'facebook', 'tiktok', 'youtube', 'chat'] as const
 </script>
 
 <template>
-  <div class="hidden bg-brand-navy-dark text-blue-100 md:block">
-    <div class="mx-auto flex max-w-6xl items-center justify-between gap-4 px-6 py-2 text-xs">
-      <div class="flex items-center gap-5">
-        <a href="tel:+256775831844" class="flex items-center gap-1.5 transition hover:text-white">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="currentColor" viewBox="0 0 20 20"><path d="M2 3.5A1.5 1.5 0 013.5 2h1.148a1.5 1.5 0 011.465 1.175l.716 3.223a1.5 1.5 0 01-.75 1.643l-1.026.513a11.05 11.05 0 005.516 5.516l.513-1.026a1.5 1.5 0 011.643-.75l3.223.716A1.5 1.5 0 0117 15.352V16.5a1.5 1.5 0 01-1.5 1.5H14C6.82 18 1 12.18 1 5V3.5z" /></svg>
+  <div class="bg-brand-navy-dark text-blue-100">
+    <div class="mx-auto flex max-w-6xl flex-wrap items-center justify-center gap-x-5 gap-y-1.5 px-4 py-2 text-[11px] sm:justify-between sm:px-6 sm:text-xs">
+      <div class="flex flex-wrap items-center justify-center gap-x-5 gap-y-1.5">
+        <a href="tel:+256775831844" class="flex items-center gap-1.5 whitespace-nowrap transition hover:text-white">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5 shrink-0" fill="currentColor" viewBox="0 0 20 20"><path d="M2 3.5A1.5 1.5 0 013.5 2h1.148a1.5 1.5 0 011.465 1.175l.716 3.223a1.5 1.5 0 01-.75 1.643l-1.026.513a11.05 11.05 0 005.516 5.516l.513-1.026a1.5 1.5 0 011.643-.75l3.223.716A1.5 1.5 0 0117 15.352V16.5a1.5 1.5 0 01-1.5 1.5H14C6.82 18 1 12.18 1 5V3.5z" /></svg>
           +256-775-831844
         </a>
-        <a href="mailto:info@stmark.sc.ug" class="flex items-center gap-1.5 transition hover:text-white">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="currentColor" viewBox="0 0 20 20"><path d="M3 4a2 2 0 00-2 2v.01L10 12l9-5.99V6a2 2 0 00-2-2H3z" /><path d="M18 8.24l-7.514 5.01a1 1 0 01-1.11 0L2 8.24V14a2 2 0 002 2h12a2 2 0 002-2V8.24z" /></svg>
+        <a href="mailto:info@stmark.sc.ug" class="flex items-center gap-1.5 whitespace-nowrap transition hover:text-white">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5 shrink-0" fill="currentColor" viewBox="0 0 20 20"><path d="M3 4a2 2 0 00-2 2v.01L10 12l9-5.99V6a2 2 0 00-2-2H3z" /><path d="M18 8.24l-7.514 5.01a1 1 0 01-1.11 0L2 8.24V14a2 2 0 002 2h12a2 2 0 002-2V8.24z" /></svg>
           info@stmark.sc.ug
         </a>
       </div>
 
-      <div class="flex items-center gap-3">
-        <router-link to="/admissions" class="rounded-md border border-brand-gold px-3 py-1 font-bold text-brand-gold transition hover:bg-brand-gold hover:text-brand-navy-dark">ADMISSIONS</router-link>
-        <router-link to="/elearning" class="rounded-md border border-emerald-400 px-3 py-1 font-bold text-emerald-400 transition hover:bg-emerald-400 hover:text-brand-navy-dark">eLearning</router-link>
+      <div class="flex items-center gap-2 sm:gap-3">
+        <router-link to="/admissions" class="whitespace-nowrap rounded-md border border-brand-gold px-2.5 py-1 font-bold text-brand-gold transition hover:bg-brand-gold hover:text-brand-navy-dark sm:px-3">ADMISSIONS</router-link>
+        <router-link to="/elearning" class="whitespace-nowrap rounded-md border border-emerald-400 px-2.5 py-1 font-bold text-emerald-400 transition hover:bg-emerald-400 hover:text-brand-navy-dark sm:px-3">eLearning</router-link>
       </div>
 
-      <div class="flex items-center gap-3">
+      <div class="hidden items-center gap-3 md:flex">
         <span class="text-blue-200">Follow us</span>
         <span v-for="icon in socialIcons" :key="icon" class="flex h-6 w-6 items-center justify-center rounded-full bg-white/10 text-blue-100 transition hover:bg-white/20 hover:text-white" :title="icon">
           <svg v-if="icon === 'x'" xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="currentColor" viewBox="0 0 24 24"><path d="M18.9 2H22l-7.6 8.7L23.3 22H16.7l-5.2-6.8L5.5 22H2.4l8.1-9.3L1.5 2h6.8l4.7 6.2L18.9 2zm-1.2 18h1.7L7.4 4h-1.8l12.1 16z" /></svg>
