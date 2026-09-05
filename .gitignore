@@ -24,6 +24,8 @@ Homestead.yaml
 Thumbs.db
 
 # New eSpace-style stack (shared/, backend/, public-site/, admin-frontend/)
+shared/storage/cache
+shared/storage/logs
 shared/vendor
 backend/vendor
 public-site/vendor
@@ -31,3 +33,9 @@ admin-frontend/node_modules
 admin-frontend/dist
 storage/uploads/*
 !storage/uploads/.gitkeep
+
+# uploads is physically storage/uploads/ - also reachable (same files) via these junctions
+uploads/*
+api/uploads/*
+backend/public/uploads/*
+public-site/public/uploads/*

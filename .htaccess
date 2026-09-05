@@ -1,8 +1,7 @@
 # Project-root front controller for the new stack, unifying public-site/backend/admin-frontend
 # under one local origin (http://localhost/stmarkswebsite/...) without any Apache vhost/system
-# config changes - everything here stays inside the project, fully reversible (delete this file
-# to go back to the old per-app URLs). The old Laravel app is untouched and still reachable
-# directly at /stmarkswebsite/public/ for comparison/rollback during the parallel-build period.
+# config changes - everything here stays inside the project. The old Laravel app has been
+# removed entirely (was previously left at /stmarkswebsite/public/ during the parallel build).
 #
 # Real files/directories at the project root (the /admin/, /api/ and /uploads/ junctions
 # included, plus /assets/ and /robots.txt which mirror public-site/public/'s copies - see
@@ -10,10 +9,10 @@
 # resolves it via Config::get('PUBLIC_SITE_BASE_PATH') - see public-site/public/index.php.
 #
 # backend/ and public-site/ already protect their own non-public/ subdirectories via their own
-# root .htaccess (deny-all except their public/ subfolder) regardless of this file, so they're
-# not repeated here. shared/ and Laravel's source directories have never had that protection
-# (nothing ever routed a bare project-root request anywhere before this file existed) - denied
-# below since this rewrite is what makes them newly reachable.
+# root .htaccess (deny-all except their public/ subfolder) regardless of this file, so it's not
+# repeated here. shared/ has never had that protection (nothing ever routed a bare project-root
+# request anywhere before this file existed) - denied below since this rewrite is what makes it
+# newly reachable.
 
 <FilesMatch "^\.env|composer\.(json|lock)|package(-lock)?\.json|\.gitattributes$">
     <IfModule mod_authz_core.c>
@@ -29,7 +28,7 @@
     RewriteEngine On
 
     RewriteRule ^\.git - [F,L]
-    RewriteRule ^(shared|app|bootstrap|config|database|resources|routes|tests)/ - [F,L]
+    RewriteRule ^shared/ - [F,L]
 
     # The bare docroot request ("/") would otherwise match the -d check below (REQUEST_FILENAME
     # resolves to the project root itself, which obviously exists as a directory) and fall

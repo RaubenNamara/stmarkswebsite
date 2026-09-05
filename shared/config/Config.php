@@ -47,8 +47,6 @@ class Config
             'APP_DEBUG' => 'false',
             'APP_NAME' => "St Mark's College Namagoma",
             'ADMIN_FRONTEND_URL' => 'http://localhost/stmarkswebsite/admin',
-            // Old Laravel app's storage symlink - see Support\Assets for why this exists.
-            'LEGACY_STORAGE_URL' => 'http://localhost/stmarkswebsite/public/storage',
             // See public-site/public/index.php's comment - empty in production.
             'PUBLIC_SITE_BASE_PATH' => '',
             'SESSION_LIFETIME' => '7200',
