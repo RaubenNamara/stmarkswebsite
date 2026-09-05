@@ -21,7 +21,10 @@ use StMarks\Shared\Config\Config;
  *
  * Laravel's old Storage-facade-relative paths (e.g. "news/xxx.jpg", no leading slash) were
  * migrated to this convention by shared/scripts/migrate-legacy-assets.php ahead of removing the
- * Laravel app entirely; there is no longer a legacy branch here.
+ * Laravel app entirely. A handful of rows had no file left to migrate (the physical file was
+ * already gone before this rewrite) and still carry a bare, slash-less path - normalized below so
+ * those at least produce a well-formed (still-404) URL instead of running into the previous
+ * segment with no separator (e.g. "/stmarkswebsitestaff/..." instead of "/stmarkswebsite/staff/...").
  */
 class Assets
 {
@@ -36,6 +39,6 @@ class Assets
         }
 
         $prefix = rtrim((string) Config::get('PUBLIC_SITE_BASE_PATH', ''), '/');
-        return $prefix . $path;
+        return $prefix . '/' . ltrim($path, '/');
     }
 }
