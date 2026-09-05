@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { ref } from 'vue'
 import { useHead } from '@unhead/vue'
 import { api } from '../../services/api'
 import NotFound from '../errors/NotFound.vue'
@@ -17,6 +18,10 @@ useHead({
   title: article ? article.title : 'Page not found',
   meta: article?.summary ? [{ name: 'description', content: article.summary }] : [],
 })
+
+// The image file is missing from the server for some older articles (pre-existing, unrelated to
+// this page) - hide it on load failure instead of showing a broken-image icon.
+const imageFailed = ref(false)
 </script>
 
 <template>
@@ -29,7 +34,7 @@ useHead({
       &middot; {{ article.reading_time }} min read &middot; {{ article.views }} views
     </p>
 
-    <img v-if="article.featured_image_url" :src="article.featured_image_url" :alt="article.title" class="mt-6 w-full rounded-xl object-cover">
+    <img v-if="article.featured_image_url && !imageFailed" :src="article.featured_image_url" :alt="article.title" class="mt-6 w-full rounded-xl object-cover" @error="imageFailed = true">
 
     <div class="prose prose-slate mt-6 max-w-none" v-html="article.content" />
 

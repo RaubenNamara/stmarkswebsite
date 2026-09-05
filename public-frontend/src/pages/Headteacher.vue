@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useHead } from '@unhead/vue'
 import PageHeader from '../components/PageHeader.vue'
+import AvatarImage from '../components/AvatarImage.vue'
 
 useHead({ title: "Head Teacher's Message" })
 </script>
@@ -13,7 +14,7 @@ useHead({ title: "Head Teacher's Message" })
 
   <section class="mx-auto grid max-w-6xl gap-6 px-6 py-14 md:grid-cols-[280px_1fr] md:items-start">
     <div class="card border-t-4 border-brand-navy text-center">
-      <img :src="'/images/hm.jpg'" alt="Wabwire Joseph" class="mx-auto mb-4 h-40 w-40 rounded-full border-4 border-brand-navy object-cover">
+      <AvatarImage src="/images/hm.jpg" alt="Wabwire Joseph" size="lg" />
       <h2 class="text-lg font-bold text-brand-navy">Wabwire Joseph</h2>
       <p class="font-semibold text-gray-600">Head Teacher</p>
       <p class="mt-2 text-sm text-gray-600">Provides strong academic leadership ensuring holistic development and consistent performance.</p>

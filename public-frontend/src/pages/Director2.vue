@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useHead } from '@unhead/vue'
 import PageHeader from '../components/PageHeader.vue'
+import AvatarImage from '../components/AvatarImage.vue'
 
 useHead({ title: "Director's Message" })
 </script>
@@ -10,7 +11,7 @@ useHead({ title: "Director's Message" })
 
   <section class="mx-auto grid max-w-6xl gap-6 px-6 py-14 md:grid-cols-[280px_1fr] md:items-start">
     <div class="card border-t-4 border-brand-navy text-center">
-      <img :src="'/images/director2.jpg'" alt="Canon Alice Ddamulira" class="mx-auto mb-4 h-40 w-40 rounded-full border-4 border-brand-navy object-cover">
+      <AvatarImage src="/images/director2.jpg" alt="Canon Alice Ddamulira" size="lg" />
       <h2 class="text-lg font-bold text-brand-navy">Canon Alice Ddamulira</h2>
       <p class="font-semibold text-gray-600">Director</p>
       <p class="mt-2 text-sm text-gray-600">Dedicated to nurturing discipline, excellence and strong moral values within the school community.</p>

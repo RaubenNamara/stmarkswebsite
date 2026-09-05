@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { ref } from 'vue'
 import { useHead } from '@unhead/vue'
 import { api } from '../../services/api'
 import NotFound from '../errors/NotFound.vue'
@@ -14,13 +15,17 @@ try {
 }
 
 useHead({ title: news ? news.title : 'Page not found' })
+
+// The image file is missing from the server for some older items (pre-existing, unrelated to
+// this page) - hide it on load failure instead of showing a broken-image icon.
+const imageFailed = ref(false)
 </script>
 
 <template>
   <NotFound v-if="!news" message="This news item doesn't exist." />
   <article v-else class="mx-auto max-w-3xl px-6 py-14">
     <h1 class="text-3xl font-bold tracking-tight text-gray-900">{{ news.title }}</h1>
-    <img v-if="news.image_url" :src="news.image_url" :alt="news.title" class="mt-6 w-full rounded-xl object-cover">
+    <img v-if="news.image_url && !imageFailed" :src="news.image_url" :alt="news.title" class="mt-6 w-full rounded-xl object-cover" @error="imageFailed = true">
     <div class="prose prose-slate mt-6 max-w-none" v-html="news.content" />
     <p class="mt-8"><router-link to="/news" class="font-semibold text-brand-navy hover:underline">&larr; Back to News</router-link></p>
   </article>
