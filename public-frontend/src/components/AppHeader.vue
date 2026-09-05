@@ -77,12 +77,12 @@ function toggleMobileSection(label: string) {
 
   <header class="sticky top-0 z-50 border-b border-black/5 bg-amber-50 shadow-sm">
     <nav class="mx-auto flex max-w-6xl items-center justify-between gap-4 px-6 py-3">
-      <router-link to="/" class="flex shrink-0 items-center gap-3">
-        <span class="flex h-14 w-14 items-center justify-center rounded-full border-2 border-brand-navy bg-white font-display text-lg font-extrabold text-brand-navy shadow-sm">SM</span>
-        <span class="leading-tight">
-          <span class="block font-display text-lg font-extrabold text-brand-navy">St Mark's College</span>
-          <span class="block font-display text-sm font-bold text-brand-navy">Namagoma</span>
-          <span class="block text-xs italic text-brand-navy/70">"The Higher Achiever's College"</span>
+      <router-link to="/" class="flex min-w-0 shrink items-center gap-2 sm:gap-3">
+        <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border-2 border-brand-navy bg-white font-display text-sm font-extrabold text-brand-navy shadow-sm sm:h-14 sm:w-14 sm:text-lg">SM</span>
+        <span class="min-w-0 leading-tight">
+          <span class="block truncate font-display text-sm font-extrabold text-brand-navy sm:text-lg">St Mark's College</span>
+          <span class="block truncate font-display text-xs font-bold text-brand-navy sm:text-sm">Namagoma</span>
+          <span class="hidden truncate text-xs italic text-brand-navy/70 sm:block">"The Higher Achiever's College"</span>
         </span>
       </router-link>
 

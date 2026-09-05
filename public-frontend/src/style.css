@@ -3,8 +3,11 @@
 @tailwind utilities;
 
 @layer base {
+  html {
+    @apply overflow-x-hidden;
+  }
   body {
-    @apply text-gray-900 antialiased;
+    @apply overflow-x-hidden text-gray-900 antialiased;
   }
   h1, h2, h3, h4 {
     @apply font-display;

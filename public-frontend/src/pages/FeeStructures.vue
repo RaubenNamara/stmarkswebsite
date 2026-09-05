@@ -18,8 +18,8 @@ const items = data.data.items as Array<Record<string, any>>
   <section class="mx-auto max-w-3xl px-6 py-14">
     <EmptyState v-if="!items.length" message="No documents available yet." />
     <div v-else class="card divide-y divide-gray-100">
-      <div v-for="item in items" :key="item.id" class="flex items-center justify-between gap-4 py-3 first:pt-0 last:pb-0">
-        <span class="text-gray-800">📄 {{ item.title }}</span>
+      <div v-for="item in items" :key="item.id" class="flex flex-wrap items-center justify-between gap-x-4 gap-y-2 py-3 first:pt-0 last:pb-0">
+        <span class="min-w-0 flex-1 break-words text-gray-800">📄 {{ item.title }}</span>
         <a
           :href="item.file_path?.startsWith('/uploads/') ? `${apiPublicBase}/fee-structures/${item.id}/pdf` : item.file_url"
           target="_blank"
