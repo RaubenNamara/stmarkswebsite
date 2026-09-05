@@ -34,7 +34,7 @@ const exploreLinks: Array<[string, string]> = [
           <h3 class="font-display text-sm font-bold uppercase tracking-wide text-white">Quick Links</h3>
           <ul class="mt-4 space-y-2.5 text-sm">
             <li v-for="[href, label] in quickLinks" :key="href">
-              <router-link :to="href" class="transition hover:text-white">{{ label }}</router-link>
+              <router-link :to="href" class="text-blue-200/80 transition hover:text-white">{{ label }}</router-link>
             </li>
           </ul>
         </div>
@@ -43,7 +43,7 @@ const exploreLinks: Array<[string, string]> = [
           <h3 class="font-display text-sm font-bold uppercase tracking-wide text-white">Explore</h3>
           <ul class="mt-4 space-y-2.5 text-sm">
             <li v-for="[href, label] in exploreLinks" :key="href">
-              <router-link :to="href" class="transition hover:text-white">{{ label }}</router-link>
+              <router-link :to="href" class="text-blue-200/80 transition hover:text-white">{{ label }}</router-link>
             </li>
           </ul>
         </div>
@@ -52,10 +52,10 @@ const exploreLinks: Array<[string, string]> = [
           <h3 class="font-display text-sm font-bold uppercase tracking-wide text-white">Get in Touch</h3>
           <ul class="mt-4 space-y-2.5 text-sm">
             <li>
-              <a href="mailto:info@stmark.sc.ug" class="transition hover:text-white">info@stmark.sc.ug</a>
+              <a href="mailto:info@stmark.sc.ug" class="text-blue-200/80 transition hover:text-white">info@stmark.sc.ug</a>
             </li>
-            <li><router-link to="/contact" class="transition hover:text-white">Contact form &rarr;</router-link></li>
-            <li><router-link to="/apply" class="transition hover:text-white">Careers &rarr;</router-link></li>
+            <li><router-link to="/contact" class="text-blue-200/80 transition hover:text-white">Contact form &rarr;</router-link></li>
+            <li><router-link to="/apply" class="text-blue-200/80 transition hover:text-white">Careers &rarr;</router-link></li>
           </ul>
         </div>
       </div>
