@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Page View Tracking</title>
+</head>
+<body>
+    <h1>Page View Tracking Test</h1>
+    <p>This page tests if the page view tracking API is working.</p>
+    <button onclick="testPageView()">Test Page View</button>
+    <div id="result"></div>
+
+    <script>
+        async function testPageView() {
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = 'Testing...';
+
+            try {
+                const response = await fetch('/api/page-view', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.content || '',
+                    },
+                    body: JSON.stringify({
+                        page_url: window.location.href,
+                        page_type: 'test',
+                        page_id: null,
+                    }),
+                });
+
+                const data = await response.json();
+                resultDiv.innerHTML = `<p style="color: green;">Success: ${JSON.stringify(data)}</p>`;
+            } catch (error) {
+                resultDiv.innerHTML = `<p style="color: red;">Error: ${error.message}</p>`;
+            }
+        }
+    </script>
+</body>
+</html>

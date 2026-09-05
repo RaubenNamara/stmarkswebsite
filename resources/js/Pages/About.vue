@@ -1,0 +1,89 @@
+<template>
+  <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+
+    <!-- Page Title -->
+    <h1 class="text-3xl md:text-4xl font-bold mb-8 text-gray-900">
+      About Us
+    </h1>
+
+    <!-- About Section -->
+    <section class="bg-white p-8 rounded-lg shadow mb-8">
+      <h2 class="text-2xl font-semibold mb-4">
+        Welcome to St. Mark’s College Namagoma
+      </h2>
+
+      <p class="text-gray-700 mb-4">
+        A warm welcome to St. Mark’s College Namagoma official Website.
+        We are delighted to have the opportunity to introduce the College and its community to you.
+      </p>
+
+      <p class="text-gray-700 mb-4">
+        We are an energetic, lively community offering a very wide range of activities
+        and opportunities in regard to the academic and non academic curricular.
+        We intentionally encourage each person to discover their potential,
+        explore their talents and pursue their dreams with passion.
+      </p>
+
+      <p class="text-gray-700">
+        Programs at St. Mark’s College are stimulating, rewarding and forward looking.
+        They focus on building a holistic person.
+      </p>
+    </section>
+
+    <!-- Motto & Core Values -->
+    <div class="grid md:grid-cols-2 gap-8 mb-8">
+
+      <!-- Motto -->
+      <section class="bg-white p-6 rounded-lg shadow">
+        <h3 class="text-xl font-semibold mb-3">The College Motto</h3>
+        <p class="text-gray-700">
+          The College Motto is <strong>“To Be Not To Seem”</strong>.
+          It reflects the founders’ desire to train students with strong values
+          that guide them in life.
+        </p>
+      </section>
+
+      <!-- Core Values -->
+      <section class="bg-white p-6 rounded-lg shadow">
+        <h3 class="text-xl font-semibold mb-3">Core Values – GREET</h3>
+        <ul class="list-disc pl-6 text-gray-700 space-y-1">
+          <li><strong>Godliness</strong></li>
+          <li><strong>Reliability</strong></li>
+          <li><strong>Ethics</strong></li>
+          <li><strong>Excellence</strong></li>
+          <li><strong>Team Work</strong></li>
+        </ul>
+      </section>
+
+    </div>
+
+    <!-- Why Choose Section -->
+    <section class="bg-white p-8 rounded-lg shadow">
+      <h2 class="text-2xl font-semibold mb-4">
+        Why Choose St. Mark’s College Namagoma?
+      </h2>
+
+      <p class="text-gray-700">
+        We endeavour to promote education and excellence,
+        focusing on each student’s academic standards while respecting
+        individual faith. We seek success for all our students and nurture
+        leadership, responsibility and discipline.
+      </p>
+    </section>
+
+  </div>
+</template>
+
+<script setup>
+defineProps({
+  canLogin: Boolean
+})
+</script>
+
+<script>
+import MainLayout from '@/Layouts/MainLayout.vue'
+
+export default {
+  layout: MainLayout
+}
+</script>

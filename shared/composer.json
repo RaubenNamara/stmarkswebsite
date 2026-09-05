@@ -1,0 +1,19 @@
+{
+    "name": "stmarks/shared",
+    "description": "Shared config, database, models and services used by both the admin API (backend/) and the public site (public-site/).",
+    "type": "library",
+    "require": {
+        "php": ">=8.2",
+        "ext-pdo": "*",
+        "ext-json": "*",
+        "ext-mbstring": "*",
+        "ext-fileinfo": "*",
+        "phpmailer/phpmailer": "^6.9"
+    },
+    "autoload": {
+        "psr-4": {
+            "StMarks\\Shared\\": "src/",
+            "StMarks\\Shared\\Config\\": "config/"
+        }
+    }
+}

@@ -1,0 +1,26 @@
+{
+    "name": "stmarks/public-site",
+    "description": "Server-rendered public marketing site (SEO surface).",
+    "type": "project",
+    "require": {
+        "php": ">=8.2",
+        "stmarks/shared": "*"
+    },
+    "repositories": [
+        {
+            "type": "path",
+            "url": "../shared",
+            "options": { "symlink": true }
+        }
+    ],
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "autoload": {
+        "psr-4": {
+            "StMarks\\PublicSite\\": "app/"
+        },
+        "files": [
+            "app/Support/helpers.php"
+        ]
+    }
+}

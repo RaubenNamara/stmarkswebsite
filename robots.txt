@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /contact
+Disallow: /apply
+Disallow: /smosa-feedback
+
+Sitemap: /sitemap.xml

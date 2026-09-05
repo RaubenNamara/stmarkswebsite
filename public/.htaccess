@@ -1,0 +1,38 @@
+<IfModule mod_rewrite.c>
+    <IfModule mod_negotiation.c>
+        Options -MultiViews -Indexes
+    </IfModule>
+
+    RewriteEngine On
+
+    # Handle Authorization Header
+    RewriteCond %{HTTP:Authorization} .
+    RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+
+    # Handle X-XSRF-Token Header
+    RewriteCond %{HTTP:x-xsrf-token} .
+    RewriteRule .* - [E=HTTP_X_XSRF_TOKEN:%{HTTP:X-XSRF-Token}]
+
+    # eSpace lives in its own subdirectory with its own app (Vue SPA + separate PHP backend) and
+    # its own .htaccess - without this exclusion, every rule below sends unmatched eSpace paths
+    # (e.g. /eSpace/api/auth/login, which isn't a real file from Laravel's point of view) to this
+    # Laravel app's own front controller instead, before eSpace/.htaccess ever gets a chance to
+    # handle them itself.
+    RewriteCond %{REQUEST_URI} ^/eSpace/
+    RewriteRule ^ - [L]
+
+    # Redirect Trailing Slashes If Not A Folder...
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_URI} (.+)/$
+    RewriteRule ^ %1 [L,R=301]
+
+    # Send Requests To Front Controller...
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^ index.php [L]
+</IfModule>
+RewriteCond %{HTTPS} off
+RewriteCond %{HTTP:X-Forwarded-SSL} !on
+RewriteCond %{HTTP_HOST} ^stmark\.sc\.ug$ [OR]
+RewriteCond %{HTTP_HOST} ^www\.stmark\.sc\.ug$
+RewriteRule ^/?$ "https\:\/\/stmark\.sc\.ug\/" [R=301,L]

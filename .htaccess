@@ -1,0 +1,45 @@
+# Project-root front controller for the new stack, unifying public-site/backend/admin-frontend
+# under one local origin (http://localhost/stmarkswebsite/...) without any Apache vhost/system
+# config changes - everything here stays inside the project, fully reversible (delete this file
+# to go back to the old per-app URLs). The old Laravel app is untouched and still reachable
+# directly at /stmarkswebsite/public/ for comparison/rollback during the parallel-build period.
+#
+# Real files/directories at the project root (the /admin/, /api/ and /uploads/ junctions
+# included, plus /assets/ and /robots.txt which mirror public-site/public/'s copies - see
+# below) are served as-is; anything else is handed to public-site's front controller, which
+# resolves it via Config::get('PUBLIC_SITE_BASE_PATH') - see public-site/public/index.php.
+#
+# backend/ and public-site/ already protect their own non-public/ subdirectories via their own
+# root .htaccess (deny-all except their public/ subfolder) regardless of this file, so they're
+# not repeated here. shared/ and Laravel's source directories have never had that protection
+# (nothing ever routed a bare project-root request anywhere before this file existed) - denied
+# below since this rewrite is what makes them newly reachable.
+
+<FilesMatch "^\.env|composer\.(json|lock)|package(-lock)?\.json|\.gitattributes$">
+    <IfModule mod_authz_core.c>
+        Require all denied
+    </IfModule>
+    <IfModule !mod_authz_core.c>
+        Order deny,allow
+        Deny from all
+    </IfModule>
+</FilesMatch>
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    RewriteRule ^\.git - [F,L]
+    RewriteRule ^(shared|app|bootstrap|config|database|resources|routes|tests)/ - [F,L]
+
+    # The bare docroot request ("/") would otherwise match the -d check below (REQUEST_FILENAME
+    # resolves to the project root itself, which obviously exists as a directory) and fall
+    # through to Apache's directory listing, since there's no index.php/html actually sitting at
+    # the project root - only routes the real ^ - [L] passthrough below is meant to catch.
+    RewriteRule ^$ public-site/public/index.php [L]
+
+    RewriteCond %{REQUEST_FILENAME} -f [OR]
+    RewriteCond %{REQUEST_FILENAME} -d
+    RewriteRule ^ - [L]
+
+    RewriteRule ^ public-site/public/index.php [L]
+</IfModule>
