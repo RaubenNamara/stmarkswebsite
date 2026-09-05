@@ -14,17 +14,25 @@ withDefaults(
 </script>
 
 <template>
-  <div class="group relative flex flex-col overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-black/5 transition hover:shadow-md">
-    <img v-if="image" :src="image" :alt="title" class="h-44 w-full bg-gray-100 object-cover">
-    <video v-else-if="video" :src="video" controls class="h-44 w-full bg-gray-900 object-cover" />
-    <div class="flex flex-1 flex-col p-5">
+  <div class="card-interactive group relative flex flex-col overflow-hidden rounded-2xl bg-white p-0 shadow-card ring-1 ring-black/5">
+    <div v-if="image" class="h-48 w-full overflow-hidden bg-gray-100">
+      <img :src="image" :alt="title" class="h-full w-full object-cover transition duration-500 group-hover:scale-105">
+    </div>
+    <video v-else-if="video" :src="video" controls class="h-48 w-full bg-gray-900 object-cover" />
+    <div class="flex flex-1 flex-col p-6">
       <span v-if="badge" class="mb-2 inline-block w-fit rounded-full bg-amber-100 px-2.5 py-0.5 text-xs font-semibold text-amber-700">{{ badge }}</span>
-      <h3 class="font-semibold text-gray-900">
-        <router-link v-if="url" :to="url" class="hover:text-brand-navy"><span class="absolute inset-0" />{{ title }}</router-link>
+      <h3 class="font-display font-semibold text-gray-900">
+        <router-link v-if="url" :to="url" class="transition group-hover:text-brand-navy"><span class="absolute inset-0" />{{ title }}</router-link>
         <template v-else>{{ title }}</template>
       </h3>
-      <p v-if="excerpt" class="mt-1.5 text-sm text-gray-600">{{ excerpt }}</p>
-      <div v-if="meta" class="mt-auto pt-3 text-xs text-gray-400">{{ meta }}</div>
+      <p v-if="excerpt" class="mt-2 text-sm leading-relaxed text-gray-600">{{ excerpt }}</p>
+      <div v-if="meta" class="mt-auto pt-4 text-xs font-medium text-gray-400">{{ meta }}</div>
+      <div v-if="url" class="mt-4 flex items-center gap-1 text-sm font-semibold text-brand-navy opacity-0 transition group-hover:opacity-100">
+        Read more
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 transition group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+        </svg>
+      </div>
     </div>
   </div>
 </template>
