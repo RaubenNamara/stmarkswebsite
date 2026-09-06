@@ -6,7 +6,7 @@ const socialIcons = ['x', 'facebook', 'tiktok', 'youtube', 'chat'] as const
 
 <template>
   <div class="bg-brand-navy-dark text-blue-100">
-    <div class="mx-auto flex max-w-7xl flex-wrap items-center justify-center gap-x-5 gap-y-1.5 px-4 py-2 text-[11px] sm:justify-between sm:px-6 sm:text-xs">
+    <div class="mx-auto flex max-w-[1600px] flex-wrap items-center justify-center gap-x-5 gap-y-1.5 px-4 py-2 text-[11px] sm:justify-between sm:px-6 sm:text-xs xl:px-10">
       <div class="flex flex-wrap items-center justify-center gap-x-5 gap-y-1.5">
         <a href="tel:+256775831844" class="flex items-center gap-1.5 whitespace-nowrap text-blue-100 transition hover:text-white">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5 shrink-0" fill="currentColor" viewBox="0 0 20 20"><path d="M2 3.5A1.5 1.5 0 013.5 2h1.148a1.5 1.5 0 011.465 1.175l.716 3.223a1.5 1.5 0 01-.75 1.643l-1.026.513a11.05 11.05 0 005.516 5.516l.513-1.026a1.5 1.5 0 011.643-.75l3.223.716A1.5 1.5 0 0117 15.352V16.5a1.5 1.5 0 01-1.5 1.5H14C6.82 18 1 12.18 1 5V3.5z" /></svg>
