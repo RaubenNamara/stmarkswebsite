@@ -150,7 +150,7 @@ watch(isOpen, (open) => {
     @click="closeDrawer"
   />
   <aside
-    class="fixed inset-y-0 right-0 z-[70] flex w-80 max-w-[85vw] flex-col overflow-hidden rounded-l-3xl bg-gradient-to-b from-white via-white to-gray-50 shadow-2xl ring-1 ring-black/5 transition-transform duration-300 ease-out xl:hidden"
+    class="fixed inset-y-0 right-0 z-[70] flex w-80 max-w-[85vw] flex-col overflow-hidden rounded-3xl bg-gradient-to-b from-white via-white to-gray-50 shadow-2xl ring-1 ring-black/5 transition-transform duration-300 ease-out xl:hidden"
     :class="isOpen ? 'translate-x-0' : 'translate-x-full'"
     role="dialog"
     aria-modal="true"
