@@ -64,7 +64,7 @@ const menu: MenuItem[] = [
   { label: 'Contact', to: '/contact' },
 ]
 
-import { ref, watch } from 'vue'
+import { ref } from 'vue'
 const isOpen = ref(false)
 const openMobileSection = ref<string | null>(null)
 const logoFailed = ref(false)
@@ -73,17 +73,9 @@ function toggleMobileSection(label: string) {
   openMobileSection.value = openMobileSection.value === label ? null : label
 }
 
-function closeDrawer() {
+function closeMenu() {
   isOpen.value = false
 }
-
-// Lock page scroll behind the drawer while it's open. Guarded for SSG, where this file also
-// runs server-side and `document` doesn't exist.
-watch(isOpen, (open) => {
-  if (typeof document !== 'undefined') {
-    document.body.style.overflow = open ? 'hidden' : ''
-  }
-})
 </script>
 
 <template>
@@ -139,61 +131,42 @@ watch(isOpen, (open) => {
         </svg>
       </button>
     </nav>
-  </header>
 
-  <!-- Off-canvas mobile menu: backdrop + drawer sliding in from the right. Both stay in the DOM
-       (rather than v-if) so the slide/fade is an actual transition, not a hard cut. -->
-  <div
-    class="fixed inset-0 z-[60] bg-black/50 transition-opacity duration-300 xl:hidden"
-    :class="isOpen ? 'opacity-100' : 'pointer-events-none opacity-0'"
-    aria-hidden="true"
-    @click="closeDrawer"
-  />
-  <aside
-    class="fixed inset-y-0 right-0 z-[70] flex w-80 max-w-[85vw] flex-col overflow-hidden rounded-3xl bg-gradient-to-b from-white via-white to-gray-50 shadow-2xl ring-1 ring-black/5 transition-transform duration-300 ease-out xl:hidden"
-    :class="isOpen ? 'translate-x-0' : 'translate-x-full'"
-    role="dialog"
-    aria-modal="true"
-    aria-label="Site menu"
-  >
-    <div class="relative shrink-0 overflow-hidden bg-gradient-to-br from-brand-navy via-brand-navy to-brand-navy-dark px-5 py-5">
-      <div class="pointer-events-none absolute inset-0 opacity-20" style="background-image: radial-gradient(circle at 85% 15%, white 1px, transparent 1px); background-size: 20px 20px;" />
-      <div class="relative flex items-center justify-between">
-        <div class="flex items-center gap-2.5">
-          <img v-if="!logoFailed" :src="staticAsset('images/logo.png')" alt="" class="h-9 w-9 rounded-full border-2 border-white/80 bg-white object-contain">
-          <span class="font-display text-sm font-bold leading-tight text-white">St Mark's College<br><span class="font-normal text-blue-200">Namagoma</span></span>
-        </div>
-        <button type="button" aria-label="Close menu" class="rounded-full p-1.5 text-white/80 transition hover:bg-white/10 hover:text-white" @click="closeDrawer">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+    <!-- Full-width mobile menu, drops down in-flow directly below the nav row (not an overlay) -
+         matches the reference site's own mobile menu layout. -->
+    <div v-if="isOpen" class="border-t border-white/10 bg-brand-navy-dark xl:hidden">
+      <div class="flex items-center justify-end px-4 py-2.5">
+        <button type="button" aria-label="Close menu" class="rounded-md p-2 text-white/80 transition hover:bg-white/10 hover:text-white" @click="closeMenu">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
             <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
           </svg>
         </button>
       </div>
-    </div>
 
-    <nav class="flex flex-1 flex-col gap-1 overflow-y-auto p-4">
-      <template v-for="item in menu" :key="item.label">
-        <div v-if="item.children">
-          <button type="button" class="flex w-full items-center justify-between rounded-md px-2 py-2 text-sm font-semibold text-brand-navy" @click="toggleMobileSection(item.label)">
-            {{ item.label }}
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 transition" :class="{ 'rotate-180': openMobileSection === item.label }" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
-          </button>
-          <div v-if="openMobileSection === item.label" class="ml-3 flex flex-col gap-0.5 border-l-2 border-brand-gold/40 pl-3">
-            <router-link
-              v-for="[href, label] in item.children"
-              :key="href"
-              :to="href"
-              class="block rounded-md px-2 py-1.5 text-sm text-gray-600 hover:bg-black/5"
-              @click="closeDrawer"
-            >{{ label }}</router-link>
+      <nav class="flex flex-col divide-y divide-white/10 border-t border-white/10">
+        <template v-for="item in menu" :key="item.label">
+          <div v-if="item.children">
+            <button type="button" class="flex w-full items-center justify-between px-5 py-4 text-left text-base font-semibold text-white" @click="toggleMobileSection(item.label)">
+              {{ item.label }}
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 shrink-0 transition" :class="{ 'rotate-180': openMobileSection === item.label }" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+            </button>
+            <div v-if="openMobileSection === item.label" class="flex flex-col bg-black/10 pb-2">
+              <router-link
+                v-for="[href, label] in item.children"
+                :key="href"
+                :to="href"
+                class="px-8 py-2.5 text-sm text-blue-100 hover:text-white"
+                @click="closeMenu"
+              >{{ label }}</router-link>
+            </div>
           </div>
-        </div>
-        <router-link v-else :to="item.to!" class="block rounded-md px-2 py-2 text-sm font-semibold text-brand-navy hover:bg-black/5" @click="closeDrawer">{{ item.label }}</router-link>
-      </template>
-    </nav>
+          <router-link v-else :to="item.to!" class="block px-5 py-4 text-base font-semibold text-white" @click="closeMenu">{{ item.label }}</router-link>
+        </template>
+      </nav>
 
-    <div class="border-t border-gray-100 p-4">
-      <router-link to="/apply" class="btn btn-gold block w-full text-center" @click="closeDrawer">Apply Now</router-link>
+      <div class="p-4">
+        <router-link to="/apply" class="btn btn-gold block w-full text-center" @click="closeMenu">Apply Now</router-link>
+      </div>
     </div>
-  </aside>
+  </header>
 </template>
