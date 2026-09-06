@@ -15,7 +15,6 @@ const menu: MenuItem[] = [
       ['/explore/student-leadership', 'Student Leadership'],
       ['/explore/uniform', 'Uniform'],
       ['/explore/gallery', 'Gallery'],
-      ['/campus-voices', 'Campus Voices'],
     ],
   },
   {
@@ -61,6 +60,7 @@ const menu: MenuItem[] = [
       ['/empowerment/christmas-cantata', 'Christmas Cantata'],
     ],
   },
+  { label: 'Campus Voices', to: '/campus-voices' },
   { label: 'Contact', to: '/contact' },
 ]
 
