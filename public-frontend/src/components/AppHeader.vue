@@ -82,6 +82,14 @@ function closeMenu() {
   <TopBar />
 
   <header class="sticky top-0 z-50 border-b border-black/5 bg-amber-50 shadow-sm">
+    <!-- Dimmed backdrop behind the popup menu (mobile/tablet only) - sits below the header's own
+         z-index so the nav bar stays visible/usable above it, closes the menu on click. -->
+    <div
+      v-if="isOpen"
+      class="fixed inset-0 z-40 bg-black/40 xl:hidden"
+      aria-hidden="true"
+      @click="closeMenu"
+    />
     <nav class="mx-auto flex max-w-7xl items-center justify-between gap-4 px-6 py-3">
       <router-link to="/" class="flex min-w-0 shrink items-center gap-2 sm:gap-3">
         <img v-if="!logoFailed" :src="staticAsset('images/logo.png')" alt="St Mark's College Namagoma crest" class="h-10 w-10 shrink-0 rounded-full border-2 border-brand-navy bg-white object-contain shadow-sm sm:h-14 sm:w-14" @error="logoFailed = true">
@@ -132,9 +140,9 @@ function closeMenu() {
       </button>
     </nav>
 
-    <!-- Full-width mobile menu, drops down in-flow directly below the nav row (not an overlay) -
-         matches the reference site's own mobile menu layout. -->
-    <div v-if="isOpen" class="border-t border-white/10 bg-brand-navy-dark xl:hidden">
+    <!-- Full-width popup menu: absolutely positioned so it overlays the page below the header
+         (via the dimmed backdrop above) instead of pushing content down. -->
+    <div v-if="isOpen" class="absolute inset-x-0 top-full z-50 max-h-[calc(100vh-4rem)] overflow-y-auto border-t border-white/10 bg-brand-navy-dark shadow-2xl xl:hidden">
       <div class="flex items-center justify-end px-4 py-2.5">
         <button type="button" aria-label="Close menu" class="rounded-md p-2 text-white/80 transition hover:bg-white/10 hover:text-white" @click="closeMenu">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
