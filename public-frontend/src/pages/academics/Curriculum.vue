@@ -11,7 +11,7 @@ useHead({ title: 'Curriculum' })
     subtitle="Delivered under the Competency-Based Curriculum, designed to develop knowledge, practical skills, values, creativity and critical thinking for academic excellence and lifelong success."
   />
 
-  <section class="mx-auto max-w-6xl px-6 py-14">
+  <section class="mx-auto max-w-7xl px-6 py-14">
     <h2 class="text-xl font-bold text-gray-900">O-Level (Ordinary Level)</h2>
     <div class="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
       <div class="card">

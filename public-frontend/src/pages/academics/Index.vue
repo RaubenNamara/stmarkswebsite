@@ -8,7 +8,7 @@ useHead({ title: 'Academics' })
 <template>
   <PageHeader title="Academics" />
 
-  <section class="mx-auto max-w-6xl space-y-6 px-6 py-14">
+  <section class="mx-auto max-w-7xl space-y-6 px-6 py-14">
     <div class="card">
       <h2 class="text-xl font-bold text-gray-900">Academic Excellence</h2>
       <p class="mt-3 text-gray-600">Our academic programs are designed to develop competence and confidence in learners.</p>

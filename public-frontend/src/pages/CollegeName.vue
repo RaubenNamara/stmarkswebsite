@@ -11,7 +11,7 @@ useHead({ title: 'The College Name' })
     subtitle="Deciding on the name of an institution can be very difficult, especially for a school whose name many people will have strong attachment throughout their lives."
   />
 
-  <section class="mx-auto max-w-6xl px-6 py-14">
+  <section class="mx-auto max-w-7xl px-6 py-14">
     <div class="grid gap-6 sm:grid-cols-3">
       <div class="card border-t-4 border-brand-navy">
         <h2 class="font-semibold text-gray-900">1. God at the Center</h2>

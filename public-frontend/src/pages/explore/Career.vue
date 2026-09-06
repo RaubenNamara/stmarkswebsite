@@ -11,7 +11,7 @@ useHead({ title: 'Career Guidance' })
     subtitle="Are you a dedicated professional who loves education and community development? We invite passionate teachers and support staff to apply and become part of a team that nurtures excellence."
   />
 
-  <section class="mx-auto max-w-6xl px-6 py-14">
+  <section class="mx-auto max-w-7xl px-6 py-14">
     <router-link to="/apply" class="btn btn-gold">Continue to application form &rarr;</router-link>
 
     <div class="card mt-8">

@@ -78,7 +78,7 @@ function toggleMobileSection(label: string) {
   <TopBar />
 
   <header class="sticky top-0 z-50 border-b border-black/5 bg-amber-50 shadow-sm">
-    <nav class="mx-auto flex max-w-6xl items-center justify-between gap-4 px-6 py-3">
+    <nav class="mx-auto flex max-w-7xl items-center justify-between gap-4 px-6 py-3">
       <router-link to="/" class="flex min-w-0 shrink items-center gap-2 sm:gap-3">
         <img v-if="!logoFailed" :src="staticAsset('images/logo.png')" alt="St Mark's College Namagoma crest" class="h-10 w-10 shrink-0 rounded-full border-2 border-brand-navy bg-white object-contain shadow-sm sm:h-14 sm:w-14" @error="logoFailed = true">
         <span v-else class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border-2 border-brand-navy bg-white font-display text-sm font-extrabold text-brand-navy shadow-sm sm:h-14 sm:w-14 sm:text-lg">SM</span>

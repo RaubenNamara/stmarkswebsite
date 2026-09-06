@@ -8,7 +8,7 @@ useHead({ title: 'Uniform' })
 <template>
   <PageHeader title="School Uniform" subtitle="Our uniform reflects discipline, identity, and excellence." />
 
-  <section class="mx-auto max-w-6xl space-y-6 px-6 py-14">
+  <section class="mx-auto max-w-7xl space-y-6 px-6 py-14">
     <div class="card">
       <h2 class="text-xl font-bold text-gray-900">Academic Uniform</h2>
       <div class="mt-6 grid gap-6 sm:grid-cols-3">

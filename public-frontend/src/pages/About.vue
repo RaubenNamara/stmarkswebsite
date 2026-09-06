@@ -8,7 +8,7 @@ useHead({ title: 'About Us' })
 <template>
   <PageHeader title="About Us" />
 
-  <section class="mx-auto max-w-6xl space-y-6 px-6 py-14">
+  <section class="mx-auto max-w-7xl space-y-6 px-6 py-14">
     <div class="card">
       <h2 class="text-xl font-bold text-gray-900">Welcome to St. Mark's College Namagoma</h2>
       <p class="mt-3 text-gray-600">A warm welcome to St. Mark's College Namagoma official website. We are delighted to have the opportunity to introduce the College and its community to you.</p>

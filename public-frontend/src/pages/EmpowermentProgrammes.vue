@@ -11,7 +11,7 @@ useHead({ title: 'Empowerment Programmes' })
     subtitle="Empowerment programmes include leadership clubs, vocational workshops, and community projects designed to prepare students for life beyond school."
   />
 
-  <section class="mx-auto max-w-6xl space-y-6 px-6 py-14">
+  <section class="mx-auto max-w-7xl space-y-6 px-6 py-14">
     <div class="card">
       <p class="text-gray-600">We believe in nurturing confident, responsible and innovative individuals who can positively impact society.</p>
     </div>

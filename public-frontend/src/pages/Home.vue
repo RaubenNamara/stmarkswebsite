@@ -50,12 +50,12 @@ const greetWords = ['Godliness', 'Reliability', 'Ethics', 'Excellence', 'Team Wo
   </section>
 
   <section class="bg-white px-6 py-6">
-    <div class="mx-auto flex max-w-6xl flex-wrap items-center justify-center gap-3">
+    <div class="mx-auto flex max-w-7xl flex-wrap items-center justify-center gap-3">
       <span v-for="word in greetWords" :key="word" class="rounded-full border border-brand-navy/15 bg-brand-navy/5 px-4 py-1.5 text-xs font-bold uppercase tracking-wide text-brand-navy">{{ word }}</span>
     </div>
   </section>
 
-  <section class="mx-auto max-w-6xl px-6 py-20">
+  <section class="mx-auto max-w-7xl px-6 py-20">
     <div class="mx-auto max-w-2xl text-center">
       <span class="eyebrow text-brand-navy">Why St Mark's</span>
       <h2 class="mt-3 font-display text-3xl font-bold text-gray-900">A foundation for life, not just for exams</h2>
@@ -75,7 +75,7 @@ const greetWords = ['Godliness', 'Reliability', 'Ethics', 'Excellence', 'Team Wo
   </section>
 
   <section v-if="latestNews.length" class="bg-gray-50 px-6 py-20">
-    <div class="mx-auto max-w-6xl">
+    <div class="mx-auto max-w-7xl">
       <div class="flex flex-wrap items-end justify-between gap-4">
         <div>
           <span class="eyebrow text-brand-navy">Stay Informed</span>
@@ -83,7 +83,7 @@ const greetWords = ['Godliness', 'Reliability', 'Ethics', 'Excellence', 'Team Wo
         </div>
         <router-link to="/news" class="font-semibold text-brand-navy hover:underline">View all news &rarr;</router-link>
       </div>
-      <div class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      <div class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         <ListingCard
           v-for="item in latestNews"
           :key="item.id"

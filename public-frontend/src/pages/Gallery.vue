@@ -21,12 +21,12 @@ function onImageError(id: number) {
 <template>
   <PageHeader title="Gallery" />
 
-  <section class="mx-auto max-w-6xl px-6 py-14">
+  <section class="mx-auto max-w-7xl px-6 py-14">
     <EmptyState v-if="!events.length" message="No gallery events yet." />
     <div v-else class="space-y-8">
       <div v-for="event in events" :key="event.id" class="card">
         <h2 class="text-lg font-semibold text-gray-900">{{ event.title }}</h2>
-        <div class="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4">
+        <div class="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-6">
           <img
             v-for="img in event.images.filter((i) => !failedIds.has(i.id)).slice(0, 12)"
             :key="img.id"

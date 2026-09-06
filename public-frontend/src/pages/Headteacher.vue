@@ -13,7 +13,7 @@ useHead({ title: "Head Teacher's Message" })
     subtitle="Academic leadership focused on holistic growth and consistent excellence."
   />
 
-  <section class="mx-auto grid max-w-6xl gap-6 px-6 py-14 md:grid-cols-[280px_1fr] md:items-start">
+  <section class="mx-auto grid max-w-7xl gap-6 px-6 py-14 md:grid-cols-[280px_1fr] md:items-start">
     <div class="card border-t-4 border-brand-navy text-center">
       <AvatarImage :src="staticAsset('images/hm.jpg')" alt="Wabwire Joseph" size="lg" />
       <h2 class="text-lg font-bold text-brand-navy">Wabwire Joseph</h2>

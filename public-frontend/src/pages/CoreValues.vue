@@ -8,7 +8,7 @@ useHead({ title: 'Core Values' })
 <template>
   <PageHeader title="Core Values — GREET" />
 
-  <section class="mx-auto max-w-6xl space-y-6 px-6 py-14">
+  <section class="mx-auto max-w-7xl space-y-6 px-6 py-14">
     <div class="grid gap-6 sm:grid-cols-3 lg:grid-cols-5">
       <div class="card border-t-4 border-brand-navy text-center"><h3 class="font-semibold text-gray-900">Godliness</h3></div>
       <div class="card border-t-4 border-brand-gold text-center"><h3 class="font-semibold text-gray-900">Reliability</h3></div>
