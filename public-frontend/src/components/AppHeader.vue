@@ -150,22 +150,28 @@ watch(isOpen, (open) => {
     @click="closeDrawer"
   />
   <aside
-    class="fixed inset-y-0 right-0 z-[70] flex w-80 max-w-[85vw] flex-col overflow-y-auto bg-white shadow-2xl transition-transform duration-300 ease-out xl:hidden"
-    :class="isOpen ? 'translate-x-0' : 'translate-x-full'"
+    class="fixed inset-y-3 right-3 z-[70] flex w-80 max-w-[85vw] flex-col overflow-hidden rounded-3xl bg-gradient-to-b from-white via-white to-gray-50 shadow-2xl ring-1 ring-black/5 transition-all duration-300 ease-out xl:hidden"
+    :class="isOpen ? 'translate-x-0 opacity-100' : 'translate-x-[110%] opacity-0'"
     role="dialog"
     aria-modal="true"
     aria-label="Site menu"
   >
-    <div class="flex items-center justify-between border-b border-gray-100 px-5 py-4">
-      <span class="font-display font-bold text-brand-navy">Menu</span>
-      <button type="button" aria-label="Close menu" class="rounded-md p-2 text-gray-500 hover:bg-gray-100" @click="closeDrawer">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-        </svg>
-      </button>
+    <div class="relative shrink-0 overflow-hidden bg-gradient-to-br from-brand-navy via-brand-navy to-brand-navy-dark px-5 py-5">
+      <div class="pointer-events-none absolute inset-0 opacity-20" style="background-image: radial-gradient(circle at 85% 15%, white 1px, transparent 1px); background-size: 20px 20px;" />
+      <div class="relative flex items-center justify-between">
+        <div class="flex items-center gap-2.5">
+          <img v-if="!logoFailed" :src="staticAsset('images/logo.png')" alt="" class="h-9 w-9 rounded-full border-2 border-white/80 bg-white object-contain">
+          <span class="font-display text-sm font-bold leading-tight text-white">St Mark's College<br><span class="font-normal text-blue-200">Namagoma</span></span>
+        </div>
+        <button type="button" aria-label="Close menu" class="rounded-full p-1.5 text-white/80 transition hover:bg-white/10 hover:text-white" @click="closeDrawer">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
     </div>
 
-    <nav class="flex flex-1 flex-col gap-1 p-4">
+    <nav class="flex flex-1 flex-col gap-1 overflow-y-auto p-4">
       <template v-for="item in menu" :key="item.label">
         <div v-if="item.children">
           <button type="button" class="flex w-full items-center justify-between rounded-md px-2 py-2 text-sm font-semibold text-brand-navy" @click="toggleMobileSection(item.label)">
