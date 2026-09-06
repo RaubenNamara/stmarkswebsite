@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import TopBar from './TopBar.vue'
+import { staticAsset } from '../utils/staticAsset'
 
 type LinkItem = [string, string]
 interface MenuItem { label: string; to?: string; children?: LinkItem[] }
@@ -66,6 +67,7 @@ const menu: MenuItem[] = [
 import { ref } from 'vue'
 const isOpen = ref(false)
 const openMobileSection = ref<string | null>(null)
+const logoFailed = ref(false)
 
 function toggleMobileSection(label: string) {
   openMobileSection.value = openMobileSection.value === label ? null : label
@@ -78,7 +80,8 @@ function toggleMobileSection(label: string) {
   <header class="sticky top-0 z-50 border-b border-black/5 bg-amber-50 shadow-sm">
     <nav class="mx-auto flex max-w-6xl items-center justify-between gap-4 px-6 py-3">
       <router-link to="/" class="flex min-w-0 shrink items-center gap-2 sm:gap-3">
-        <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border-2 border-brand-navy bg-white font-display text-sm font-extrabold text-brand-navy shadow-sm sm:h-14 sm:w-14 sm:text-lg">SM</span>
+        <img v-if="!logoFailed" :src="staticAsset('images/logo.png')" alt="St Mark's College Namagoma crest" class="h-10 w-10 shrink-0 rounded-full border-2 border-brand-navy bg-white object-contain shadow-sm sm:h-14 sm:w-14" @error="logoFailed = true">
+        <span v-else class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border-2 border-brand-navy bg-white font-display text-sm font-extrabold text-brand-navy shadow-sm sm:h-14 sm:w-14 sm:text-lg">SM</span>
         <span class="min-w-0 leading-tight">
           <span class="block truncate font-display text-sm font-extrabold text-brand-navy sm:text-lg">St Mark's College</span>
           <span class="block truncate font-display text-xs font-bold text-brand-navy sm:text-sm">Namagoma</span>

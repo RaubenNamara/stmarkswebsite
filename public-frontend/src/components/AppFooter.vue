@@ -1,5 +1,9 @@
 <script setup lang="ts">
+import { ref } from 'vue'
+import { staticAsset } from '../utils/staticAsset'
+
 const year = new Date().getFullYear()
+const logoFailed = ref(false)
 
 const quickLinks: Array<[string, string]> = [
   ['/about', 'About Us'],
@@ -24,7 +28,8 @@ const exploreLinks: Array<[string, string]> = [
       <div class="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
         <div>
           <div class="flex items-center gap-2.5">
-            <span class="flex h-9 w-9 items-center justify-center rounded-full bg-brand-gold font-display text-sm font-extrabold text-brand-navy-dark">SM</span>
+            <img v-if="!logoFailed" :src="staticAsset('images/logo.png')" alt="St Mark's College Namagoma crest" class="h-9 w-9 rounded-full bg-white object-contain" @error="logoFailed = true">
+            <span v-else class="flex h-9 w-9 items-center justify-center rounded-full bg-brand-gold font-display text-sm font-extrabold text-brand-navy-dark">SM</span>
             <span class="font-display text-base font-bold text-white">St Mark's College</span>
           </div>
           <p class="mt-4 text-sm leading-relaxed">The Higher Achiever's College — building disciplined, confident and competent learners in Namagoma, Uganda.</p>
