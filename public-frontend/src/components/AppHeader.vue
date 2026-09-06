@@ -148,7 +148,7 @@ function closeMenu() {
           <div v-if="item.children">
             <button type="button" class="flex w-full items-center justify-between px-5 py-4 text-left text-base font-semibold text-white" @click="toggleMobileSection(item.label)">
               {{ item.label }}
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 shrink-0 transition" :class="{ 'rotate-180': openMobileSection === item.label }" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 shrink-0 transition" :class="{ 'rotate-90': openMobileSection === item.label }" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" /></svg>
             </button>
             <div v-if="openMobileSection === item.label" class="flex flex-col bg-black/10 pb-2">
               <router-link
