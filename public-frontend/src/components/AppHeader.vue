@@ -60,7 +60,7 @@ const menu: MenuItem[] = [
       ['/empowerment/christmas-cantata', 'Christmas Cantata'],
     ],
   },
-  { label: 'Campus Voices', to: '/campus-voices' },
+  { label: 'eVoices', to: '/campus-voices' },
   { label: 'Contact', to: '/contact' },
 ]
 

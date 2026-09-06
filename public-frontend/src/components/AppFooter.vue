@@ -16,7 +16,7 @@ const quickLinks: Array<[string, string]> = [
 const exploreLinks: Array<[string, string]> = [
   ['/clubs', 'Clubs'],
   ['/explore/gallery', 'Gallery'],
-  ['/campus-voices', 'Campus Voices'],
+  ['/campus-voices', 'eVoices'],
   ['/empowerment-programmes', 'Empowerment'],
   ['/fee-structures', 'Fee Structures'],
 ]

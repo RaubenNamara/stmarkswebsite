@@ -43,6 +43,6 @@ const imageFailed = ref(false)
       <p class="mt-1 text-sm text-gray-600">{{ article.author_bio }}</p>
     </div>
 
-    <p class="mt-8"><router-link to="/campus-voices" class="font-semibold text-brand-navy hover:underline">&larr; Back to Campus Voices</router-link></p>
+    <p class="mt-8"><router-link to="/campus-voices" class="font-semibold text-brand-navy hover:underline">&larr; Back to eVoices</router-link></p>
   </article>
 </template>

@@ -5,14 +5,14 @@ import PageHeader from '../../components/PageHeader.vue'
 import ListingCard from '../../components/ListingCard.vue'
 import EmptyState from '../../components/EmptyState.vue'
 
-useHead({ title: 'Campus Voices' })
+useHead({ title: 'eVoices' })
 
 const { data } = await api.get('/campus-voices')
 const articles = data.data.articles as Array<Record<string, any>>
 </script>
 
 <template>
-  <PageHeader title="Campus Voices" subtitle="Stories, reflections and voices from our student community." />
+  <PageHeader title="eVoices" subtitle="Stories, reflections and voices from our student community." />
 
   <section class="mx-auto max-w-7xl px-6 py-14">
     <EmptyState v-if="!articles.length" message="No articles yet." />
