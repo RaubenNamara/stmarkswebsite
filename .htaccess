@@ -5,10 +5,13 @@
 # includedRoutes) - not a PHP front controller. The old Laravel app has been removed entirely;
 # public-site/ (the previous PHP-rendered version) is retired now that this replaces it.
 #
-# Real files/directories at the project root (the /admin/, /api/ and /uploads/ junctions
-# included) are served as-is; everything else tries a real prerendered page
-# (public-frontend/dist/<path>.html, vite-ssg's flat naming) before falling back to the SPA shell
-# (dist/index.html) for a genuinely unmatched path, letting the client-side router respond.
+# /admin, /api and /uploads are mapped by rewrite rule below rather than by real directory
+# junctions - junctions worked identically but showed a shortcut-arrow overlay in Explorer, which
+# read as leftover Laravel/framework wiring even though junctions are a plain Windows filesystem
+# feature unrelated to any framework. Real files/directories at the project root are served as-is;
+# everything else tries a real prerendered page (public-frontend/dist/<path>.html, vite-ssg's flat
+# naming) before falling back to the SPA shell (dist/index.html) for a genuinely unmatched path,
+# letting the client-side router respond.
 #
 # backend/ already protects its own non-public/ subdirectories via its own root .htaccess
 # (deny-all except its public/ subfolder) regardless of this file. shared/ has never had that
@@ -30,6 +33,21 @@
 
     RewriteRule ^\.git - [F,L]
     RewriteRule ^shared/ - [F,L]
+
+    # Admin SPA (admin-frontend/dist). A real built asset is served directly; anything else under
+    # /admin (including a bare /admin) falls back to the SPA shell so Vue Router can respond -
+    # mirrors the fallback admin-frontend/dist/.htaccess used to handle on its own when this was a
+    # real directory reached via junction.
+    RewriteCond %{DOCUMENT_ROOT}/stmarkswebsite/admin-frontend/dist/$1 -f
+    RewriteRule ^admin/(.*)$ admin-frontend/dist/$1 [L]
+    RewriteRule ^admin(?:/.*)?$ admin-frontend/dist/index.html [L]
+
+    # Backend API (backend/public). Handed off to backend/public/.htaccess (real file vs
+    # index.php) the same way it always was when this was a real directory reached via junction.
+    RewriteRule ^api(/.*)?$ backend/public$1 [L]
+
+    # User-uploaded files (storage/uploads).
+    RewriteRule ^uploads/(.*)$ storage/uploads/$1 [L]
 
     # The bare docroot request ("/") would otherwise match the -d check below (REQUEST_FILENAME
     # resolves to the project root itself, which obviously exists as a directory) and fall

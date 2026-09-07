@@ -11,9 +11,9 @@ use StMarks\Shared\Config\Config;
  * techniques (Storage facade, raw move() to base_path('../storage/...'), raw move() to
  * $_SERVER['DOCUMENT_ROOT']) across ~15 controllers; everything here goes through this instead.
  *
- * Writes into <repo root>/storage/uploads/<feature>/<generated-name> (physically one directory,
- * junctioned into both backend/public/uploads and public-site/public/uploads - see the plan's
- * upload convention), returns a root-relative URL persisted verbatim to the DB.
+ * Writes into <repo root>/storage/uploads/<feature>/<generated-name>, served at the project root
+ * via the /uploads rewrite in the root .htaccess; returns a root-relative URL persisted verbatim
+ * to the DB.
  */
 class UploadService extends Service
 {

@@ -1,1 +1,0 @@
-import{E as e,p as t,s as n}from"./runtime-core.esm-bundler-DNOgOll5.js";import{t as r}from"./PdfCrudPage-Dgcd1H4z.js";var i=t({__name:`List`,setup(t){return(t,i)=>(e(),n(r,{"page-title":`Fee, Personal Needs, School Rules & Calendar`,endpoint:`/admin/fee-structures`,"list-key":`fee_structures`,"create-label":`Upload Fee Structure`}))}});export{i as default};
