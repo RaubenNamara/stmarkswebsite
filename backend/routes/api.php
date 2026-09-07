@@ -168,6 +168,9 @@ Router::group(['prefix' => '/api/admin', 'middleware' => ['auth']], function ():
 // Public read-only API, consumed by public-frontend/ (no auth - same data the old server-rendered
 // public-site templates read directly from these same Services, just JSON-shaped instead of HTML).
 Router::group(['prefix' => '/api/public'], function (): void {
+    Router::get('/slides', PublicApi\SlideController::class . '@index');
+    Router::get('/media', PublicApi\MediaController::class . '@index');
+
     Router::get('/news', PublicApi\NewsController::class . '@index');
     Router::get('/news/{slug}', PublicApi\NewsController::class . '@show');
 
