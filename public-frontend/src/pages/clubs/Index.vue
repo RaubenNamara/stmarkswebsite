@@ -20,7 +20,7 @@ function excerptFor(content: string | null): string | null {
 <template>
   <PageHeader title="Clubs" />
 
-  <section class="mx-auto max-w-7xl px-6 py-14 2xl:max-w-[1600px]">
+  <section class="container-wide py-14">
     <EmptyState v-if="!clubs.length" message="No clubs yet." />
     <div v-else class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
       <ListingCard

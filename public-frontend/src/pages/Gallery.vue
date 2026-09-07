@@ -21,7 +21,7 @@ function onImageError(id: number) {
 <template>
   <PageHeader title="Gallery" />
 
-  <section class="mx-auto max-w-7xl px-6 py-14 2xl:max-w-[1600px]">
+  <section class="container-wide py-14">
     <EmptyState v-if="!events.length" message="No gallery events yet." />
     <div v-else class="space-y-8">
       <div v-for="event in events" :key="event.id" class="card">

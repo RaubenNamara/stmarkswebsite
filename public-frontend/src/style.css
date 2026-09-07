@@ -63,4 +63,27 @@
   .field-error {
     @apply -mt-3 mb-4 text-sm text-red-600;
   }
+
+  /* Wide-screen content container: fills the browser edge-to-edge (minus a small gutter) on
+     very large monitors instead of stopping at a fixed cap with big empty margins on either
+     side - a flat max-width looks fine up to ~1600px but reads as wasted space well beyond
+     that, so this keeps growing (with shrinking side padding) as the viewport does. */
+  .container-wide {
+    @apply mx-auto w-full max-w-7xl px-6;
+  }
+  @media (min-width: 1536px) {
+    .container-wide {
+      max-width: 1800px;
+      padding-left: 2.5rem;
+      padding-right: 2.5rem;
+    }
+  }
+  @media (min-width: 1920px) {
+    .container-wide {
+      max-width: none;
+      width: 96%;
+      padding-left: 0;
+      padding-right: 0;
+    }
+  }
 }
