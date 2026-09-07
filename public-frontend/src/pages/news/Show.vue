@@ -14,10 +14,10 @@ try {
   news = null
 }
 
-const { data: recentRes } = await api.get('/news', { params: { limit: 9 } })
+const { data: recentRes } = await api.get('/news', { params: { limit: 7 } })
 const moreNews = ((recentRes.data.news as Array<Record<string, any>>) ?? [])
   .filter((item) => item.slug !== props.slug)
-  .slice(0, 8)
+  .slice(0, 6)
 
 useHead({ title: news ? news.title : 'Page not found' })
 
@@ -93,14 +93,14 @@ const cleanedContent = computed(() => (news ? (news.content as string).replace(/
       <div class="container-wide">
         <h2 class="font-display text-2xl font-bold text-gray-900">More News</h2>
 
-        <div class="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        <div class="mt-8 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
           <router-link
             v-for="item in moreNews"
             :key="item.id"
             :to="`/news/${item.slug}`"
             class="card-interactive group flex flex-col overflow-hidden rounded-2xl bg-white shadow-card ring-1 ring-black/5"
           >
-            <div class="h-40 w-full overflow-hidden bg-gray-100">
+            <div class="aspect-[4/3] w-full overflow-hidden bg-gray-100">
               <img
                 v-if="item.image_url && !sidebarImageFailed[item.id]"
                 :src="item.image_url"
@@ -108,9 +108,12 @@ const cleanedContent = computed(() => (news ? (news.content as string).replace(/
                 class="h-full w-full object-cover transition duration-500 group-hover:scale-105"
                 @error="sidebarImageFailed[item.id] = true"
               >
+              <div v-else class="flex h-full w-full items-center justify-center bg-gradient-to-br from-brand-navy to-brand-navy-dark">
+                <span class="font-display text-xl font-extrabold text-white/20">SM</span>
+              </div>
             </div>
-            <div class="flex flex-1 flex-col p-5">
-              <h3 class="line-clamp-2 font-display font-semibold text-gray-900 transition group-hover:text-brand-navy">{{ item.title }}</h3>
+            <div class="flex flex-1 flex-col p-6">
+              <h3 class="line-clamp-2 font-display text-lg font-semibold text-gray-900 transition group-hover:text-brand-navy">{{ item.title }}</h3>
               <p v-if="item.published_at || item.created_at" class="mt-auto pt-4 text-xs font-medium text-gray-400">{{ formatDate(item.published_at || item.created_at) }}</p>
             </div>
           </router-link>
