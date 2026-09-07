@@ -18,13 +18,17 @@ import 'tinymce/plugins/code'
 import 'tinymce/plugins/autolink'
 
 const model = defineModel<string>({ default: '' })
+
+// license-key has to be this component's own top-level prop, not init.license_key - the wrapper
+// (@tinymce/tinymce-vue) always builds its real init call as `{ ...init, license_key: props.licenseKey }`,
+// so anything set on init.license_key is silently discarded in favour of (here, undefined) props.licenseKey.
 </script>
 
 <template>
   <Editor
     v-model="model"
+    license-key="gpl"
     :init="{
-      license_key: 'gpl',
       height: 320,
       menubar: false,
       plugins: 'link lists image table code autolink',
