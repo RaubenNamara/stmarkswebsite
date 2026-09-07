@@ -92,7 +92,7 @@ const cleanedContent = computed(() => (news ? (news.content as string).replace(/
       </div>
     </div>
 
-    <div class="mx-auto max-w-4xl px-6 py-10 sm:py-14">
+    <div class="container-wide py-10 sm:py-14">
       <div
         class="prose prose-slate prose-lg max-w-none prose-headings:font-display prose-headings:text-brand-navy prose-a:font-semibold prose-a:text-brand-navy prose-a:no-underline prose-img:rounded-xl prose-img:shadow-card prose-blockquote:border-brand-gold prose-strong:text-gray-900 hover:prose-a:underline"
         v-html="cleanedContent"
