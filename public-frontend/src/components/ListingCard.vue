@@ -26,10 +26,8 @@ const imageFailed = ref(false)
       <img :src="image" :alt="title" class="h-full w-full object-cover transition duration-500 group-hover:scale-105" @error="imageFailed = true">
     </div>
     <video v-else-if="video" :src="video" controls class="h-48 w-full bg-gray-900 object-cover" />
-    <div v-else class="flex h-48 w-full items-center justify-center bg-gray-50">
-      <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14M4 8h.01M4 4h16a1 1 0 011 1v14a1 1 0 01-1 1H4a1 1 0 01-1-1V5a1 1 0 011-1z" />
-      </svg>
+    <div v-else class="flex h-48 w-full items-center justify-center bg-gradient-to-br from-brand-navy to-brand-navy-dark">
+      <span class="font-display text-xl font-extrabold text-white/20">SM</span>
     </div>
     <div class="flex flex-1 flex-col p-6">
       <span v-if="badge" class="mb-2 inline-block w-fit rounded-full bg-amber-100 px-2.5 py-0.5 text-xs font-semibold text-amber-700">{{ badge }}</span>
