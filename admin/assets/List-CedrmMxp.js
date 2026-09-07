@@ -1,0 +1,1 @@
+import{E as e,p as t,s as n}from"./runtime-core.esm-bundler-DNOgOll5.js";import{t as r}from"./PdfCrudPage-CFe0byB8.js";var i=t({__name:`List`,setup(t){return(t,i)=>(e(),n(r,{"page-title":`Performance & Circulars`,endpoint:`/admin/performances`,"list-key":`performances`,"create-label":`Upload Performance / Circular`}))}});export{i as default};

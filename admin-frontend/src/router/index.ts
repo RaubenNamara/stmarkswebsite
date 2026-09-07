@@ -1,10 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
 
-function page(path: string) {
-  return () => import(`../pages/admin/${path}.vue`)
-}
-
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -21,42 +17,102 @@ const router = createRouter({
         { path: '', redirect: '/dashboard' },
         { path: 'dashboard', name: 'Dashboard', component: () => import('@/pages/admin/Dashboard.vue'), meta: { title: 'Slide Show' } },
         { path: 'news', name: 'News', component: () => import('@/pages/admin/News/List.vue'), meta: { title: 'Latest News' } },
-        { path: 'posts', name: 'Posts', component: page('Posts/List'), meta: { title: 'Posts' } },
-        { path: 'media', name: 'Media', component: page('Media/List'), meta: { title: 'Media Upload' } },
-        { path: 'staff', name: 'Staff', component: page('Staff/List'), meta: { title: 'Manage Staff' } },
-        { path: 'board-members', name: 'BoardMembers', component: page('BoardMembers/List'), meta: { title: 'Board Members' } },
-        { path: 'applications', name: 'Applications', component: page('JobApplications/List'), meta: { title: 'Job Applications' } },
-        { path: 'contacts', name: 'Contacts', component: page('Contacts/List'), meta: { title: 'Contact Messages' } },
+        { path: 'posts', name: 'Posts', component: () => import('@/pages/admin/Posts/List.vue'), meta: { title: 'Posts' } },
+        { path: 'media', name: 'Media', component: () => import('@/pages/admin/Media/List.vue'), meta: { title: 'Media Upload' } },
+        { path: 'staff', name: 'Staff', component: () => import('@/pages/admin/Staff/List.vue'), meta: { title: 'Manage Staff' } },
+        {
+          path: 'board-members',
+          name: 'BoardMembers',
+          component: () => import('@/pages/admin/BoardMembers/List.vue'),
+          meta: { title: 'Board Members' },
+        },
+        {
+          path: 'applications',
+          name: 'Applications',
+          component: () => import('@/pages/admin/JobApplications/List.vue'),
+          meta: { title: 'Job Applications' },
+        },
+        { path: 'contacts', name: 'Contacts', component: () => import('@/pages/admin/Contacts/List.vue'), meta: { title: 'Contact Messages' } },
         {
           path: 'fee-structures',
           name: 'FeeStructures',
-          component: page('FeeStructures/List'),
+          component: () => import('@/pages/admin/FeeStructures/List.vue'),
           meta: { title: 'Fee, Personal Needs, School Rules & Calendar' },
         },
-        { path: 'gallery', name: 'Gallery', component: page('Gallery/List'), meta: { title: 'Update Gallery' } },
-        { path: 'clubs', name: 'Clubs', component: page('Clubs/List'), meta: { title: 'Manage Clubs' } },
-        { path: 'co-curricular', name: 'CoCurricular', component: page('CoCurricular/List'), meta: { title: 'Manage Co-Curriculars' } },
-        { path: 'chaplaincy', name: 'Chaplaincy', component: page('Chaplaincy/List'), meta: { title: 'Manage Chaplaincy' } },
-        { path: 'mentorship', name: 'Mentorship', component: page('Mentorship/List'), meta: { title: 'Manage Mentorship' } },
-        { path: 'performances', name: 'Performances', component: page('Performances/List'), meta: { title: 'Performance & Circulars' } },
-        { path: 'high-achievers', name: 'HighAchievers', component: page('HighAchievers/List'), meta: { title: 'Manage High Achievers' } },
+        { path: 'gallery', name: 'Gallery', component: () => import('@/pages/admin/Gallery/List.vue'), meta: { title: 'Update Gallery' } },
+        { path: 'clubs', name: 'Clubs', component: () => import('@/pages/admin/Clubs/List.vue'), meta: { title: 'Manage Clubs' } },
+        {
+          path: 'co-curricular',
+          name: 'CoCurricular',
+          component: () => import('@/pages/admin/CoCurricular/List.vue'),
+          meta: { title: 'Manage Co-Curriculars' },
+        },
+        {
+          path: 'chaplaincy',
+          name: 'Chaplaincy',
+          component: () => import('@/pages/admin/Chaplaincy/List.vue'),
+          meta: { title: 'Manage Chaplaincy' },
+        },
+        {
+          path: 'mentorship',
+          name: 'Mentorship',
+          component: () => import('@/pages/admin/Mentorship/List.vue'),
+          meta: { title: 'Manage Mentorship' },
+        },
+        {
+          path: 'performances',
+          name: 'Performances',
+          component: () => import('@/pages/admin/Performances/List.vue'),
+          meta: { title: 'Performance & Circulars' },
+        },
+        {
+          path: 'high-achievers',
+          name: 'HighAchievers',
+          component: () => import('@/pages/admin/HighAchievers/List.vue'),
+          meta: { title: 'Manage High Achievers' },
+        },
         {
           path: 'student-leadership',
           name: 'StudentLeadership',
-          component: page('StudentLeadership/List'),
+          component: () => import('@/pages/admin/StudentLeadership/List.vue'),
           meta: { title: 'Student Leadership' },
         },
-        { path: 'girlboytalk', name: 'GirlBoyTalk', component: page('GirlBoyTalk/List'), meta: { title: 'Girl - Boy Talk' } },
-        { path: 'inspiration', name: 'InspirationNight', component: page('InspirationNight/List'), meta: { title: 'Inspiration Night' } },
+        {
+          path: 'girlboytalk',
+          name: 'GirlBoyTalk',
+          component: () => import('@/pages/admin/GirlBoyTalk/List.vue'),
+          meta: { title: 'Girl - Boy Talk' },
+        },
+        {
+          path: 'inspiration',
+          name: 'InspirationNight',
+          component: () => import('@/pages/admin/InspirationNight/List.vue'),
+          meta: { title: 'Inspiration Night' },
+        },
         {
           path: 'christmas-cantata',
           name: 'ChristmasCantata',
-          component: page('ChristmasCantata/List'),
+          component: () => import('@/pages/admin/ChristmasCantata/List.vue'),
           meta: { title: 'Manage Cantata' },
         },
-        { path: 'smosa', name: 'SmosaAlumni', component: page('SmosaAlumni/List'), meta: { title: 'SMOSA Alumni' } },
-        { path: 'smosafeedback', name: 'SmosaFeedback', component: page('SmosaFeedback/List'), meta: { title: 'SMOSA Feedback' } },
-        { path: 'campus-voices', name: 'CampusVoices', component: page('CampusVoices/List'), meta: { title: 'Campus Voices' } },
+        {
+          path: 'smosa',
+          name: 'SmosaAlumni',
+          component: () => import('@/pages/admin/SmosaAlumni/List.vue'),
+          meta: { title: 'SMOSA Alumni' },
+        },
+        {
+          path: 'smosafeedback',
+          name: 'SmosaFeedback',
+          component: () => import('@/pages/admin/SmosaFeedback/List.vue'),
+          meta: { title: 'SMOSA Feedback' },
+        },
+        {
+          path: 'campus-voices',
+          name: 'CampusVoices',
+          component: () => import('@/pages/admin/CampusVoices/List.vue'),
+          meta: { title: 'Campus Voices' },
+        },
         {
           path: 'coming-soon/:key',
           name: 'ComingSoon',
