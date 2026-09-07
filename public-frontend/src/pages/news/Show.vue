@@ -97,13 +97,6 @@ const cleanedContent = computed(() => (news ? (news.content as string).replace(/
         class="prose prose-slate prose-lg max-w-none prose-headings:font-display prose-headings:text-brand-navy prose-a:font-semibold prose-a:text-brand-navy prose-a:no-underline prose-img:rounded-xl prose-img:shadow-card prose-blockquote:border-brand-gold prose-strong:text-gray-900 hover:prose-a:underline"
         v-html="cleanedContent"
       />
-
-      <div class="mt-10 border-t border-gray-100 pt-6">
-        <router-link to="/news" class="group inline-flex items-center gap-2 font-semibold text-brand-navy transition hover:underline">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 transition group-hover:-translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" /></svg>
-          Back to News
-        </router-link>
-      </div>
     </div>
 
     <section v-if="moreNews.length" class="bg-gray-50 py-14 sm:py-16">
