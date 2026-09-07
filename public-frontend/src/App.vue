@@ -16,9 +16,9 @@ useHead({
       <PostsTicker />
     </Suspense>
     <main class="flex-1">
-      <router-view v-slot="{ Component }">
+      <router-view v-slot="{ Component, route }">
         <Suspense>
-          <component :is="Component" />
+          <component :is="Component" :key="route.fullPath" />
         </Suspense>
       </router-view>
     </main>
