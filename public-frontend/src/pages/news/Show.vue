@@ -3,7 +3,6 @@ import { ref, computed } from 'vue'
 import { useHead } from '@unhead/vue'
 import { api } from '../../services/api'
 import NotFound from '../errors/NotFound.vue'
-import PageHeader from '../../components/PageHeader.vue'
 
 const props = defineProps<{ slug: string }>()
 
@@ -31,7 +30,7 @@ function formatDate(value?: string | null): string {
   if (!value) return ''
   const d = new Date(value)
   if (Number.isNaN(d.getTime())) return ''
-  return d.toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' })
+  return d.toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })
 }
 
 function readingTime(html: string): string {
@@ -39,32 +38,46 @@ function readingTime(html: string): string {
   return `${Math.max(1, Math.round(words / 200))} min read`
 }
 
-const subtitle = computed(() => {
-  if (!news) return null
-  return [formatDate(news.published_at), readingTime(news.content)].filter(Boolean).join(' · ')
-})
-
 // Some articles' rich content repeats the title as its own leading <h1>, duplicating the
-// heading already shown in the page header above - strip it if present.
+// heading already shown in the hero above - strip it if present.
 const cleanedContent = computed(() => (news ? (news.content as string).replace(/^\s*<h1[^>]*>[\s\S]*?<\/h1>\s*/i, '') : ''))
 </script>
 
 <template>
   <NotFound v-if="!news" message="This news item doesn't exist." />
   <article v-else>
-    <PageHeader :title="news.title" :subtitle="subtitle" />
+    <div class="grid md:grid-cols-2">
+      <div class="aspect-video w-full overflow-hidden bg-gray-100 md:aspect-auto">
+        <img
+          v-if="news.image_url && !imageFailed"
+          :src="news.image_url"
+          :alt="news.title"
+          class="h-full w-full object-cover"
+          @error="imageFailed = true"
+        >
+        <div v-else class="flex h-full min-h-[280px] items-center justify-center bg-gradient-to-br from-brand-navy to-brand-navy-dark">
+          <span class="font-display text-2xl font-extrabold text-white/20">St Mark's College</span>
+        </div>
+      </div>
+
+      <div class="flex flex-col justify-center bg-brand-navy-dark px-8 py-12 sm:px-12 sm:py-16 md:px-16">
+        <h1 class="font-display text-2xl font-extrabold leading-tight text-white sm:text-3xl md:text-4xl">{{ news.title }}</h1>
+        <div class="mt-6 flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-blue-100">
+          <span v-if="news.published_at || news.created_at" class="flex items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10m-11 9h12a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v11a2 2 0 002 2z" /></svg>
+            {{ formatDate(news.published_at || news.created_at) }}
+          </span>
+          <span class="flex items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+            {{ readingTime(news.content) }}
+          </span>
+        </div>
+      </div>
+    </div>
 
     <div class="mx-auto max-w-4xl px-6 py-10 sm:py-14">
-      <img
-        v-if="news.image_url && !imageFailed"
-        :src="news.image_url"
-        :alt="news.title"
-        class="aspect-video w-full rounded-2xl object-cover shadow-card ring-1 ring-black/5 sm:aspect-[16/9]"
-        @error="imageFailed = true"
-      >
-
       <div
-        class="prose prose-slate prose-lg mt-8 max-w-none prose-headings:font-display prose-headings:text-brand-navy prose-a:font-semibold prose-a:text-brand-navy prose-a:no-underline prose-img:rounded-xl prose-img:shadow-card prose-blockquote:border-brand-gold prose-strong:text-gray-900 hover:prose-a:underline"
+        class="prose prose-slate prose-lg max-w-none prose-headings:font-display prose-headings:text-brand-navy prose-a:font-semibold prose-a:text-brand-navy prose-a:no-underline prose-img:rounded-xl prose-img:shadow-card prose-blockquote:border-brand-gold prose-strong:text-gray-900 hover:prose-a:underline"
         v-html="cleanedContent"
       />
 
@@ -98,7 +111,7 @@ const cleanedContent = computed(() => (news ? (news.content as string).replace(/
             </div>
             <div class="flex flex-1 flex-col p-5">
               <h3 class="line-clamp-2 font-display font-semibold text-gray-900 transition group-hover:text-brand-navy">{{ item.title }}</h3>
-              <p v-if="item.published_at" class="mt-auto pt-4 text-xs font-medium text-gray-400">{{ formatDate(item.published_at) }}</p>
+              <p v-if="item.published_at || item.created_at" class="mt-auto pt-4 text-xs font-medium text-gray-400">{{ formatDate(item.published_at || item.created_at) }}</p>
             </div>
           </router-link>
         </div>
