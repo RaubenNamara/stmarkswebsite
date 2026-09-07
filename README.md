@@ -21,9 +21,9 @@ Served from one origin, `http://localhost/stmarkswebsite/`, via the project-root
 
 - `/` and everything not listed below -> `public-frontend/dist/` (prerendered static files,
   falling back to the SPA shell for a route not known at build time)
-- `/api/*` -> `backend/public/` (junction)
-- `/admin/*` -> `admin-frontend/dist` (junction; production Vite build)
-- `/uploads/*` -> `storage/uploads/` (junction; user-uploaded files)
+- `/api/*` -> `backend/public/` (rewrite rule)
+- `/admin/*` -> `admin-frontend/dist` (rewrite rule; production Vite build)
+- `/uploads/*` -> `storage/uploads/` (rewrite rule; user-uploaded files)
 
 Rebuild `public-frontend` after any `public-frontend/src` change (also happens automatically on
 publish, see above):
