@@ -98,7 +98,7 @@ const cleanedContent = computed(() => (news ? (news.content as string).replace(/
             v-for="item in moreNews"
             :key="item.id"
             :to="`/news/${item.slug}`"
-            class="card-interactive group flex flex-col overflow-hidden rounded-2xl bg-white shadow-card ring-1 ring-black/5"
+            class="card-interactive group flex flex-col overflow-hidden bg-white shadow-card ring-1 ring-black/5"
           >
             <div class="aspect-[4/3] w-full overflow-hidden bg-gray-100">
               <img
