@@ -14,10 +14,10 @@ try {
   news = null
 }
 
-const { data: recentRes } = await api.get('/news', { params: { limit: 7 } })
+const { data: recentRes } = await api.get('/news', { params: { limit: 9 } })
 const moreNews = ((recentRes.data.news as Array<Record<string, any>>) ?? [])
   .filter((item) => item.slug !== props.slug)
-  .slice(0, 6)
+  .slice(0, 8)
 
 useHead({ title: news ? news.title : 'Page not found' })
 
@@ -93,7 +93,7 @@ const cleanedContent = computed(() => (news ? (news.content as string).replace(/
       <div class="container-wide">
         <h2 class="font-display text-2xl font-bold text-gray-900">More News</h2>
 
-        <div class="mt-8 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+        <div class="mt-8 grid gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           <router-link
             v-for="item in moreNews"
             :key="item.id"
