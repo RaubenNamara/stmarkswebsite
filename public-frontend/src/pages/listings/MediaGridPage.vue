@@ -40,7 +40,7 @@ function excerptFor(item: Record<string, any>): string | null {
 <template>
   <PageHeader :title="pageTitle" />
 
-  <section class="mx-auto max-w-7xl px-6 py-14">
+  <section class="mx-auto max-w-7xl px-6 py-14 2xl:max-w-[1600px]">
     <EmptyState v-if="!items.length" message="Nothing here yet." />
     <div v-else class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
       <ListingCard

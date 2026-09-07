@@ -15,7 +15,7 @@ const categories = Object.keys(groups)
 <template>
   <PageHeader title="Our Staff" />
 
-  <section class="mx-auto max-w-7xl px-6 py-14">
+  <section class="mx-auto max-w-7xl px-6 py-14 2xl:max-w-[1600px]">
     <div v-for="category in categories" :key="category" class="mb-12">
       <h2 class="border-b-2 border-brand-gold pb-2 text-xl font-bold text-brand-navy">{{ category }}</h2>
       <div class="mt-6 grid grid-cols-2 gap-5 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8">

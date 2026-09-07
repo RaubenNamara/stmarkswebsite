@@ -14,7 +14,7 @@ const newsItems = data.data.news as Array<Record<string, any>>
 <template>
   <PageHeader title="News" />
 
-  <section class="mx-auto max-w-7xl px-6 py-14">
+  <section class="mx-auto max-w-7xl px-6 py-14 2xl:max-w-[1600px]">
     <EmptyState v-if="!newsItems.length" message="No news yet." />
     <div v-else class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
       <ListingCard

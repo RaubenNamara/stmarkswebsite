@@ -15,7 +15,7 @@ try {
 
 <template>
   <div v-if="latest" class="overflow-hidden bg-brand-navy-dark">
-    <router-link :to="latest.url" class="mx-auto flex max-w-7xl items-center gap-3 px-6 py-2.5 text-sm text-white transition hover:bg-white/5">
+    <router-link :to="latest.url" class="mx-auto flex max-w-7xl items-center gap-3 px-6 py-2.5 text-sm text-white transition hover:bg-white/5 2xl:max-w-[1600px]">
       <span class="h-2 w-2 shrink-0 animate-pulse rounded-full bg-brand-gold" />
       <span class="shrink-0 font-bold text-brand-gold">Latest News</span>
       <span class="truncate text-blue-100">{{ latest.title }}</span>

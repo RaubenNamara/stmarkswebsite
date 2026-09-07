@@ -218,7 +218,7 @@ function youTubeEmbed(url: string): string {
   </section>
 
   <!-- ========== WELCOME / BACKGROUND ========== -->
-  <section class="mx-auto mt-8 max-w-7xl px-6">
+  <section class="mx-auto mt-8 max-w-7xl 2xl:max-w-[1600px] px-6">
     <div class="grid overflow-hidden rounded-2xl bg-white shadow-card ring-1 ring-black/5 lg:grid-cols-2">
       <div class="relative h-56 w-full overflow-hidden bg-brand-navy/5 sm:h-72 lg:h-full">
         <img v-if="!backgroundImageFailed" :src="staticAsset('images/home.jpg')" alt="St Mark's College Namagoma campus" class="h-full w-full object-cover" @error="backgroundImageFailed = true">
@@ -231,8 +231,8 @@ function youTubeEmbed(url: string): string {
         <span class="eyebrow text-brand-navy">Our Story</span>
         <h2 class="mt-2 font-display text-2xl font-bold text-gray-900 sm:text-3xl">Welcome to St Mark's College Namagoma</h2>
 
-        <p v-if="!backgroundExpanded" class="mt-4 leading-relaxed text-gray-600">{{ backgroundIntro }}</p>
-        <div v-else class="mt-4 space-y-4 leading-relaxed text-gray-600">
+        <p v-if="!backgroundExpanded" class="mt-4 max-w-2xl leading-relaxed text-gray-600">{{ backgroundIntro }}</p>
+        <div v-else class="mt-4 max-w-2xl space-y-4 leading-relaxed text-gray-600">
           <p v-for="(para, i) in backgroundParagraphs" :key="i">{{ para }}</p>
           <p class="font-semibold italic text-brand-navy">"To Be, Not To Seem."</p>
         </div>
@@ -245,7 +245,7 @@ function youTubeEmbed(url: string): string {
   </section>
 
   <!-- ========== SCHOOL LEADERSHIP ========== -->
-  <section class="mx-auto max-w-7xl px-6 py-16 sm:py-20">
+  <section class="mx-auto max-w-7xl 2xl:max-w-[1600px] px-6 py-16 sm:py-20">
     <div class="mx-auto max-w-2xl text-center">
       <span class="eyebrow text-brand-navy">Leadership</span>
       <h2 class="mt-3 font-display text-3xl font-bold text-gray-900">School Leadership</h2>
@@ -265,7 +265,7 @@ function youTubeEmbed(url: string): string {
 
   <!-- ========== LATEST NEWS & EVENTS ========== -->
   <section v-if="latestNews.length" class="bg-gray-50 px-6 py-16 sm:py-20">
-    <div class="mx-auto max-w-7xl">
+    <div class="mx-auto max-w-7xl 2xl:max-w-[1600px]">
       <div class="flex flex-wrap items-end justify-between gap-4">
         <div>
           <span class="eyebrow text-brand-navy">Stay Informed</span>
@@ -300,7 +300,7 @@ function youTubeEmbed(url: string): string {
   </section>
 
   <!-- ========== FEATURED POSTS ========== -->
-  <section v-if="featuredPosts.length" class="mx-auto max-w-7xl px-6 py-16 sm:py-20">
+  <section v-if="featuredPosts.length" class="mx-auto max-w-7xl 2xl:max-w-[1600px] px-6 py-16 sm:py-20">
     <div class="rounded-2xl bg-gradient-to-br from-brand-navy/5 to-brand-gold/5 p-6 ring-1 ring-brand-navy/10 sm:p-10">
       <span class="eyebrow text-brand-navy">Featured</span>
       <h2 class="mt-2 font-display text-2xl font-bold text-gray-900 sm:text-3xl">Featured Posts</h2>
@@ -327,7 +327,7 @@ function youTubeEmbed(url: string): string {
 
   <!-- ========== MOTTO / CORE VALUES / WHY CHOOSE ========== -->
   <section class="bg-gradient-to-b from-brand-navy/[0.03] to-white px-6 py-16 sm:py-20">
-    <div class="mx-auto max-w-7xl">
+    <div class="mx-auto max-w-7xl 2xl:max-w-[1600px]">
       <div class="grid gap-8 md:grid-cols-3">
         <div class="card">
           <h3 class="font-display text-xl font-bold text-gray-900">The College Motto</h3>
@@ -367,7 +367,7 @@ function youTubeEmbed(url: string): string {
 
   <!-- ========== MEDIA SHOWCASE ========== -->
   <section v-if="mediaToShow.length" class="bg-gray-50 py-16 sm:py-20">
-    <div class="mx-auto max-w-7xl px-6">
+    <div class="mx-auto max-w-7xl 2xl:max-w-[1600px] px-6">
       <div class="text-center">
         <span class="eyebrow text-brand-navy">Life at St Mark's</span>
         <h2 class="mt-3 font-display text-3xl font-bold text-gray-900">Media Showcase</h2>
@@ -398,7 +398,7 @@ function youTubeEmbed(url: string): string {
   </section>
 
   <!-- ========== MISSION & VISION ========== -->
-  <section class="mx-auto max-w-7xl px-6 py-16 sm:py-20">
+  <section class="mx-auto max-w-7xl 2xl:max-w-[1600px] px-6 py-16 sm:py-20">
     <div class="grid gap-6 sm:grid-cols-2">
       <article class="card border-t-4 border-brand-navy">
         <div class="flex h-12 w-12 items-center justify-center rounded-xl bg-brand-navy/10 text-2xl">🎯</div>
@@ -414,7 +414,7 @@ function youTubeEmbed(url: string): string {
   </section>
 
   <!-- ========== RELATED POSTS ========== -->
-  <section v-if="relatedPosts.length" class="mx-auto max-w-7xl px-6 py-16 sm:py-20">
+  <section v-if="relatedPosts.length" class="mx-auto max-w-7xl 2xl:max-w-[1600px] px-6 py-16 sm:py-20">
     <h2 class="font-display text-2xl font-bold text-gray-900 sm:text-3xl">Articles You May Have Missed</h2>
 
     <div class="mt-8 grid gap-4 sm:grid-cols-2">
