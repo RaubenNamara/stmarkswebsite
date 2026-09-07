@@ -55,7 +55,7 @@ const cleanedContent = computed(() => (news ? (news.content as string).replace(/
     <PageHeader :title="news.title" :subtitle="subtitle" />
 
     <div class="mx-auto max-w-6xl px-6 py-10 sm:py-14">
-      <div class="grid gap-10 lg:grid-cols-[1fr_320px] lg:items-start">
+      <div class="grid gap-10 md:grid-cols-[1fr_280px] md:items-start xl:grid-cols-[1fr_320px]">
         <div class="min-w-0">
           <img
             v-if="news.image_url && !imageFailed"
@@ -78,7 +78,7 @@ const cleanedContent = computed(() => (news ? (news.content as string).replace(/
           </div>
         </div>
 
-        <aside v-if="moreNews.length" class="lg:sticky lg:top-24">
+        <aside v-if="moreNews.length" class="md:sticky md:top-24">
           <h2 class="font-display text-lg font-bold text-gray-900">More News</h2>
           <div class="mt-5 space-y-4">
             <router-link
