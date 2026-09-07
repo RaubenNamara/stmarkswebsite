@@ -181,10 +181,10 @@ function youTubeEmbed(url: string): string {
 
           <div class="absolute inset-0 bg-gradient-to-b from-black/20 via-black/10 to-black/60" />
 
-          <div v-if="slide.title || slide.caption" class="absolute inset-0 z-20 flex items-center justify-center px-6 text-center">
+          <div class="absolute inset-0 z-20 flex items-center justify-center px-6 text-center">
             <div class="max-w-3xl transition-all duration-700" :class="current === i ? 'translate-y-0 opacity-100' : 'translate-y-6 opacity-0'">
-              <h2 v-if="slide.title" class="font-display text-3xl font-extrabold text-white drop-shadow-lg sm:text-5xl">{{ slide.title }}</h2>
-              <p v-if="slide.caption" class="mx-auto mt-4 max-w-xl text-base text-blue-50/90 sm:text-lg">{{ slide.caption }}</p>
+              <h2 class="font-display text-3xl font-extrabold text-white drop-shadow-lg sm:text-5xl">{{ slide.title || `St Mark's College Namagoma` }}</h2>
+              <p class="mx-auto mt-4 max-w-xl text-base text-blue-50/90 sm:text-lg">{{ slide.caption || `The Higher Achiever's College` }}</p>
             </div>
           </div>
         </div>
