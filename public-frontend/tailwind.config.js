@@ -9,6 +9,7 @@ export default {
         'brand-navy': '#172554',
         'brand-navy-dark': '#0f1a3d',
         'brand-gold': '#facc15',
+        'brand-cream': '#FFFDD0',
       },
       fontFamily: {
         sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
