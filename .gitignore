@@ -34,8 +34,3 @@ public-frontend/node_modules
 public-frontend/dist
 storage/uploads/*
 !storage/uploads/.gitkeep
-
-# uploads is physically storage/uploads/ - also reachable (same files) via these junctions
-uploads/*
-api/uploads/*
-backend/public/uploads/*
