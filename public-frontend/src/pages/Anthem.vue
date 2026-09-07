@@ -26,7 +26,7 @@ const stanzas = [
   />
 
   <section class="mx-auto max-w-7xl px-6 py-14">
-    <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+    <div class="grid gap-6 md:grid-cols-3">
       <div v-for="(lines, i) in stanzas" :key="i" class="card border-t-4 border-brand-navy">
         <h2 class="font-semibold text-gray-900">{{ i + 1 }}. Stanza</h2>
         <p v-for="(line, j) in lines" :key="j" class="mt-1 text-sm text-gray-600">{{ line }}</p>

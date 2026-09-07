@@ -151,7 +151,7 @@ function youTubeEmbed(url: string): string {
     @touchstart.passive="onTouchStart"
     @touchend.passive="onTouchEnd"
   >
-    <div class="relative h-[60vh] min-h-[360px] sm:h-[65vh] lg:h-[78vh] xl:h-[72vh]">
+    <div class="relative h-[60vh] min-h-[280px] max-h-[520px] sm:h-[65vh] sm:min-h-[380px] sm:max-h-[640px] lg:h-[78vh] lg:max-h-[760px] xl:h-[72vh]">
       <template v-if="slides.length">
         <div
           v-for="(slide, i) in slides"
@@ -252,7 +252,7 @@ function youTubeEmbed(url: string): string {
       <p class="mt-3 text-gray-600">Visionary leaders guiding academic excellence, discipline and holistic student development.</p>
     </div>
 
-    <div class="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+    <div class="mt-12 grid gap-8 md:grid-cols-3">
       <article v-for="leader in leadership" :key="leader.name" class="card-interactive card text-center">
         <AvatarImage :src="staticAsset(leader.image)" :alt="leader.name" size="lg" />
         <h3 class="mt-4 font-display text-lg font-bold text-gray-900">{{ leader.name }}</h3>
@@ -292,7 +292,7 @@ function youTubeEmbed(url: string): string {
           <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
           <div class="absolute inset-0 flex flex-col justify-between p-5">
             <span v-if="item.published_at" class="w-fit rounded-full bg-white/15 px-3 py-1 text-xs font-semibold text-white backdrop-blur-md">{{ formatDate(item.published_at) }}</span>
-            <h3 class="font-display text-lg font-bold leading-snug text-white drop-shadow-md">{{ item.title }}</h3>
+            <h3 class="line-clamp-3 font-display text-lg font-bold leading-snug text-white drop-shadow-md">{{ item.title }}</h3>
           </div>
         </router-link>
       </div>
@@ -328,7 +328,7 @@ function youTubeEmbed(url: string): string {
   <!-- ========== MOTTO / CORE VALUES / WHY CHOOSE ========== -->
   <section class="bg-gradient-to-b from-brand-navy/[0.03] to-white px-6 py-16 sm:py-20">
     <div class="mx-auto max-w-7xl">
-      <div class="grid gap-8 lg:grid-cols-3">
+      <div class="grid gap-8 md:grid-cols-3">
         <div class="card">
           <h3 class="font-display text-xl font-bold text-gray-900">The College Motto</h3>
           <p class="mt-3 text-lg font-semibold italic text-brand-navy">"To Be, Not To Seem"</p>
