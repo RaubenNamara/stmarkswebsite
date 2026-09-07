@@ -16,12 +16,16 @@ import axios, { type AxiosInstance } from 'axios'
 // wherever the backend actually landed alongside it, without a rebuild-time env var to keep in sync.
 const apiBase = import.meta.env.BASE_URL.replace(/admin\/?$/, 'api')
 
+// No default Content-Type header here (unlike an earlier version of this file) - axios already
+// sets 'application/json' on its own for plain object bodies (login, logout, etc.), and presetting
+// it globally broke every FormData upload across the app: axios's transformRequest special-cases
+// a FormData body by JSON.stringify-ing it instead of sending it as multipart/form-data whenever
+// the request already has a JSON content type, so PHP never saw the uploaded file at all.
 export const api: AxiosInstance = axios.create({
   baseURL: apiBase,
   timeout: 30000,
   withCredentials: true,
   headers: {
-    'Content-Type': 'application/json',
     Accept: 'application/json',
   },
 })
