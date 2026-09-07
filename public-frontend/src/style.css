@@ -86,4 +86,13 @@
       padding-right: 0;
     }
   }
+
+  /* Header/footer/top-bar chrome: unlike .container-wide, this stays capped instead of growing
+     to fill the viewport. Those rows hold only a couple of elements (logo + nav, or a few links)
+     with `justify-between` - letting the row grow edge-to-edge on a big monitor just stretches
+     the gap between them, not the content. Grid/card sections have enough content to make the
+     extra width look intentional; a sparse nav row doesn't. */
+  .container-chrome {
+    @apply mx-auto w-full max-w-[1800px] px-6 xl:px-10;
+  }
 }

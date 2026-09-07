@@ -24,7 +24,7 @@ const exploreLinks: Array<[string, string]> = [
 
 <template>
   <footer class="bg-brand-navy-dark text-blue-200/80">
-    <div class="container-wide py-14">
+    <div class="container-chrome py-14">
       <div class="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
         <div>
           <div class="flex items-center gap-2.5">
