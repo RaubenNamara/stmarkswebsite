@@ -22,11 +22,11 @@ const imageFailed = ref(false)
 
 <template>
   <div class="card-interactive group relative flex flex-col overflow-hidden rounded-2xl bg-white p-0 shadow-card ring-1 ring-black/5">
-    <div v-if="image && !imageFailed" class="h-48 w-full overflow-hidden bg-gray-100">
+    <div v-if="image && !imageFailed" class="aspect-[4/3] w-full overflow-hidden bg-gray-100">
       <img :src="image" :alt="title" class="h-full w-full object-cover transition duration-500 group-hover:scale-105" @error="imageFailed = true">
     </div>
-    <video v-else-if="video" :src="video" controls class="h-48 w-full bg-gray-900 object-cover" />
-    <div v-else class="flex h-48 w-full items-center justify-center bg-gradient-to-br from-brand-navy to-brand-navy-dark">
+    <video v-else-if="video" :src="video" controls class="aspect-[4/3] w-full bg-gray-900 object-cover" />
+    <div v-else class="flex aspect-[4/3] w-full items-center justify-center bg-gradient-to-br from-brand-navy to-brand-navy-dark">
       <span class="font-display text-xl font-extrabold text-white/20">SM</span>
     </div>
     <div class="flex flex-1 flex-col p-6">
