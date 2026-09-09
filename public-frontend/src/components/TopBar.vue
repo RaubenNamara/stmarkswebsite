@@ -1,7 +1,11 @@
 <script setup lang="ts">
-// Social links are visual placeholders only (no real profile URLs available yet) - wire up
-// real hrefs here once provided.
-const socialIcons = ['x', 'facebook', 'tiktok', 'youtube', 'chat'] as const
+const socialLinks: Array<{ icon: 'x' | 'facebook' | 'tiktok' | 'youtube' | 'whatsapp'; href: string; label: string }> = [
+  { icon: 'x', href: 'https://x.com/Smacon24', label: 'X (Twitter)' },
+  { icon: 'facebook', href: 'https://www.facebook.com/people/St-Marks-College-Namagoma/100057643021727/', label: 'Facebook' },
+  { icon: 'tiktok', href: 'https://www.tiktok.com/@smacon23', label: 'TikTok' },
+  { icon: 'youtube', href: 'https://www.youtube.com/@stmarkscollegenamagoma6864', label: 'YouTube' },
+  { icon: 'whatsapp', href: 'https://wa.me/256775831844', label: 'WhatsApp' },
+]
 </script>
 
 <template>
@@ -20,18 +24,18 @@ const socialIcons = ['x', 'facebook', 'tiktok', 'youtube', 'chat'] as const
 
       <div class="flex items-center gap-2 sm:gap-3">
         <router-link to="/admissions" class="whitespace-nowrap rounded-md border border-brand-gold px-2.5 py-1 font-bold text-brand-gold transition hover:bg-brand-gold hover:text-brand-navy-dark sm:px-3">ADMISSIONS</router-link>
-        <router-link to="/elearning" class="whitespace-nowrap rounded-md border border-emerald-400 px-2.5 py-1 font-bold text-emerald-400 transition hover:bg-emerald-400 hover:text-brand-navy-dark sm:px-3">eLearning</router-link>
+        <a href="https://stmark.sc.ug/elearning/" target="_blank" rel="noopener" class="whitespace-nowrap rounded-md border border-emerald-400 px-2.5 py-1 font-bold text-emerald-400 transition hover:bg-emerald-400 hover:text-brand-navy-dark sm:px-3">eLearning</a>
       </div>
 
       <div class="hidden items-center gap-3 md:flex">
         <span class="text-blue-200">Follow us</span>
-        <span v-for="icon in socialIcons" :key="icon" class="flex h-6 w-6 items-center justify-center rounded-full bg-white/10 text-blue-100 transition hover:bg-white/20 hover:text-white" :title="icon">
-          <svg v-if="icon === 'x'" xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="currentColor" viewBox="0 0 24 24"><path d="M18.9 2H22l-7.6 8.7L23.3 22H16.7l-5.2-6.8L5.5 22H2.4l8.1-9.3L1.5 2h6.8l4.7 6.2L18.9 2zm-1.2 18h1.7L7.4 4h-1.8l12.1 16z" /></svg>
-          <svg v-else-if="icon === 'facebook'" xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="currentColor" viewBox="0 0 24 24"><path d="M22 12a10 10 0 10-11.6 9.9v-7H7.9V12h2.5V9.8c0-2.5 1.5-3.9 3.8-3.9 1.1 0 2.2.2 2.2.2v2.5h-1.3c-1.2 0-1.6.8-1.6 1.6V12h2.8l-.4 2.9h-2.4v7A10 10 0 0022 12z" /></svg>
-          <svg v-else-if="icon === 'tiktok'" xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="currentColor" viewBox="0 0 24 24"><path d="M16.5 2h-3v13.5a2.5 2.5 0 11-2.5-2.5c.17 0 .34.02.5.05V9.9a5.9 5.9 0 105.1 5.85V9.1a7.6 7.6 0 004.4 1.4V7.4A4.5 4.5 0 0116.5 2z" /></svg>
-          <svg v-else-if="icon === 'youtube'" xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="currentColor" viewBox="0 0 24 24"><path d="M23 12s0-3.4-.4-5a3 3 0 00-2.1-2.1C18.9 4.5 12 4.5 12 4.5s-6.9 0-8.5.4A3 3 0 001.4 7C1 8.6 1 12 1 12s0 3.4.4 5a3 3 0 002.1 2.1c1.6.4 8.5.4 8.5.4s6.9 0 8.5-.4a3 3 0 002.1-2.1c.4-1.6.4-5 .4-5zM9.8 15.5v-7l6 3.5-6 3.5z" /></svg>
-          <svg v-else xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.5 2 2 5.9 2 10.7c0 2.7 1.4 5.1 3.7 6.7-.1 1-.5 2.5-.8 3.4 0 0 1.9-.5 3.6-1.6.8.2 1.6.3 2.5.3 5.5 0 10-3.9 10-8.8S17.5 2 12 2z" /></svg>
-        </span>
+        <a v-for="social in socialLinks" :key="social.icon" :href="social.href" target="_blank" rel="noopener" :aria-label="social.label" :title="social.label" class="flex h-6 w-6 items-center justify-center rounded-full bg-white/10 text-blue-100 transition hover:bg-white/20 hover:text-white">
+          <svg v-if="social.icon === 'x'" xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="currentColor" viewBox="0 0 24 24"><path d="M18.9 2H22l-7.6 8.7L23.3 22H16.7l-5.2-6.8L5.5 22H2.4l8.1-9.3L1.5 2h6.8l4.7 6.2L18.9 2zm-1.2 18h1.7L7.4 4h-1.8l12.1 16z" /></svg>
+          <svg v-else-if="social.icon === 'facebook'" xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="currentColor" viewBox="0 0 24 24"><path d="M22 12a10 10 0 10-11.6 9.9v-7H7.9V12h2.5V9.8c0-2.5 1.5-3.9 3.8-3.9 1.1 0 2.2.2 2.2.2v2.5h-1.3c-1.2 0-1.6.8-1.6 1.6V12h2.8l-.4 2.9h-2.4v7A10 10 0 0022 12z" /></svg>
+          <svg v-else-if="social.icon === 'tiktok'" xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="currentColor" viewBox="0 0 24 24"><path d="M16.5 2h-3v13.5a2.5 2.5 0 11-2.5-2.5c.17 0 .34.02.5.05V9.9a5.9 5.9 0 105.1 5.85V9.1a7.6 7.6 0 004.4 1.4V7.4A4.5 4.5 0 0116.5 2z" /></svg>
+          <svg v-else-if="social.icon === 'youtube'" xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="currentColor" viewBox="0 0 24 24"><path d="M23 12s0-3.4-.4-5a3 3 0 00-2.1-2.1C18.9 4.5 12 4.5 12 4.5s-6.9 0-8.5.4A3 3 0 001.4 7C1 8.6 1 12 1 12s0 3.4.4 5a3 3 0 002.1 2.1c1.6.4 8.5.4 8.5.4s6.9 0 8.5-.4a3 3 0 002.1-2.1c.4-1.6.4-5 .4-5zM9.8 15.5v-7l6 3.5-6 3.5z" /></svg>
+          <svg v-else xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="currentColor" viewBox="0 0 24 24"><path d="M17.5 14.4c-.3-.1-1.6-.8-1.9-.9-.2-.1-.4-.1-.6.1-.2.3-.7.9-.8 1-.2.2-.3.2-.5.1-.3-.1-1.2-.4-2.2-1.4-.8-.7-1.4-1.6-1.5-1.9-.2-.3 0-.4.1-.6l.4-.5c.1-.1.2-.3.2-.4.1-.2 0-.3 0-.5l-.8-1.9c-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.2.3-1 1-1 2.3s1 2.7 1.1 2.9c.1.2 2 3.1 4.9 4.3.7.3 1.2.5 1.6.6.7.2 1.3.2 1.8.1.5-.1 1.6-.7 1.9-1.3.2-.6.2-1.1.2-1.3-.1-.1-.3-.2-.6-.3z" /><path d="M12 2C6.5 2 2 6.4 2 11.8c0 2 .6 3.9 1.6 5.5L2 22l4.9-1.5c1.6.9 3.3 1.3 5.1 1.3 5.5 0 10-4.4 10-9.8S17.5 2 12 2zm0 17.8c-1.6 0-3.2-.4-4.5-1.2l-.3-.2-3.3 1 1-3.1-.2-.3c-.9-1.4-1.4-3.1-1.4-4.8C3.3 6.9 7.2 3 12 3s8.7 3.9 8.7 8.8-3.9 8-8.7 8z" /></svg>
+        </a>
       </div>
     </div>
   </div>

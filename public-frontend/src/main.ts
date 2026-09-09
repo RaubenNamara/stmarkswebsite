@@ -2,6 +2,7 @@ import { ViteSSG } from 'vite-ssg'
 import { createPinia } from 'pinia'
 import App from './App.vue'
 import { routes } from './router'
+import { vReveal } from './directives/reveal'
 import './style.css'
 
 // vite-ssg ships @unhead/vue v2 internally - useHead() in components just works, no manual
@@ -14,4 +15,5 @@ import './style.css'
 // in-app navigation to the wrong place entirely (a different app/directory outside this project).
 export const createApp = ViteSSG(App, { routes, base: import.meta.env.BASE_URL }, ({ app }) => {
   app.use(createPinia())
+  app.directive('reveal', vReveal)
 })

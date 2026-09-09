@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useHead } from '@unhead/vue'
 import PageHeader from '../components/PageHeader.vue'
+import { staticAsset } from '../utils/staticAsset'
 
 useHead({ title: 'The College Name' })
 </script>
@@ -9,6 +10,7 @@ useHead({ title: 'The College Name' })
   <PageHeader
     title="The College Name"
     subtitle="Deciding on the name of an institution can be very difficult, especially for a school whose name many people will have strong attachment throughout their lives."
+    :bg-image="staticAsset('storage/images/smacon.jpg')"
   />
 
   <section class="mx-auto max-w-7xl px-6 py-14">

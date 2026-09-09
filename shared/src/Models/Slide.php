@@ -11,6 +11,6 @@ class Slide extends Model
 
     public function allOrdered(): array
     {
-        return $this->all([], ['order' => 'ASC']);
+        return $this->all([], ['order' => 'DESC']);
     }
 }

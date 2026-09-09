@@ -11,6 +11,7 @@ useHead({ title: "Head Teacher's Message" })
   <PageHeader
     title="Head Teacher's Message"
     subtitle="Academic leadership focused on holistic growth and consistent excellence."
+    :bg-image="staticAsset('storage/images/smacon.jpg')"
   />
 
   <section class="mx-auto grid max-w-7xl gap-6 px-6 py-14 md:grid-cols-[280px_1fr] md:items-start">

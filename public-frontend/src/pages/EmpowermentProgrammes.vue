@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useHead } from '@unhead/vue'
 import PageHeader from '../components/PageHeader.vue'
+import { staticAsset } from '../utils/staticAsset'
 
 useHead({ title: 'Empowerment Programmes' })
 </script>
@@ -9,6 +10,7 @@ useHead({ title: 'Empowerment Programmes' })
   <PageHeader
     title="Student Empowerment Programmes"
     subtitle="Empowerment programmes include leadership clubs, vocational workshops, and community projects designed to prepare students for life beyond school."
+    :bg-image="staticAsset('storage/images/smacon.jpg')"
   />
 
   <section class="mx-auto max-w-7xl space-y-6 px-6 py-14">

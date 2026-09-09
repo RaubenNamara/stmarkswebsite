@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useHead } from '@unhead/vue'
 import PageHeader from '../../components/PageHeader.vue'
+import { staticAsset } from '../../utils/staticAsset'
 
 useHead({ title: 'UNEB Results' })
 </script>
@@ -9,6 +10,7 @@ useHead({ title: 'UNEB Results' })
   <PageHeader
     title="UNEB Results"
     subtitle="St. Mark's College Namagoma is proud of its consistent academic performance in national examinations."
+    :bg-image="staticAsset('storage/images/smacon.jpg')"
   />
 
   <section class="mx-auto max-w-3xl px-6 py-14">

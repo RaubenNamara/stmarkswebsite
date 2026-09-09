@@ -8,7 +8,7 @@ useHead({ title: "Director's Message" })
 </script>
 
 <template>
-  <PageHeader title="Director's Message" />
+  <PageHeader title="Director's Message" :bg-image="staticAsset('storage/images/smacon.jpg')" />
 
   <section class="mx-auto grid max-w-7xl gap-6 px-6 py-14 md:grid-cols-[280px_1fr] md:items-start">
     <div class="card border-t-4 border-brand-navy text-center">

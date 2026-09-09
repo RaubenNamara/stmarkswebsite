@@ -1,9 +1,13 @@
 <script setup lang="ts">
-defineProps<{ title: string; subtitle?: string | null }>()
+defineProps<{ title: string; subtitle?: string | null; bgImage?: string }>()
 </script>
 
 <template>
-  <section class="relative overflow-hidden bg-gradient-to-br from-brand-navy via-brand-navy to-brand-navy-dark px-6 py-16 text-center text-white sm:py-20">
+  <section
+    class="relative overflow-hidden bg-gradient-to-br from-brand-navy via-brand-navy to-brand-navy-dark bg-cover bg-center px-6 py-16 text-center text-white sm:py-20"
+    :style="bgImage ? { backgroundImage: `url('${bgImage}')` } : undefined"
+  >
+    <div v-if="bgImage" class="pointer-events-none absolute inset-0 bg-brand-navy-dark/75" />
     <div class="pointer-events-none absolute inset-0 opacity-20" style="background-image: radial-gradient(circle at 20% 20%, white 1px, transparent 1px); background-size: 28px 28px;" />
     <div class="pointer-events-none absolute -right-24 -top-24 h-64 w-64 rounded-full bg-brand-gold/10 blur-3xl" />
     <div class="pointer-events-none absolute -bottom-24 -left-24 h-64 w-64 rounded-full bg-white/5 blur-3xl" />

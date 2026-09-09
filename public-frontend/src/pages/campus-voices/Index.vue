@@ -4,6 +4,7 @@ import { api } from '../../services/api'
 import PageHeader from '../../components/PageHeader.vue'
 import ListingCard from '../../components/ListingCard.vue'
 import EmptyState from '../../components/EmptyState.vue'
+import { staticAsset } from '../../utils/staticAsset'
 
 useHead({ title: 'eVoices' })
 
@@ -12,7 +13,7 @@ const articles = data.data.articles as Array<Record<string, any>>
 </script>
 
 <template>
-  <PageHeader title="eVoices" subtitle="Stories, reflections and voices from our student community." />
+  <PageHeader title="eVoices" subtitle="Stories, reflections and voices from our student community." :bg-image="staticAsset('storage/images/smacon.jpg')" />
 
   <section class="container-wide py-14">
     <EmptyState v-if="!articles.length" message="No articles yet." />

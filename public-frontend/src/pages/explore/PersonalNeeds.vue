@@ -1,12 +1,13 @@
 <script setup lang="ts">
 import { useHead } from '@unhead/vue'
 import PageHeader from '../../components/PageHeader.vue'
+import { staticAsset } from '../../utils/staticAsset'
 
 useHead({ title: 'Personal Needs' })
 </script>
 
 <template>
-  <PageHeader title="Personal Needs" />
+  <PageHeader title="Personal Needs" :bg-image="staticAsset('storage/images/smacon.jpg')" />
 
   <section class="mx-auto max-w-3xl px-6 py-14">
     <div class="card">

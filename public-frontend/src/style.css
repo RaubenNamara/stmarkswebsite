@@ -93,6 +93,26 @@
      the gap between them, not the content. Grid/card sections have enough content to make the
      extra width look intentional; a sparse nav row doesn't. */
   .container-chrome {
-    @apply mx-auto w-full max-w-[1800px] px-6 xl:px-10;
+    @apply mx-auto w-full max-w-[1800px] px-6 2xl:px-10;
+  }
+
+  /* Scroll-in entrance, applied client-side only by the v-reveal directive (see
+     directives/reveal.ts) - never baked into the prerendered HTML, so content stays visible
+     with no JS. */
+  .reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1), transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .reveal.revealed {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .reveal {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
   }
 }

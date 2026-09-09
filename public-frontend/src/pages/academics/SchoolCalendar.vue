@@ -1,12 +1,13 @@
 <script setup lang="ts">
 import { useHead } from '@unhead/vue'
 import PageHeader from '../../components/PageHeader.vue'
+import { staticAsset } from '../../utils/staticAsset'
 
 useHead({ title: 'School Calendar' })
 </script>
 
 <template>
-  <PageHeader title="School Calendar" subtitle="Key dates for the academic year." />
+  <PageHeader title="School Calendar" subtitle="Key dates for the academic year." :bg-image="staticAsset('storage/images/smacon.jpg')" />
 
   <section class="mx-auto max-w-3xl px-6 py-14">
     <div class="card">

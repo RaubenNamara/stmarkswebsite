@@ -3,6 +3,7 @@ import { ref, reactive } from 'vue'
 import { useHead } from '@unhead/vue'
 import { api, apiErrorMessage, apiFieldErrors } from '../../services/api'
 import PageHeader from '../../components/PageHeader.vue'
+import { staticAsset } from '../../utils/staticAsset'
 
 useHead({ title: 'SMOSA Feedback' })
 
@@ -19,6 +20,7 @@ const ratingFields: Array<[string, string]> = [
 ]
 const scale = ['Excellent', 'Very Good', 'Good', 'Fair', 'Poor']
 const activityOptions = ['Career & Business Opportunities', 'Community/Charity Activities', 'Professional Development', 'Networking', 'Social Gatherings']
+const participationOptions = ['Definitely', 'Probably', 'Not sure', 'Unlikely']
 
 const { data: statusData } = await api.get('/smosa-feedback/status')
 const alreadySubmitted = ref<boolean>(statusData.data.already_submitted)
@@ -61,57 +63,90 @@ async function submit() {
 </script>
 
 <template>
-  <PageHeader title="SMOSA Feedback" subtitle="Help us improve future SMOSA events by sharing your experience." />
+  <PageHeader title="SMOSA Feedback" subtitle="Help us improve future SMOSA events by sharing your experience." :bg-image="staticAsset('storage/images/smacon.jpg')" />
 
-  <section class="mx-auto max-w-2xl px-6 py-14">
-    <div class="card">
+  <section class="container-wide py-14">
+    <div class="mx-auto max-w-2xl 2xl:max-w-6xl">
       <div v-if="success" class="alert alert-success">Thank you for your feedback!</div>
       <div v-else-if="alreadySubmitted" class="alert alert-success">You've already submitted feedback for this event. Thank you!</div>
-      <form v-else @submit.prevent="submit">
-        <div v-if="generalError" class="alert alert-error mb-6">{{ generalError }}</div>
 
-        <label for="overall_experience" class="field-label">Overall Experience</label>
-        <select id="overall_experience" v-model="form.overall_experience" required class="field-input">
-          <option value="">Select...</option>
-          <option v-for="s in scale" :key="s" :value="s">{{ s }}</option>
-        </select>
+      <form v-else class="space-y-8" @submit.prevent="submit">
+        <div v-if="generalError" class="alert alert-error">{{ generalError }}</div>
 
-        <template v-for="[field, label] in ratingFields" :key="field">
-          <label class="field-label">{{ label }}</label>
-          <select v-model="form[field]" :required="field !== 'rating_photography_video'" class="field-input">
-            <option value="">Select...</option>
-            <option v-for="s in scale" :key="s" :value="s">{{ s }}</option>
-          </select>
-        </template>
+        <div class="grid gap-8 2xl:grid-cols-2">
+          <!-- Overall experience -->
+          <div class="card">
+            <h2 class="font-display text-lg font-bold text-gray-900">Overall Experience</h2>
+            <div class="mt-4 flex flex-wrap gap-2">
+              <label v-for="s in scale" :key="s" class="cursor-pointer select-none rounded-lg border-2 px-4 py-2 text-sm font-semibold transition" :class="form.overall_experience === s ? 'border-brand-navy bg-brand-navy text-white' : 'border-gray-200 text-gray-700 hover:border-brand-navy/40'">
+                <input v-model="form.overall_experience" type="radio" name="overall_experience" :value="s" required class="sr-only">
+                {{ s }}
+              </label>
+            </div>
+          </div>
 
-        <label class="field-label">Activities you're interested in for future events</label>
-        <div class="mb-4 space-y-1.5">
-          <label v-for="activity in activityOptions" :key="activity" class="flex items-center gap-2 text-sm font-normal text-gray-700">
-            <input v-model="form.activities_interest" type="checkbox" :value="activity" class="h-4 w-4 rounded border-gray-300 text-brand-navy focus:ring-brand-navy">
-            {{ activity }}
-          </label>
+          <!-- Interests -->
+          <div class="card">
+            <h2 class="font-display text-lg font-bold text-gray-900">Activities you're interested in for future events</h2>
+            <div class="mt-4 flex flex-wrap gap-2">
+              <label v-for="activity in activityOptions" :key="activity" class="flex cursor-pointer select-none items-center gap-2 rounded-lg border-2 px-3.5 py-2 text-sm font-medium transition" :class="form.activities_interest.includes(activity) ? 'border-brand-navy bg-brand-navy text-white' : 'border-gray-200 text-gray-700 hover:border-brand-navy/40'">
+                <input v-model="form.activities_interest" type="checkbox" :value="activity" class="sr-only">
+                {{ activity }}
+              </label>
+            </div>
+          </div>
         </div>
 
-        <label for="best_part" class="field-label">What was the best part of the event?</label>
-        <textarea id="best_part" v-model="form.best_part" rows="3" class="field-input" />
+        <!-- Ratings -->
+        <div class="card">
+          <h2 class="font-display text-lg font-bold text-gray-900">Rate Specific Aspects</h2>
+          <div class="mt-5 grid gap-x-10 gap-y-5 2xl:grid-cols-2">
+            <div v-for="[field, label] in ratingFields" :key="field">
+              <p class="field-label mb-2">{{ label }}</p>
+              <div class="flex flex-wrap gap-2">
+                <label v-for="s in scale" :key="s" class="cursor-pointer select-none rounded-lg border-2 px-3.5 py-1.5 text-sm font-medium transition" :class="form[field] === s ? 'border-brand-navy bg-brand-navy text-white' : 'border-gray-200 text-gray-700 hover:border-brand-navy/40'">
+                  <input v-model="form[field]" type="radio" :name="field" :value="s" :required="field !== 'rating_photography_video'" class="sr-only">
+                  {{ s }}
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
 
-        <label for="improvements" class="field-label">What could be improved?</label>
-        <textarea id="improvements" v-model="form.improvements" rows="3" class="field-input" />
+        <div class="grid gap-8 2xl:grid-cols-2 2xl:items-start">
+          <!-- Open feedback -->
+          <div class="card">
+            <h2 class="font-display text-lg font-bold text-gray-900">Your Thoughts</h2>
+            <div class="mt-4 space-y-4">
+              <div>
+                <label for="best_part" class="field-label mb-1.5">What was the best part of the event?</label>
+                <textarea id="best_part" v-model="form.best_part" rows="3" class="field-input mb-0" />
+              </div>
+              <div>
+                <label for="improvements" class="field-label mb-1.5">What could be improved?</label>
+                <textarea id="improvements" v-model="form.improvements" rows="3" class="field-input mb-0" />
+              </div>
+              <div>
+                <label for="future_suggestions" class="field-label mb-1.5">Suggestions for future events</label>
+                <textarea id="future_suggestions" v-model="form.future_suggestions" rows="3" class="field-input mb-0" />
+              </div>
+            </div>
+          </div>
 
-        <label for="future_suggestions" class="field-label">Suggestions for future events</label>
-        <textarea id="future_suggestions" v-model="form.future_suggestions" rows="3" class="field-input" />
+          <!-- Future participation -->
+          <div class="card">
+            <h2 class="font-display text-lg font-bold text-gray-900">Will you participate in future SMOSA events?</h2>
+            <div class="mt-4 flex flex-wrap gap-2">
+              <label v-for="option in participationOptions" :key="option" class="cursor-pointer select-none rounded-lg border-2 px-4 py-2 text-sm font-semibold transition" :class="form.future_participation === option ? 'border-brand-navy bg-brand-navy text-white' : 'border-gray-200 text-gray-700 hover:border-brand-navy/40'">
+                <input v-model="form.future_participation" type="radio" name="future_participation" :value="option" required class="sr-only">
+                {{ option }}
+              </label>
+            </div>
 
-        <label for="future_participation" class="field-label">Will you participate in future SMOSA events?</label>
-        <select id="future_participation" v-model="form.future_participation" required class="field-input">
-          <option value="">Select...</option>
-          <option value="Definitely">Definitely</option>
-          <option value="Probably">Probably</option>
-          <option value="Not sure">Not sure</option>
-          <option value="Unlikely">Unlikely</option>
-        </select>
-
-        <label for="other_comments" class="field-label">Other comments</label>
-        <textarea id="other_comments" v-model="form.other_comments" rows="3" class="field-input" />
+            <label for="other_comments" class="field-label mb-1.5 mt-5">Other comments</label>
+            <textarea id="other_comments" v-model="form.other_comments" rows="3" class="field-input mb-0" />
+          </div>
+        </div>
 
         <button type="submit" class="btn w-full" :disabled="submitting">{{ submitting ? 'Submitting…' : 'Submit Feedback' }}</button>
       </form>

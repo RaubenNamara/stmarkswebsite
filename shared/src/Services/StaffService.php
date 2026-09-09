@@ -43,7 +43,7 @@ class StaffService extends SinglePhotoContentService
      */
     public function groupedForDisplay(): array
     {
-        $order = ['Head of Department', 'Teaching Staff', 'Administrator', 'Support Staff'];
+        $order = ['Administrator', 'Head of Department', 'Teaching Staff', 'Support Staff'];
         $groups = array_fill_keys($order, []);
 
         foreach ($this->all() as $member) {

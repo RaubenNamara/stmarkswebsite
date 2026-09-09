@@ -4,6 +4,7 @@ import { api } from '../../services/api'
 import PageHeader from '../../components/PageHeader.vue'
 import ListingCard from '../../components/ListingCard.vue'
 import EmptyState from '../../components/EmptyState.vue'
+import { staticAsset } from '../../utils/staticAsset'
 
 useHead({ title: 'Posts' })
 
@@ -17,7 +18,7 @@ function excerptFor(content: string): string {
 </script>
 
 <template>
-  <PageHeader title="Posts" />
+  <PageHeader title="Posts" :bg-image="staticAsset('storage/images/smacon.jpg')" />
 
   <section class="container-wide py-14">
     <EmptyState v-if="!posts.length" message="No posts yet." />

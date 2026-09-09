@@ -10,7 +10,7 @@ const failed = ref(false)
     v-if="src && !failed"
     :src="src"
     :alt="alt"
-    class="mx-auto mb-2 rounded-full object-cover"
+    class="mx-auto mb-2 rounded-full object-cover object-top"
     :class="size === 'lg' ? 'h-40 w-40 border-4 border-brand-navy' : 'h-24 w-24'"
     @error="failed = true"
   >

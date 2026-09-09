@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useHead } from '@unhead/vue'
 import PageHeader from '../components/PageHeader.vue'
+import { staticAsset } from '../utils/staticAsset'
 
 useHead({ title: 'School Anthem' })
 
@@ -23,6 +24,7 @@ const stanzas = [
   <PageHeader
     title="School Anthem"
     subtitle="Our anthem — a pledge of faith, discipline, and excellence. Chorus repeats after every stanza."
+    :bg-image="staticAsset('storage/images/smacon.jpg')"
   />
 
   <section class="mx-auto max-w-7xl px-6 py-14">

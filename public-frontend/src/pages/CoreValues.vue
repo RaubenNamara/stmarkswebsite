@@ -1,12 +1,13 @@
 <script setup lang="ts">
 import { useHead } from '@unhead/vue'
 import PageHeader from '../components/PageHeader.vue'
+import { staticAsset } from '../utils/staticAsset'
 
 useHead({ title: 'Core Values' })
 </script>
 
 <template>
-  <PageHeader title="Core Values — GREET" />
+  <PageHeader title="Core Values — GREET" :bg-image="staticAsset('storage/images/smacon.jpg')" />
 
   <section class="mx-auto max-w-7xl space-y-6 px-6 py-14">
     <div class="grid gap-6 sm:grid-cols-3 lg:grid-cols-5">

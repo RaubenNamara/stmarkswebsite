@@ -29,7 +29,6 @@ export const routes: RouteRecordRaw[] = [
   { path: '/news', component: () => import('../pages/news/Index.vue') },
   { path: '/news/:slug', component: () => import('../pages/news/Show.vue'), props: true },
 
-  { path: '/about', component: () => import('../pages/About.vue') },
   { path: '/academics', component: () => import('../pages/academics/Index.vue') },
   { path: '/admissions', component: () => import('../pages/Admissions.vue') },
   { path: '/empowerment-programmes', component: () => import('../pages/EmpowermentProgrammes.vue') },
@@ -54,102 +53,18 @@ export const routes: RouteRecordRaw[] = [
   { path: '/explore/personal-needs', component: () => import('../pages/explore/PersonalNeeds.vue') },
   { path: '/explore/uniform', component: () => import('../pages/explore/Uniform.vue') },
 
-  {
-    path: '/board-members',
-    ...mediaGrid({
-      endpoint: '/board-members',
-      collectionKey: 'board_members',
-      pageTitle: 'Board Members',
-      titleField: 'name',
-      textFields: { position: 'Position' },
-      imageField: 'photo_url',
-      videoField: 'video_url',
-    }),
-  },
-  {
-    path: '/academics/co-curricular',
-    ...mediaGrid({
-      endpoint: '/co-curricular',
-      collectionKey: 'co_curricular',
-      pageTitle: 'Co-Curricular Activities',
-      titleField: 'title',
-      textFields: { content: 'Content' },
-    }),
-  },
+  { path: '/board-members', component: () => import('../pages/BoardMembers.vue') },
+  { path: '/academics/co-curricular', component: () => import('../pages/academics/CoCurricular.vue') },
   {
     path: '/academics/high-achievers',
-    ...mediaGrid({
-      endpoint: '/high-achievers',
-      collectionKey: 'high_achievers',
-      pageTitle: 'High Achievers',
-      titleField: 'name',
-      textFields: { exam: 'Exam', division: 'Division', description: 'About' },
-      imageField: 'photo_url',
-      videoField: 'video_url',
-    }),
+    component: () => import('../pages/academics/HighAchievers.vue'),
   },
-  {
-    path: '/empowerment/mentorship',
-    ...mediaGrid({
-      endpoint: '/mentorship',
-      collectionKey: 'mentorship',
-      pageTitle: 'Mentorship',
-      titleField: 'title',
-      textFields: { caption: 'Caption', description: 'Description' },
-    }),
-  },
-  {
-    path: '/empowerment/girl-boy-talk',
-    ...mediaGrid({
-      endpoint: '/girl-boy-talk',
-      collectionKey: 'girlboytalk',
-      pageTitle: 'Girl - Boy Talk',
-      titleField: 'title',
-      textFields: { description: 'Description' },
-    }),
-  },
-  {
-    path: '/empowerment/inspiration-night',
-    ...mediaGrid({
-      endpoint: '/inspiration-night',
-      collectionKey: 'inspiration',
-      pageTitle: 'Inspiration Night',
-      titleField: 'title',
-      textFields: { speaker: 'Speaker', description: 'Description' },
-    }),
-  },
-  {
-    path: '/empowerment/smosa-alumni',
-    ...mediaGrid({
-      endpoint: '/smosa-alumni',
-      collectionKey: 'smosa',
-      pageTitle: 'SMOSA Alumni',
-      titleField: 'name',
-      textFields: { profession: 'Profession', message: 'Message' },
-      imageField: 'photo_url',
-      videoField: 'video_url',
-    }),
-  },
-  {
-    path: '/empowerment/christmas-cantata',
-    ...mediaGrid({
-      endpoint: '/christmas-cantata',
-      collectionKey: 'christmas_cantata',
-      pageTitle: 'Christmas Cantata',
-      titleField: 'title',
-      textFields: { choir: 'Choir', description: 'Description' },
-    }),
-  },
-  {
-    path: '/empowerment/chaplaincy',
-    ...mediaGrid({
-      endpoint: '/chaplaincy',
-      collectionKey: 'chaplaincy',
-      pageTitle: 'Chaplaincy',
-      titleField: 'title',
-      textFields: { content: 'Content' },
-    }),
-  },
+  { path: '/empowerment/mentorship', component: () => import('../pages/empowerment/Mentorship.vue') },
+  { path: '/empowerment/girl-boy-talk', component: () => import('../pages/empowerment/GirlBoyTalk.vue') },
+  { path: '/empowerment/inspiration-night', component: () => import('../pages/empowerment/InspirationNight.vue') },
+  { path: '/empowerment/smosa-alumni', component: () => import('../pages/empowerment/SmosaAlumni.vue') },
+  { path: '/empowerment/christmas-cantata', component: () => import('../pages/empowerment/ChristmasCantata.vue') },
+  { path: '/empowerment/chaplaincy', component: () => import('../pages/empowerment/Chaplaincy.vue') },
   {
     path: '/explore/student-leadership',
     ...mediaGrid({

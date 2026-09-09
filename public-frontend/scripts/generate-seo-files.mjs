@@ -9,7 +9,7 @@ const SSG_API_BASE = process.env.SSG_API_BASE ?? 'http://localhost/stmarkswebsit
 const distDir = resolve(import.meta.dirname, '..', 'dist')
 
 const STATIC_PATHS = [
-  '/', '/about', '/academics', '/academics/curriculum', '/academics/uneb-results',
+  '/', '/academics', '/academics/curriculum', '/academics/uneb-results',
   '/academics/circulars', '/academics/school-calendar', '/academics/co-curricular',
   '/academics/high-achievers', '/admissions', '/staff', '/board-members', '/core-values',
   '/school-anthem', '/college-name', '/headteacher', '/director1', '/director2',
