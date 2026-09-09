@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, reactive, ref } from 'vue'
+import { computed, onMounted, reactive, ref } from 'vue'
 import { api, apiErrorMessage } from '@/services/api'
 import { useToast } from '@/composables/useToast'
 import ConfirmDialog from '@/components/common/ConfirmDialog.vue'
@@ -16,6 +16,49 @@ const formCard = ref<HTMLElement | null>(null)
 
 const form = reactive({ name: '', department: '', category: '' })
 const photoFile = ref<File | null>(null)
+
+// Mirrors shared/src/Services/StaffService.php's groupedForDisplay()/canonicalCategory() exactly -
+// real category values are inconsistent leftovers from the old app ("Administrator" vs
+// "Administrators", "Head of Department" vs "Heads of Departments", etc.), so the public site
+// buckets by substring match rather than exact string. Using exact match here (as this list used
+// to) silently dropped members like "Wabwere Joseph" into the wrong bucket whenever their raw
+// category didn't literally equal one of the four canonical labels.
+const CATEGORY_ORDER = ['Administrator', 'Head of Department', 'Teaching Staff', 'Support Staff']
+
+function canonicalCategory(category: unknown): string {
+  const lower = String(category ?? '').toLowerCase()
+  if (lower.includes('head')) return 'Head of Department'
+  if (lower.includes('admin')) return 'Administrator'
+  if (lower.includes('teach')) return 'Teaching Staff'
+  return 'Support Staff'
+}
+
+// The value saved for "Non Teaching Staff" is "Support Staff", not the label itself - the phrase
+// "Non Teaching Staff" contains "teach", which canonicalCategory()/PHP's matching would misread as
+// Teaching Staff. "Support Staff" is also what the public site already normalizes this bucket to.
+const categoryOptions = [
+  { label: 'Administration', value: 'Administration' },
+  { label: 'Head of Department', value: 'Head of Department' },
+  { label: 'Teaching Staff', value: 'Teaching Staff' },
+  { label: 'Non Teaching Staff', value: 'Support Staff' },
+]
+const CANONICAL_TO_OPTION: Record<string, string> = {
+  Administrator: 'Administration',
+  'Head of Department': 'Head of Department',
+  'Teaching Staff': 'Teaching Staff',
+  'Support Staff': 'Support Staff',
+}
+
+const groups = computed(() => {
+  const buckets = new Map<string, SinglePhotoItem[]>()
+  for (const category of CATEGORY_ORDER) buckets.set(category, [])
+
+  for (const item of items.value) {
+    buckets.get(canonicalCategory(item.category))!.push(item)
+  }
+
+  return Array.from(buckets.entries()).filter(([, members]) => members.length > 0)
+})
 
 async function fetchAll() {
   loading.value = true
@@ -42,7 +85,7 @@ function startEdit(item: SinglePhotoItem) {
   editingId.value = item.id
   form.name = String(item.name ?? '')
   form.department = String(item.department ?? '')
-  form.category = String(item.category ?? '')
+  form.category = CANONICAL_TO_OPTION[canonicalCategory(item.category)]
   photoFile.value = null
   editingPhoto.value = item.photo_url ?? null
   formCard.value?.scrollIntoView({ behavior: 'smooth', block: 'start' })
@@ -92,11 +135,22 @@ async function confirmDelete() {
   }
 }
 
-async function move(index: number, direction: -1 | 1) {
-  const target = index + direction
-  if (target < 0 || target >= items.value.length) return
+// Categories are just a display grouping over one flat ordered list, so "move up/down within a
+// category" swaps this item with the nearest neighbour of the SAME category in the underlying
+// list - not just the adjacent index, which could belong to a different category.
+async function moveWithinCategory(item: SinglePhotoItem, direction: -1 | 1) {
+  const category = canonicalCategory(item.category)
+  const fullIndex = items.value.findIndex((i) => i.id === item.id)
+
+  let neighbourIndex = fullIndex + direction
+  while (neighbourIndex >= 0 && neighbourIndex < items.value.length) {
+    if (canonicalCategory(items.value[neighbourIndex].category) === category) break
+    neighbourIndex += direction
+  }
+  if (neighbourIndex < 0 || neighbourIndex >= items.value.length) return
+
   const reordered = [...items.value]
-  ;[reordered[index], reordered[target]] = [reordered[target], reordered[index]]
+  ;[reordered[fullIndex], reordered[neighbourIndex]] = [reordered[neighbourIndex], reordered[fullIndex]]
   items.value = reordered
 
   try {
@@ -105,6 +159,13 @@ async function move(index: number, direction: -1 | 1) {
     toast.error(apiErrorMessage(e, 'Failed to save order'))
     await fetchAll()
   }
+}
+
+function isFirstInCategory(members: SinglePhotoItem[], item: SinglePhotoItem) {
+  return members[0]?.id === item.id
+}
+function isLastInCategory(members: SinglePhotoItem[], item: SinglePhotoItem) {
+  return members[members.length - 1]?.id === item.id
 }
 
 onMounted(fetchAll)
@@ -133,7 +194,10 @@ onMounted(fetchAll)
         </div>
         <div>
           <label class="block text-sm font-medium mb-1">Category</label>
-          <input v-model="form.category" type="text" placeholder="e.g. Teaching, Administration, Support" class="w-full border p-2 rounded" />
+          <select v-model="form.category" required class="w-full border p-2 rounded">
+            <option value="" disabled>Select category...</option>
+            <option v-for="option in categoryOptions" :key="option.value" :value="option.value">{{ option.label }}</option>
+          </select>
         </div>
         <div>
           <label class="block text-sm font-medium mb-1">Photo</label>
@@ -151,31 +215,37 @@ onMounted(fetchAll)
       </form>
     </div>
 
-    <div>
-      <h2 class="text-xl font-bold mb-4">All Staff (use ↑/↓ to reorder display order)</h2>
+    <div v-if="loading" class="text-center py-8 text-gray-500">Loading...</div>
 
-      <div v-if="loading" class="text-center py-8 text-gray-500">Loading...</div>
+    <div v-else class="space-y-10">
+      <div v-for="[category, members] in groups" :key="category">
+        <div class="flex items-center gap-3 mb-4">
+          <h2 class="text-xl font-bold text-gray-800">{{ category }}</h2>
+          <span class="text-sm text-gray-400">{{ members.length }} {{ members.length === 1 ? 'member' : 'members' }}</span>
+        </div>
 
-      <div v-else class="bg-white rounded-lg shadow divide-y">
-        <div v-for="(item, index) in items" :key="item.id" class="flex items-center gap-4 p-4">
-          <div class="flex flex-col">
-            <button type="button" class="text-gray-400 hover:text-gray-700" :disabled="index === 0" @click="move(index, -1)">▲</button>
-            <button type="button" class="text-gray-400 hover:text-gray-700" :disabled="index === items.length - 1" @click="move(index, 1)">▼</button>
-          </div>
-          <img v-if="item.photo_url" :src="item.photo_url" class="w-12 h-12 rounded-full object-cover" />
-          <div v-else class="w-12 h-12 rounded-full bg-gray-100"></div>
-          <div class="flex-1">
-            <p class="font-semibold">{{ item.name }}</p>
-            <p class="text-sm text-gray-500">{{ item.department }} <span v-if="item.category">· {{ item.category }}</span></p>
-          </div>
-          <div class="flex gap-2">
-            <button type="button" class="border border-blue-900 text-blue-900 px-3 py-1.5 rounded text-sm" @click="startEdit(item)">Edit</button>
-            <button type="button" class="bg-red-600 text-white px-3 py-1.5 rounded text-sm" @click="requestDelete(item.id)">Delete</button>
+        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+          <div v-for="item in members" :key="item.id" class="bg-white rounded-lg shadow p-4 text-center relative">
+            <div class="absolute top-2 left-2 flex flex-col">
+              <button type="button" class="text-gray-400 hover:text-gray-700 leading-none" :disabled="isFirstInCategory(members, item)" @click="moveWithinCategory(item, -1)">▲</button>
+              <button type="button" class="text-gray-400 hover:text-gray-700 leading-none" :disabled="isLastInCategory(members, item)" @click="moveWithinCategory(item, 1)">▼</button>
+            </div>
+
+            <img v-if="item.photo_url" :src="item.photo_url as string" class="w-20 h-20 mx-auto rounded-full object-cover object-top" />
+            <div v-else class="w-20 h-20 mx-auto rounded-full bg-gray-100"></div>
+
+            <p class="mt-3 font-semibold">{{ item.name }}</p>
+            <p class="text-sm text-gray-500">{{ item.department }}</p>
+
+            <div class="mt-3 flex justify-center gap-2">
+              <button type="button" class="border border-blue-900 text-blue-900 px-2.5 py-1 rounded text-xs" @click="startEdit(item)">Edit</button>
+              <button type="button" class="bg-red-600 text-white px-2.5 py-1 rounded text-xs" @click="requestDelete(item.id as number)">Delete</button>
+            </div>
           </div>
         </div>
       </div>
 
-      <div v-if="!loading && items.length === 0" class="text-center py-8 text-gray-500">No staff yet.</div>
+      <div v-if="items.length === 0" class="text-center py-8 text-gray-500">No staff yet.</div>
     </div>
 
     <ConfirmDialog

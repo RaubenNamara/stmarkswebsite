@@ -20,6 +20,7 @@ const props = defineProps<{
   photoField?: string
   createLabel?: string
   titleField?: string
+  subtitleField?: string
 }>()
 
 const photoField = props.photoField ?? 'photo'
@@ -150,19 +151,17 @@ onMounted(fetchAll)
 
       <div v-if="loading" class="text-center py-8 text-gray-500">Loading...</div>
 
-      <div v-else class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        <div v-for="item in items" :key="item.id" class="bg-white rounded-lg shadow overflow-hidden flex flex-col">
-          <div class="h-40 bg-gray-100">
-            <img v-if="item.photo_url" :src="item.photo_url" class="w-full h-full object-cover" />
-            <div v-else class="flex items-center justify-center h-full text-gray-400 text-sm">No photo</div>
-          </div>
+      <div v-else class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+        <div v-for="item in items" :key="item.id" class="bg-white rounded-lg shadow p-4 text-center">
+          <img v-if="item.photo_url" :src="item.photo_url" class="w-20 h-20 mx-auto rounded-full object-cover object-top" />
+          <div v-else class="w-20 h-20 mx-auto rounded-full bg-gray-100"></div>
 
-          <div class="p-4 flex flex-col flex-1">
-            <h3 class="font-semibold text-base mb-2 truncate">{{ item[titleField] }}</h3>
-            <div class="mt-auto flex justify-end gap-2">
-              <button type="button" class="border border-blue-900 text-blue-900 px-2 py-1 rounded text-sm" @click="startEdit(item)">Edit</button>
-              <button type="button" class="bg-red-600 text-white px-2 py-1 rounded text-sm" @click="requestDelete(item.id)">Delete</button>
-            </div>
+          <p class="mt-3 font-semibold truncate">{{ item[titleField] }}</p>
+          <p v-if="subtitleField && item[subtitleField]" class="text-sm text-gray-500 truncate">{{ item[subtitleField] }}</p>
+
+          <div class="mt-3 flex justify-center gap-2">
+            <button type="button" class="border border-blue-900 text-blue-900 px-2.5 py-1 rounded text-xs" @click="startEdit(item)">Edit</button>
+            <button type="button" class="bg-red-600 text-white px-2.5 py-1 rounded text-xs" @click="requestDelete(item.id)">Delete</button>
           </div>
         </div>
       </div>

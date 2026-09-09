@@ -9,6 +9,7 @@ import SinglePhotoCrudPage from '@/components/admin/SinglePhotoCrudPage.vue'
     list-key="board_members"
     create-label="Add Board Member"
     title-field="name"
+    subtitle-field="position"
     :fields="[
       { name: 'name', label: 'Name', required: true },
       { name: 'position', label: 'Position', required: true },
