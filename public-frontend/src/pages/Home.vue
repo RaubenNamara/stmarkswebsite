@@ -13,7 +13,7 @@ useHead({
 const [slidesRes, mediaRes, newsRes, campusVoicesRes] = await Promise.all([
   api.get('/slides'),
   api.get('/media'),
-  api.get('/news', { params: { limit: 100 } }),
+  api.get('/news', { params: { limit: 20 } }),
   api.get('/campus-voices'),
 ])
 
@@ -23,9 +23,10 @@ const newsItems = newsRes.data.data.news as Array<Record<string, any>>
 const voices = (campusVoicesRes.data.data.articles as Array<Record<string, any>>).filter((v) => v.featured_image_url)
 
 const latestNews = newsItems.slice(0, 6)
-// Every published article, not just a handful - the marquee has enough real variety that its
-// loop point is never obvious (see the doubled-track technique in the template below).
-const featuredPosts = newsItems
+// Capped rather than every article - the doubled-track marquee below only ever shows a handful
+// on screen at once, so 14 is already enough real variety that the loop point isn't obvious,
+// without rendering up to 200 image cards (2x100) into the DOM on every home page load.
+const featuredPosts = newsItems.slice(0, 14)
 const relatedPosts = newsItems.slice(5, 17)
 const mediaToShow = mediaItems.filter((item) => ['image', 'link', 'video'].includes(item.type)).slice(0, 2)
 
@@ -69,7 +70,7 @@ const innovations = [
 // half its width/height on-screen at any card size this dock uses. The radius is generous (and
 // the angle range wide) specifically so the chord distance between neighbouring cards clears
 // their width - a tight radius with wide cards packs them close enough to overlap.
-const dockRadius = ref(580)
+const dockRadius = ref(460)
 const DOCK_MIN_ANGLE = 5
 const DOCK_MAX_ANGLE = 80
 function dockItemStyle(index: number) {
@@ -81,7 +82,7 @@ function dockItemStyle(index: number) {
   return { transform: `translate(-50%, -50%) translate(${x}px, ${y}px)` }
 }
 function updateDockRadius() {
-  dockRadius.value = window.innerWidth < 640 ? 300 : window.innerWidth < 1024 ? 440 : 580
+  dockRadius.value = window.innerWidth < 640 ? 230 : window.innerWidth < 1024 ? 350 : 460
 }
 
 function stopDockReveal() {
@@ -306,6 +307,9 @@ function youTubeEmbed(url: string): string {
             v-if="slide.type === 'image' && slide.image_url && !slideFailed[slide.id]"
             :src="slide.image_url"
             :alt="slide.title || `St Mark's College Namagoma`"
+            :fetchpriority="i === 0 ? 'high' : 'auto'"
+            :loading="i === 0 ? 'eager' : 'lazy'"
+            decoding="async"
             class="h-full w-full object-cover object-top"
             :class="current === i ? 'hero-zoom' : ''"
             @error="slideFailed[slide.id] = true"
@@ -323,13 +327,6 @@ function youTubeEmbed(url: string): string {
           <div v-else class="h-full w-full bg-gradient-to-br from-brand-navy via-brand-navy to-brand-navy-dark" />
 
           <div class="absolute inset-0 bg-gradient-to-b from-black/20 via-black/10 to-black/60" />
-
-          <div class="absolute inset-0 z-20 flex items-center justify-center px-6 text-center">
-            <div class="max-w-3xl transition-all duration-700" :class="current === i ? 'translate-y-0 opacity-100' : 'translate-y-6 opacity-0'">
-              <h2 class="font-display text-3xl font-extrabold text-white drop-shadow-lg sm:text-5xl">{{ slide.title || `St Mark's College Namagoma` }}</h2>
-              <p class="mx-auto mt-4 max-w-xl text-base text-blue-50/90 sm:text-lg">{{ slide.caption || `The High Achiever's College` }}</p>
-            </div>
-          </div>
         </div>
       </template>
 
@@ -408,12 +405,24 @@ function youTubeEmbed(url: string): string {
     </div>
 
     <div class="mt-12 grid gap-8 md:grid-cols-3">
-      <article v-for="(leader, i) in leadership" :key="leader.name" v-reveal="i * 120" class="card-interactive card text-center">
-        <AvatarImage :src="staticAsset(leader.image)" :alt="leader.name" size="lg" />
+      <article
+        v-for="(leader, i) in leadership"
+        :key="leader.name"
+        v-reveal="i * 120"
+        class="card-interactive group relative overflow-hidden rounded-2xl bg-white p-6 text-center shadow-card ring-1 ring-black/5 sm:p-8"
+      >
+        <div class="absolute inset-x-0 top-0 h-1.5 bg-gradient-to-r from-brand-navy via-brand-gold to-brand-navy" />
+        <div class="relative mx-auto w-fit">
+          <div class="absolute inset-0 -z-10 rounded-full bg-brand-gold/20 blur-xl transition-opacity duration-300 group-hover:bg-brand-gold/30" />
+          <AvatarImage :src="staticAsset(leader.image)" :alt="leader.name" size="lg" />
+        </div>
         <h3 class="mt-4 font-display text-lg font-bold text-gray-900">{{ leader.name }}</h3>
-        <p class="mt-1 text-xs font-bold uppercase tracking-widest text-brand-navy/60">{{ leader.role }}</p>
+        <span class="mt-2 inline-block rounded-full bg-brand-navy/5 px-3 py-1 text-xs font-bold uppercase tracking-widest text-brand-navy/70">{{ leader.role }}</span>
         <p class="mt-3 text-sm leading-relaxed text-gray-600">{{ leader.text }}</p>
-        <router-link :to="leader.url" class="btn btn-gold mx-auto mt-5 w-fit px-5 py-2 text-xs">Read More</router-link>
+        <router-link :to="leader.url" class="btn btn-gold group/btn mx-auto mt-5 w-fit px-5 py-2 text-xs">
+          Read More
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5 transition group-hover/btn:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
+        </router-link>
       </article>
     </div>
   </section>
@@ -440,6 +449,8 @@ function youTubeEmbed(url: string): string {
             v-if="item.image_url && !newsImageFailed[item.id]"
             :src="item.image_url"
             :alt="item.title"
+            loading="lazy"
+            decoding="async"
             class="h-full w-full object-cover object-top transition duration-700 group-hover:scale-110"
             @error="newsImageFailed[item.id] = true"
           >
@@ -467,6 +478,8 @@ function youTubeEmbed(url: string): string {
                 v-if="post.image_url && !postImageFailed[post.id]"
                 :src="post.image_url"
                 :alt="post.title"
+                loading="lazy"
+                decoding="async"
                 class="h-full w-full object-cover transition duration-500 group-hover:scale-110"
                 @error="postImageFailed[post.id] = true"
               >
@@ -485,21 +498,24 @@ function youTubeEmbed(url: string): string {
   <section class="bg-gradient-to-b from-brand-navy/[0.03] to-white py-6 sm:py-8">
     <div class="container-wide">
       <div class="grid gap-8 md:grid-cols-3">
-        <div v-reveal class="card-interactive card">
-          <h3 class="font-display text-xl font-bold text-gray-900">The College Motto</h3>
-          <p class="mt-3 text-lg font-semibold italic text-brand-navy">"To Be, Not To Seem"</p>
-          <p class="mt-4 text-justify text-sm leading-[1.8] text-gray-600">The motto reflects our founders' desire to train students with strong values that guide them through life, encouraging authenticity, integrity and inner strength over outward appearances. It challenges every learner at St Mark's College Namagoma to build genuine character rather than a polished image, so that who they are in private matches who they present to the world. This conviction shapes our approach to discipline, academics and pastoral care alike.</p>
-          <router-link to="/elearning" class="btn btn-gold group mt-6 w-fit">
+        <div v-reveal class="card-interactive group relative flex flex-col overflow-hidden rounded-2xl bg-white p-6 shadow-card ring-1 ring-black/5 sm:p-8">
+          <span class="pointer-events-none absolute -right-4 -top-6 font-display text-8xl font-black text-brand-navy/[0.04]">&ldquo;</span>
+          <div class="relative flex h-11 w-11 items-center justify-center rounded-xl bg-brand-navy/10 text-xl text-brand-navy">🏛️</div>
+          <h3 class="relative mt-4 font-display text-xl font-bold text-gray-900">The College Motto</h3>
+          <p class="relative mt-3 text-lg font-semibold italic text-brand-navy">"To Be, Not To Seem"</p>
+          <p class="relative mt-4 flex-1 text-justify text-sm leading-[1.8] text-gray-600">The motto reflects our founders' desire to train students with strong values that guide them through life, encouraging authenticity, integrity and inner strength over outward appearances. It challenges every learner at St Mark's College Namagoma to build genuine character rather than a polished image, so that who they are in private matches who they present to the world. This conviction shapes our approach to discipline, academics and pastoral care alike.</p>
+          <router-link to="/elearning" class="btn btn-gold group/btn relative mt-6 w-fit">
             Visit eSpace
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 transition group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 transition group-hover/btn:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
           </router-link>
         </div>
 
-        <div v-reveal="120" class="card-interactive card">
-          <h3 class="text-center font-display text-xl font-bold text-gray-900">Core Values (GREET)</h3>
-          <div class="mt-6 space-y-4">
+        <div v-reveal="120" class="card-interactive flex flex-col rounded-2xl bg-white p-6 shadow-card ring-1 ring-black/5 sm:p-8">
+          <div class="mx-auto flex h-11 w-11 items-center justify-center rounded-xl bg-brand-gold/15 text-xl">⭐</div>
+          <h3 class="mt-4 text-center font-display text-xl font-bold text-gray-900">Core Values (GREET)</h3>
+          <div class="mt-6 flex-1 space-y-4">
             <div v-for="(value, i) in coreValues" :key="`${value.letter}-${i}`" class="group flex items-start gap-4">
-              <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-brand-navy font-display font-bold text-white transition duration-300 group-hover:scale-110 group-hover:bg-brand-gold group-hover:text-brand-navy-dark">{{ value.letter }}</span>
+              <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-brand-navy font-display font-bold text-white shadow-sm transition duration-300 group-hover:scale-110 group-hover:bg-brand-gold group-hover:text-brand-navy-dark">{{ value.letter }}</span>
               <div>
                 <p class="font-bold text-gray-900">{{ value.title }}</p>
                 <p class="text-justify text-sm leading-[1.8] text-gray-600">{{ value.text }}</p>
@@ -508,13 +524,15 @@ function youTubeEmbed(url: string): string {
           </div>
         </div>
 
-        <div v-reveal="240" class="card-interactive card">
-          <h3 class="font-display text-xl font-bold text-gray-900">Why Choose St Mark's?</h3>
-          <p class="mt-4 text-justify text-sm leading-[1.8] text-gray-600">St Mark's College Namagoma promotes education and excellence with particular focus on each student, academically, spiritually and morally.</p>
-          <p class="mt-3 text-justify text-sm leading-[1.8] text-gray-600">Students benefit from modern facilities and a serene learning environment, dedicated teachers, and preparation for leadership and responsible citizenship. Small class sizes and attentive mentorship ensure no learner is left behind, while a vibrant co-curricular program builds confidence beyond the classroom.</p>
-          <router-link to="/admissions" class="btn group mt-6 w-fit">
+        <div v-reveal="240" class="card-interactive group relative flex flex-col overflow-hidden rounded-2xl bg-white p-6 shadow-card ring-1 ring-black/5 sm:p-8">
+          <span class="pointer-events-none absolute -right-4 -top-6 font-display text-8xl font-black text-brand-gold/[0.06]">✓</span>
+          <div class="relative flex h-11 w-11 items-center justify-center rounded-xl bg-brand-gold/15 text-xl">🏆</div>
+          <h3 class="relative mt-4 font-display text-xl font-bold text-gray-900">Why Choose St Mark's?</h3>
+          <p class="relative mt-4 text-justify text-sm leading-[1.8] text-gray-600">St Mark's College Namagoma promotes education and excellence with particular focus on each student, academically, spiritually and morally.</p>
+          <p class="relative mt-3 flex-1 text-justify text-sm leading-[1.8] text-gray-600">Students benefit from modern facilities and a serene learning environment, dedicated teachers, and preparation for leadership and responsible citizenship. Small class sizes and attentive mentorship ensure no learner is left behind, while a vibrant co-curricular program builds confidence beyond the classroom.</p>
+          <router-link to="/admissions" class="btn group/btn relative mt-6 w-fit">
             Visit Admissions
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 transition group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 transition group-hover/btn:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
           </router-link>
         </div>
       </div>
@@ -534,6 +552,8 @@ function youTubeEmbed(url: string): string {
             v-if="item.type === 'image' && item.file_url && !mediaImageFailed[item.id]"
             :src="item.file_url"
             :alt="item.title || `St Mark's College media`"
+            loading="lazy"
+            decoding="async"
             class="w-full object-cover transition duration-700 group-hover:scale-105"
             @error="mediaImageFailed[item.id] = true"
           >
@@ -559,15 +579,17 @@ function youTubeEmbed(url: string): string {
   <!-- ========== MISSION & VISION ========== -->
   <section class="container-wide py-6 sm:py-8">
     <div class="grid gap-6 sm:grid-cols-2">
-      <article v-reveal class="card-interactive group card border-t-4 border-brand-navy">
-        <div class="flex h-12 w-12 items-center justify-center rounded-xl bg-brand-navy/10 text-2xl transition-transform duration-300 group-hover:scale-110 group-hover:-rotate-6">🎯</div>
-        <h3 class="mt-4 font-display text-xl font-bold text-gray-900">Our Mission</h3>
-        <p class="mt-3 text-sm leading-relaxed text-gray-600">To provide top-quality secondary education that nurtures in our students a zest for life, a spirit of enterprise, community service and leadership — through a balanced curriculum that prepares them for an ever-changing world.</p>
+      <article v-reveal class="card-interactive group relative overflow-hidden rounded-2xl border-t-4 border-brand-navy bg-white p-6 shadow-card ring-1 ring-black/5 sm:p-8">
+        <div class="pointer-events-none absolute -right-8 -top-8 h-28 w-28 rounded-full bg-brand-navy/5 transition-transform duration-500 group-hover:scale-125" />
+        <div class="relative flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-brand-navy to-brand-navy-dark text-2xl text-white shadow-md transition-transform duration-300 group-hover:scale-110 group-hover:-rotate-6">🎯</div>
+        <h3 class="relative mt-5 font-display text-xl font-bold text-gray-900">Our Mission</h3>
+        <p class="relative mt-3 text-sm leading-relaxed text-gray-600">To provide top-quality secondary education that nurtures in our students a zest for life, a spirit of enterprise, community service and leadership — through a balanced curriculum that prepares them for an ever-changing world.</p>
       </article>
-      <article v-reveal="120" class="card-interactive group card border-t-4 border-brand-gold">
-        <div class="flex h-12 w-12 items-center justify-center rounded-xl bg-brand-gold/10 text-2xl transition-transform duration-300 group-hover:scale-110 group-hover:rotate-6">🌍</div>
-        <h3 class="mt-4 font-display text-xl font-bold text-gray-900">Our Vision</h3>
-        <p class="mt-3 text-sm leading-relaxed text-gray-600">To be a leading academic institution in Uganda and the East African region, producing highly successful and respected individuals in every aspect of life.</p>
+      <article v-reveal="120" class="card-interactive group relative overflow-hidden rounded-2xl border-t-4 border-brand-gold bg-white p-6 shadow-card ring-1 ring-black/5 sm:p-8">
+        <div class="pointer-events-none absolute -right-8 -top-8 h-28 w-28 rounded-full bg-brand-gold/10 transition-transform duration-500 group-hover:scale-125" />
+        <div class="relative flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-brand-gold to-yellow-400 text-2xl text-brand-navy-dark shadow-md transition-transform duration-300 group-hover:scale-110 group-hover:rotate-6">🌍</div>
+        <h3 class="relative mt-5 font-display text-xl font-bold text-gray-900">Our Vision</h3>
+        <p class="relative mt-3 text-sm leading-relaxed text-gray-600">To be a leading academic institution in Uganda and the East African region, producing highly successful and respected individuals in every aspect of life.</p>
       </article>
     </div>
   </section>
@@ -625,7 +647,6 @@ function youTubeEmbed(url: string): string {
               </div>
             </div>
 
-            <span class="absolute right-5 top-5 z-20 rounded-full bg-black/30 px-2.5 py-1 text-xs font-bold text-white backdrop-blur-sm sm:right-7 sm:top-7">{{ String(voiceCurrent + 1).padStart(2, '0') }} / {{ String(voices.length).padStart(2, '0') }}</span>
           </router-link>
 
           <div v-if="voices.length > 1" class="absolute inset-x-0 bottom-0 z-20 h-1 bg-white/10">
@@ -647,7 +668,7 @@ function youTubeEmbed(url: string): string {
           <Transition name="voice-fade" mode="out-in">
             <router-link v-if="voiceQueue[0] !== undefined" :key="voices[voiceQueue[0]].id" :to="`/campus-voices/${voices[voiceQueue[0]].slug}`" class="card-interactive group flex flex-1 items-center gap-4 rounded-xl bg-white p-4 shadow-card ring-1 ring-black/5">
               <div class="h-20 w-28 shrink-0 overflow-hidden rounded-lg bg-gray-100">
-                <img v-if="voices[voiceQueue[0]].featured_image_url && !voiceImageFailed[voices[voiceQueue[0]].id]" :src="voices[voiceQueue[0]].featured_image_url" :alt="voices[voiceQueue[0]].title" class="h-full w-full object-cover object-top transition duration-500 group-hover:scale-110" @error="voiceImageFailed[voices[voiceQueue[0]].id] = true">
+                <img v-if="voices[voiceQueue[0]].featured_image_url && !voiceImageFailed[voices[voiceQueue[0]].id]" :src="voices[voiceQueue[0]].featured_image_url" :alt="voices[voiceQueue[0]].title" loading="lazy" decoding="async" class="h-full w-full object-cover object-top transition duration-500 group-hover:scale-110" @error="voiceImageFailed[voices[voiceQueue[0]].id] = true">
               </div>
               <div class="min-w-0">
                 <h4 class="line-clamp-2 font-display text-sm font-bold leading-snug text-gray-900 transition group-hover:text-brand-navy">{{ voices[voiceQueue[0]].title }}</h4>
@@ -660,7 +681,7 @@ function youTubeEmbed(url: string): string {
           <Transition name="voice-fade" mode="out-in">
             <router-link v-if="voiceQueue[1] !== undefined" :key="voices[voiceQueue[1]].id" :to="`/campus-voices/${voices[voiceQueue[1]].slug}`" class="card-interactive group flex flex-1 items-center gap-4 rounded-xl bg-white p-4 shadow-card ring-1 ring-black/5">
               <div class="h-20 w-28 shrink-0 overflow-hidden rounded-lg bg-gray-100">
-                <img v-if="voices[voiceQueue[1]].featured_image_url && !voiceImageFailed[voices[voiceQueue[1]].id]" :src="voices[voiceQueue[1]].featured_image_url" :alt="voices[voiceQueue[1]].title" class="h-full w-full object-cover object-top transition duration-500 group-hover:scale-110" @error="voiceImageFailed[voices[voiceQueue[1]].id] = true">
+                <img v-if="voices[voiceQueue[1]].featured_image_url && !voiceImageFailed[voices[voiceQueue[1]].id]" :src="voices[voiceQueue[1]].featured_image_url" :alt="voices[voiceQueue[1]].title" loading="lazy" decoding="async" class="h-full w-full object-cover object-top transition duration-500 group-hover:scale-110" @error="voiceImageFailed[voices[voiceQueue[1]].id] = true">
               </div>
               <div class="min-w-0">
                 <h4 class="line-clamp-2 font-display text-sm font-bold leading-snug text-gray-900 transition group-hover:text-brand-navy">{{ voices[voiceQueue[1]].title }}</h4>
@@ -673,7 +694,7 @@ function youTubeEmbed(url: string): string {
           <Transition name="voice-fade" mode="out-in">
             <router-link v-if="voiceQueue[2] !== undefined" :key="voices[voiceQueue[2]].id" :to="`/campus-voices/${voices[voiceQueue[2]].slug}`" class="card-interactive group flex flex-1 items-center gap-4 rounded-xl bg-white p-4 shadow-card ring-1 ring-black/5">
               <div class="h-20 w-28 shrink-0 overflow-hidden rounded-lg bg-gray-100">
-                <img v-if="voices[voiceQueue[2]].featured_image_url && !voiceImageFailed[voices[voiceQueue[2]].id]" :src="voices[voiceQueue[2]].featured_image_url" :alt="voices[voiceQueue[2]].title" class="h-full w-full object-cover object-top transition duration-500 group-hover:scale-110" @error="voiceImageFailed[voices[voiceQueue[2]].id] = true">
+                <img v-if="voices[voiceQueue[2]].featured_image_url && !voiceImageFailed[voices[voiceQueue[2]].id]" :src="voices[voiceQueue[2]].featured_image_url" :alt="voices[voiceQueue[2]].title" loading="lazy" decoding="async" class="h-full w-full object-cover object-top transition duration-500 group-hover:scale-110" @error="voiceImageFailed[voices[voiceQueue[2]].id] = true">
               </div>
               <div class="min-w-0">
                 <h4 class="line-clamp-2 font-display text-sm font-bold leading-snug text-gray-900 transition group-hover:text-brand-navy">{{ voices[voiceQueue[2]].title }}</h4>
@@ -694,7 +715,7 @@ function youTubeEmbed(url: string): string {
     <div class="mt-8 grid gap-4 sm:grid-cols-2">
       <router-link v-for="(post, i) in relatedPosts" :key="post.id" v-reveal="(i % 6) * 60" :to="`/news/${post.slug}`" class="card-interactive group flex items-start gap-4 rounded-xl bg-white p-4 shadow-card ring-1 ring-black/5">
         <div class="h-20 w-28 shrink-0 overflow-hidden rounded-lg bg-gray-100">
-          <img v-if="post.image_url && !relatedImageFailed[post.id]" :src="post.image_url" :alt="post.title" class="h-full w-full object-cover transition duration-500 group-hover:scale-110" @error="relatedImageFailed[post.id] = true">
+          <img v-if="post.image_url && !relatedImageFailed[post.id]" :src="post.image_url" :alt="post.title" loading="lazy" decoding="async" class="h-full w-full object-cover transition duration-500 group-hover:scale-110" @error="relatedImageFailed[post.id] = true">
         </div>
         <div class="min-w-0">
           <h3 class="line-clamp-2 font-display text-sm font-bold leading-snug text-gray-900">{{ post.title }}</h3>

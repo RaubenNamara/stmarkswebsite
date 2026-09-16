@@ -16,8 +16,9 @@ const router = createRouter({
       children: [
         { path: '', redirect: '/dashboard' },
         { path: 'dashboard', name: 'Dashboard', component: () => import('@/pages/admin/Dashboard.vue'), meta: { title: 'Slide Show' } },
+        { path: 'analytics', name: 'Analytics', component: () => import('@/pages/admin/Analytics/List.vue'), meta: { title: 'Website Analytics' } },
+        { path: 'security', name: 'Security', component: () => import('@/pages/admin/Security/List.vue'), meta: { title: 'Security Report' } },
         { path: 'news', name: 'News', component: () => import('@/pages/admin/News/List.vue'), meta: { title: 'Latest News' } },
-        { path: 'posts', name: 'Posts', component: () => import('@/pages/admin/Posts/List.vue'), meta: { title: 'Posts' } },
         { path: 'media', name: 'Media', component: () => import('@/pages/admin/Media/List.vue'), meta: { title: 'Media Upload' } },
         { path: 'staff', name: 'Staff', component: () => import('@/pages/admin/Staff/List.vue'), meta: { title: 'Manage Staff' } },
         {

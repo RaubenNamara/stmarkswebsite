@@ -30,9 +30,14 @@ async function includedRoutes(paths: string[]): Promise<string[]> {
 
 // Deployed at the project-root domain (unlike admin-frontend's /admin/ subpath) - locally
 // everything still lives under /stmarkswebsite/, matching the rest of this project's local
-// convention (PUBLIC_SITE_BASE_PATH etc.); becomes '/' at the real production domain-root cutover.
+// convention (PUBLIC_SITE_BASE_PATH etc.).
+//
+// Overridable via VITE_BASE for a real production build at a domain root (cPanel etc.), e.g.
+// `VITE_BASE=/ SSG_API_BASE=https://example.com/api/public npm run build` - api.ts derives its
+// own client-side API base from this same value, so the two env vars together are the only
+// change a root deploy needs on the public-frontend side.
 export default defineConfig({
-  base: '/stmarkswebsite/',
+  base: process.env.VITE_BASE ?? '/stmarkswebsite/',
   plugins: [vue()],
   resolve: {
     alias: {
@@ -46,6 +51,12 @@ export default defineConfig({
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/stmarkswebsite\/api/, '/api'),
       },
+      // Uploaded/admin-managed media (page-header backgrounds, gallery, staff photos, slide
+      // videos, etc.) lives on disk under the project root, not inside public-frontend/ - Apache
+      // serves it directly there, but the dev server has no idea it exists unless proxied too,
+      // so without this every such image/video 404s (as the SPA fallback HTML) in local dev.
+      '/stmarkswebsite/storage': { target: 'http://localhost', changeOrigin: true },
+      '/stmarkswebsite/uploads': { target: 'http://localhost', changeOrigin: true },
     },
   },
   ssgOptions: {

@@ -27,11 +27,13 @@ class CSRFMiddleware extends Middleware
         /** @var Controller $controller */
         $controller = $this->context;
 
-        // Only the header is checked (not a body field) - the request body was already consumed
-        // by Controller::parseRequest() before this middleware runs, and php://input can't be
-        // reliably re-read. The admin SPA's api client always sends the token as a header.
-        $headers = getallheaders() ?: [];
-        $provided = $headers['X-CSRF-Token'] ?? $headers['X-Csrf-Token'] ?? null;
+        // Read from $_SERVER rather than getallheaders()/apache_request_headers(): PHP always
+        // normalizes $_SERVER's HTTP_* keys the same way regardless of the header's original
+        // casing, but getallheaders() returns whatever casing the request actually arrived with -
+        // a Node-based proxy (e.g. the admin-frontend dev server's Vite proxy) lowercases every
+        // header it forwards, so an exact-case lookup like $headers['X-CSRF-Token'] silently
+        // misses it there even though the value did arrive, failing every request behind one.
+        $provided = $_SERVER['HTTP_X_CSRF_TOKEN'] ?? null;
 
         $expected = $_SESSION['csrf_token'] ?? null;
 

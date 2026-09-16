@@ -134,67 +134,94 @@ onMounted(fetchAll)
 </script>
 
 <template>
-  <div class="p-8 space-y-8">
-    <h1 class="text-3xl font-bold text-gray-800">Manage Clubs</h1>
+  <div class="p-6 sm:p-8 space-y-8 max-w-5xl mx-auto">
+    <div>
+      <h1 class="text-2xl font-bold text-gray-900">Manage Clubs</h1>
+      <p class="mt-1 text-sm text-gray-500">{{ clubs.length }} {{ clubs.length === 1 ? 'club' : 'clubs' }} published</p>
+    </div>
 
-    <div class="bg-white rounded-lg shadow p-6">
-      <h2 class="text-xl font-bold mb-4">Create Club</h2>
+    <div class="bg-white rounded-xl shadow-sm ring-1 ring-gray-200 p-6 sm:p-8">
+      <h2 class="text-lg font-bold text-gray-900 mb-6">Create Club</h2>
 
-      <form class="space-y-4" @submit.prevent="submit">
+      <form class="space-y-5" @submit.prevent="submit">
         <div>
-          <label class="block text-sm font-medium mb-1">Title</label>
-          <input v-model="title" type="text" required class="w-full border p-2 rounded" />
+          <label class="block text-sm font-semibold text-gray-700 mb-1.5">Title</label>
+          <input
+            v-model="title"
+            type="text"
+            required
+            class="w-full rounded-lg border border-gray-300 px-3.5 py-2.5 text-sm shadow-sm transition focus:border-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-600/20"
+          />
         </div>
         <div>
-          <label class="block text-sm font-medium mb-1">Content</label>
-          <textarea v-model="content" rows="4" class="w-full border p-2 rounded"></textarea>
+          <label class="block text-sm font-semibold text-gray-700 mb-1.5">Content</label>
+          <textarea
+            v-model="content"
+            rows="4"
+            class="w-full rounded-lg border border-gray-300 px-3.5 py-2.5 text-sm shadow-sm transition focus:border-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-600/20"
+          ></textarea>
         </div>
         <div>
-          <label class="block text-sm font-medium mb-1">Images</label>
-          <input type="file" accept="image/*" multiple @change="(e) => (files = (e.target as HTMLInputElement).files)" />
+          <label class="block text-sm font-semibold text-gray-700 mb-1.5">Images</label>
+          <label class="flex cursor-pointer items-center gap-2.5 rounded-lg border border-dashed border-gray-300 px-3.5 py-3 text-sm text-gray-500 transition hover:border-blue-500/50 hover:bg-blue-50/50">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 shrink-0 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.75"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14M4 8h16M4 8a2 2 0 00-2 2v6a2 2 0 002 2h16a2 2 0 002-2v-6a2 2 0 00-2-2M4 8V6a2 2 0 012-2h4l2 2h6a2 2 0 012 2v2" /></svg>
+            <span class="truncate">{{ files?.length ? `${files.length} image${files.length > 1 ? 's' : ''} selected` : 'Choose images' }}</span>
+            <input type="file" accept="image/*" multiple class="hidden" @change="(e) => (files = (e.target as HTMLInputElement).files)" />
+          </label>
         </div>
 
-        <button type="submit" :disabled="submitting" class="bg-blue-900 hover:bg-blue-800 text-white px-4 py-2 rounded disabled:opacity-50">
+        <button type="submit" :disabled="submitting" class="bg-blue-900 hover:bg-blue-800 text-white px-5 py-2.5 rounded-lg text-sm font-semibold shadow-sm transition disabled:opacity-50">
           {{ submitting ? 'Saving...' : 'Create Club' }}
         </button>
       </form>
     </div>
 
-    <div v-if="loading" class="text-center py-8 text-gray-500">Loading...</div>
+    <div v-if="loading" class="flex items-center justify-center gap-2 py-12 text-gray-400">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 animate-spin" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" /><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z" /></svg>
+      <span class="text-sm">Loading...</span>
+    </div>
 
-    <div v-else class="space-y-6">
-      <div v-for="club in clubs" :key="club.id" class="bg-white rounded-lg shadow p-6">
-        <div v-if="editingTarget === club.id" class="space-y-3 mb-4">
-          <input v-model="editForm.title" type="text" class="w-full border p-2 rounded font-bold" />
-          <textarea v-model="editForm.content" rows="3" class="w-full border p-2 rounded"></textarea>
-          <div class="flex gap-2">
-            <button type="button" :disabled="editSubmitting" class="bg-blue-900 text-white px-3 py-1.5 rounded text-sm disabled:opacity-50" @click="submitEdit(club.id)">
+    <div v-else-if="clubs.length" class="space-y-6">
+      <div v-for="club in clubs" :key="club.id" class="bg-white rounded-xl shadow-sm ring-1 ring-gray-200 p-6 sm:p-8">
+        <div v-if="editingTarget === club.id" class="space-y-3 mb-5">
+          <input
+            v-model="editForm.title"
+            type="text"
+            class="w-full rounded-lg border border-gray-300 px-3.5 py-2.5 text-sm font-bold shadow-sm transition focus:border-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-600/20"
+          />
+          <textarea
+            v-model="editForm.content"
+            rows="3"
+            class="w-full rounded-lg border border-gray-300 px-3.5 py-2.5 text-sm shadow-sm transition focus:border-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-600/20"
+          ></textarea>
+          <div class="flex gap-3">
+            <button type="button" :disabled="editSubmitting" class="bg-blue-900 hover:bg-blue-800 text-white px-4 py-2 rounded-lg text-sm font-semibold shadow-sm transition disabled:opacity-50" @click="submitEdit(club.id)">
               Save
             </button>
-            <button type="button" class="text-sm text-gray-500" @click="editingTarget = null">Cancel</button>
+            <button type="button" class="text-sm font-medium text-gray-500 hover:text-gray-700 hover:underline" @click="editingTarget = null">Cancel</button>
           </div>
         </div>
         <template v-else>
-          <div class="flex items-center justify-between mb-2">
-            <h3 class="text-lg font-bold">{{ club.title }}</h3>
-            <div class="flex gap-2">
-              <button type="button" class="border border-blue-900 text-blue-900 px-3 py-1.5 rounded text-sm" @click="startEdit(club)">
+          <div class="flex items-start justify-between gap-4 mb-2">
+            <h3 class="text-lg font-bold text-gray-900">{{ club.title }}</h3>
+            <div class="flex shrink-0 gap-2">
+              <button type="button" class="border border-blue-900 text-blue-900 px-2.5 py-1 rounded-md text-xs font-semibold hover:bg-blue-50 transition" @click="startEdit(club)">
                 Edit
               </button>
-              <button type="button" class="bg-red-600 text-white px-3 py-1.5 rounded text-sm" @click="requestDeleteClub(club.id)">
+              <button type="button" class="bg-red-600 hover:bg-red-700 text-white px-2.5 py-1 rounded-md text-xs font-semibold transition" @click="requestDeleteClub(club.id)">
                 Delete Club
               </button>
             </div>
           </div>
-          <p class="text-sm text-gray-600 mb-4">{{ club.content }}</p>
+          <p class="text-sm text-gray-600 mb-5 whitespace-pre-line">{{ club.content }}</p>
         </template>
 
-        <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-3">
-          <div v-for="img in club.images" :key="img.id" class="relative group">
-            <img :src="img.image_url ?? ''" class="h-24 w-full object-cover rounded" />
+        <div v-if="club.images.length" class="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-6 gap-3">
+          <div v-for="img in club.images" :key="img.id" class="group relative aspect-square overflow-hidden rounded-lg ring-1 ring-gray-200">
+            <img :src="img.image_url ?? ''" class="h-full w-full object-cover" />
             <button
               type="button"
-              class="absolute top-1 right-1 bg-red-600 text-white rounded-full w-6 h-6 text-xs opacity-0 group-hover:opacity-100 transition"
+              class="absolute top-1.5 right-1.5 flex h-6 w-6 items-center justify-center rounded-full bg-red-600 text-white text-xs opacity-0 shadow transition group-hover:opacity-100 hover:bg-red-700"
               @click="requestDeleteImage(img.id)"
               aria-label="Delete image"
             >
@@ -202,20 +229,28 @@ onMounted(fetchAll)
             </button>
           </div>
         </div>
+        <p v-else class="text-xs text-gray-400">No images yet.</p>
 
-        <div class="mt-4">
-          <div v-if="addImagesTarget === club.id" class="flex items-center gap-3">
-            <input type="file" accept="image/*" multiple @change="(e) => (addImagesFiles = (e.target as HTMLInputElement).files)" />
-            <button type="button" class="bg-blue-900 text-white px-3 py-1.5 rounded text-sm" @click="submitAddImages(club)">Upload</button>
-            <button type="button" class="text-sm text-gray-500" @click="addImagesTarget = null">Cancel</button>
+        <div class="mt-5">
+          <div v-if="addImagesTarget === club.id" class="flex flex-wrap items-center gap-3">
+            <label class="flex cursor-pointer items-center gap-2.5 rounded-lg border border-dashed border-gray-300 px-3.5 py-2.5 text-sm text-gray-500 transition hover:border-blue-500/50 hover:bg-blue-50/50">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 shrink-0 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.75"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14M4 8h16M4 8a2 2 0 00-2 2v6a2 2 0 002 2h16a2 2 0 002-2v-6a2 2 0 00-2-2M4 8V6a2 2 0 012-2h4l2 2h6a2 2 0 012 2v2" /></svg>
+              <span class="truncate">{{ addImagesFiles?.length ? `${addImagesFiles.length} selected` : 'Choose images' }}</span>
+              <input type="file" accept="image/*" multiple class="hidden" @change="(e) => (addImagesFiles = (e.target as HTMLInputElement).files)" />
+            </label>
+            <button type="button" class="bg-blue-900 hover:bg-blue-800 text-white px-4 py-2 rounded-lg text-sm font-semibold shadow-sm transition" @click="submitAddImages(club)">Upload</button>
+            <button type="button" class="text-sm font-medium text-gray-500 hover:text-gray-700 hover:underline" @click="addImagesTarget = null">Cancel</button>
           </div>
-          <button v-else type="button" class="text-sm text-blue-700 hover:underline" @click="addImagesTarget = club.id">
+          <button v-else type="button" class="text-sm font-semibold text-blue-700 hover:underline" @click="addImagesTarget = club.id">
             + Add more images
           </button>
         </div>
       </div>
+    </div>
 
-      <div v-if="clubs.length === 0" class="text-center py-8 text-gray-500">No clubs yet.</div>
+    <div v-else class="flex flex-col items-center gap-2 rounded-xl border-2 border-dashed border-gray-200 py-16 text-center">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z" /></svg>
+      <p class="text-sm text-gray-400">No clubs yet.</p>
     </div>
 
     <ConfirmDialog

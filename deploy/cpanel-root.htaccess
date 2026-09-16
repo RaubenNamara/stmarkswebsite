@@ -1,0 +1,55 @@
+# Production .htaccess for hosting this project at the ROOT of a cPanel account (public_html IS
+# this project's root, not a subfolder of it) - upload as public_html/.htaccess.
+#
+# Identical to the project root .htaccess used for local XAMPP dev, with one difference: locally
+# Apache's DOCUMENT_ROOT is C:/xampp/htdocs (one level above this project, which lives at
+# htdocs/stmarkswebsite/), so DOCUMENT_ROOT-relative -f/-d checks below have to spell out
+# "/stmarkswebsite/..." explicitly. On a cPanel root deploy, DOCUMENT_ROOT IS this project's root,
+# so that extra path segment must be dropped - that's the only edit this file makes versus the
+# dev version. See the project root .htaccess for the full rationale on why the routing is shaped
+# this way at all.
+
+<FilesMatch "^\.env|composer\.(json|lock)|package(-lock)?\.json|\.gitattributes$">
+    <IfModule mod_authz_core.c>
+        Require all denied
+    </IfModule>
+    <IfModule !mod_authz_core.c>
+        Order deny,allow
+        Deny from all
+    </IfModule>
+</FilesMatch>
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    RewriteRule ^\.git - [F,L]
+    RewriteRule ^shared/ - [F,L]
+
+    # Admin SPA (admin-frontend/dist).
+    RewriteCond %{DOCUMENT_ROOT}/admin-frontend/dist/$1 -f
+    RewriteRule ^admin/(.*)$ admin-frontend/dist/$1 [L]
+    RewriteRule ^admin(?:/.*)?$ admin-frontend/dist/index.html [L]
+
+    # Backend API (backend/public).
+    RewriteRule ^api(/.*)?$ backend/public$1 [L]
+
+    # User-uploaded files (storage/uploads).
+    RewriteRule ^uploads/(.*)$ storage/uploads/$1 [L]
+
+    # The bare docroot request ("/").
+    RewriteRule ^$ public-frontend/dist/index.html [L]
+
+    RewriteCond %{REQUEST_FILENAME} -f [OR]
+    RewriteCond %{REQUEST_FILENAME} -d
+    RewriteRule ^ - [L]
+
+    # A real built asset (JS/CSS/etc. under dist/assets/, hashed filenames from the Vite build).
+    RewriteCond %{DOCUMENT_ROOT}/public-frontend/dist/$1 -f
+    RewriteRule ^(.*)$ public-frontend/dist/$1 [L]
+
+    # A real prerendered page (vite-ssg's flat "<path>.html" naming).
+    RewriteCond %{DOCUMENT_ROOT}/public-frontend/dist/$1.html -f
+    RewriteRule ^(.*)$ public-frontend/dist/$1.html [L]
+
+    RewriteRule ^ public-frontend/dist/index.html [L]
+</IfModule>

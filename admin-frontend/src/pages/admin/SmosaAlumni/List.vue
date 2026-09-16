@@ -11,6 +11,8 @@ import ImageVideoCrudPage from '@/components/admin/ImageVideoCrudPage.vue'
     title-field="name"
     title-label="Name"
     image-field="photo"
+    subtitle-field="profession"
+    :avatar-style="true"
     :fields="[
       { name: 'profession', label: 'Profession' },
       { name: 'message', label: 'Message', type: 'textarea' },

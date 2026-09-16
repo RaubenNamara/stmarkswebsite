@@ -42,4 +42,15 @@ class BoardMemberController extends Controller
     {
         $this->service->delete((int) $id) ? $this->success([], 'Board member deleted') : $this->notFound();
     }
+
+    public function reorder(): void
+    {
+        $ids = $this->input('ids', []);
+        if (!is_array($ids) || empty($ids)) {
+            $this->validationError(['ids' => 'ids must be a non-empty array']);
+            return;
+        }
+        $this->service->reorder(array_map('intval', $ids));
+        $this->success(['board_members' => $this->service->all()], 'Board member order updated');
+    }
 }

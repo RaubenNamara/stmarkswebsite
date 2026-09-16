@@ -8,6 +8,8 @@ import ImageVideoCrudPage from '@/components/admin/ImageVideoCrudPage.vue'
     endpoint="/admin/christmas-cantata"
     list-key="cantatas"
     create-label="Add Cantata"
+    title-label="Title"
+    subtitle-field="choir"
     :fields="[
       { name: 'choir', label: 'Choir' },
       { name: 'date', label: 'Date', type: 'date' },

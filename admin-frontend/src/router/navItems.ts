@@ -12,8 +12,9 @@ export interface NavItem {
  */
 export const navItems: NavItem[] = [
   { key: 'dashboard', label: 'Slide Show', path: '/dashboard', icon: '📊' },
+  { key: 'analytics', label: 'Website Analytics', path: '/analytics', icon: '📈' },
+  { key: 'security', label: 'Security Report', path: '/security', icon: '🛡️' },
   { key: 'news', label: 'Latest News', path: '/news', icon: '📰' },
-  { key: 'posts', label: 'Posts', path: '/posts', icon: '📝' },
   { key: 'media', label: 'Media Upload', path: '/media', icon: '🎬' },
   { key: 'staff', label: 'Manage Staff', path: '/staff', icon: '👩‍🏫' },
   { key: 'board-members', label: 'Board Members', path: '/board-members', icon: '🏛️' },

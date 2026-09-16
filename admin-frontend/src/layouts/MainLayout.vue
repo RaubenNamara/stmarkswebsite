@@ -20,6 +20,8 @@ const pageTitle = computed(() => {
   return (route.meta.title as string | undefined) ?? 'Dashboard'
 })
 
+const showSidebar = computed(() => !route.meta.hideSidebar)
+
 async function handleLogout() {
   await auth.logout()
   router.push({ name: 'Login' })
@@ -29,10 +31,11 @@ async function handleLogout() {
 <template>
   <div class="min-h-screen flex bg-gray-100 text-gray-900">
     <transition name="fade">
-      <div v-if="mobileOpen" class="fixed inset-0 z-30 bg-black/40 lg:hidden" @click="mobileOpen = false" />
+      <div v-if="mobileOpen && showSidebar" class="fixed inset-0 z-30 bg-black/40 lg:hidden" @click="mobileOpen = false" />
     </transition>
 
     <aside
+      v-if="showSidebar"
       :class="[
         'z-40 fixed inset-y-0 left-0 transform w-64 bg-blue-950 text-white flex flex-col shadow-lg transition-transform duration-300',
         mobileOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0',
@@ -71,10 +74,11 @@ async function handleLogout() {
       </div>
     </aside>
 
-    <div class="flex-1 lg:pl-64 min-h-screen flex flex-col">
+    <div :class="['flex-1 min-h-screen flex flex-col', showSidebar ? 'lg:pl-64' : '']">
       <header class="w-full bg-white border-b border-gray-200">
         <div class="max-w-7xl mx-auto px-4 flex items-center h-16 gap-4">
           <button
+            v-if="showSidebar"
             class="lg:hidden p-2 rounded-md text-blue-700 bg-blue-100 hover:bg-blue-200"
             type="button"
             aria-label="Toggle navigation menu"

@@ -10,6 +10,7 @@ import SinglePhotoCrudPage from '@/components/admin/SinglePhotoCrudPage.vue'
     create-label="Add Board Member"
     title-field="name"
     subtitle-field="position"
+    :reorderable="true"
     :fields="[
       { name: 'name', label: 'Name', required: true },
       { name: 'position', label: 'Position', required: true },

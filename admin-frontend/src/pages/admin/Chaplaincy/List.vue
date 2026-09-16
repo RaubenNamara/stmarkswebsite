@@ -8,6 +8,7 @@ import ImageVideoCrudPage from '@/components/admin/ImageVideoCrudPage.vue'
     endpoint="/admin/chaplaincy"
     list-key="chaplaincies"
     create-label="Add Chaplaincy Post"
+    cards-per-row="2"
     :fields="[
       { name: 'content', label: 'Content', type: 'textarea' },
       { name: 'video_link', label: 'Video Link (URL)' },

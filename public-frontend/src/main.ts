@@ -3,6 +3,7 @@ import { createPinia } from 'pinia'
 import App from './App.vue'
 import { routes } from './router'
 import { vReveal } from './directives/reveal'
+import { trackPageViews } from './utils/trackPageView'
 import './style.css'
 
 // vite-ssg ships @unhead/vue v2 internally - useHead() in components just works, no manual
@@ -13,7 +14,8 @@ import './style.css'
 // BASE_URL is '/' anyway, so this stays correct at cutover too). Without this every
 // <router-link> renders as e.g. href="/about" instead of "/stmarkswebsite/about", sending every
 // in-app navigation to the wrong place entirely (a different app/directory outside this project).
-export const createApp = ViteSSG(App, { routes, base: import.meta.env.BASE_URL }, ({ app }) => {
+export const createApp = ViteSSG(App, { routes, base: import.meta.env.BASE_URL }, ({ app, router }) => {
   app.use(createPinia())
   app.directive('reveal', vReveal)
+  if (!import.meta.env.SSR) trackPageViews(router)
 })
