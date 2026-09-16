@@ -32,4 +32,17 @@ class PageViewService extends Service
 
         return ['total_views' => $total, 'daily_views' => [['date' => date('Y-m-d'), 'views' => $today]]];
     }
+
+    /** Admin analytics report: totals, a daily trend, and a breakdown by page for one date range. */
+    public function summary(string $from, string $to): array
+    {
+        return [
+            'total_views' => $this->model->count(),
+            'today_views' => $this->model->count(['view_date' => date('Y-m-d')]),
+            'from' => $from,
+            'to' => $to,
+            'daily_totals' => $this->model->dailyTotalsBetween($from, $to),
+            'by_page' => $this->model->totalsByTypeBetween($from, $to),
+        ];
+    }
 }

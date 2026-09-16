@@ -12,14 +12,16 @@ use StMarks\Shared\Models\User;
  */
 class AuthService extends Service
 {
-    public function __construct(private User $userModel = new User())
-    {
+    public function __construct(
+        private User $userModel = new User(),
+        private SecurityEventService $securityEvents = new SecurityEventService()
+    ) {
     }
 
     /**
      * @return array{ok: bool, user?: array, message?: string}
      */
-    public function login(string $email, string $password): array
+    public function login(string $email, string $password, string $ip = '0.0.0.0', string $userAgent = 'Unknown'): array
     {
         $errors = $this->validate(['email' => $email, 'password' => $password], [
             'email' => ['required', 'email'],
@@ -31,6 +33,7 @@ class AuthService extends Service
 
         $user = $this->userModel->findByEmail($email);
         if (!$user || !$this->verifyPassword($password, $user['password'])) {
+            $this->securityEvents->record('failed_login', $ip, $userAgent, $email, '/api/auth/login', 'Invalid email or password');
             return ['ok' => false, 'message' => 'Invalid email or password'];
         }
 

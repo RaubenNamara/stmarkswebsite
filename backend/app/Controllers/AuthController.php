@@ -19,7 +19,12 @@ class AuthController extends Controller
 
     public function login(): void
     {
-        $result = $this->authService->login((string) $this->input('email', ''), (string) $this->input('password', ''));
+        $result = $this->authService->login(
+            (string) $this->input('email', ''),
+            (string) $this->input('password', ''),
+            $this->getClientIp(),
+            $_SERVER['HTTP_USER_AGENT'] ?? 'Unknown'
+        );
 
         if (!$result['ok']) {
             $this->error($result['message'], 401);

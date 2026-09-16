@@ -25,6 +25,7 @@ function digitalCampus(title: string, description: string) {
 
 export const routes: RouteRecordRaw[] = [
   { path: '/', component: () => import('../pages/Home.vue') },
+  { path: '/portal', component: () => import('../pages/Portal.vue') },
 
   { path: '/news', component: () => import('../pages/news/Index.vue') },
   { path: '/news/:slug', component: () => import('../pages/news/Show.vue'), props: true },

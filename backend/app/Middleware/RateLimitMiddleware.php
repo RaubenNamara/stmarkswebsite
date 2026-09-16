@@ -6,6 +6,7 @@ namespace StMarks\Backend\Middleware;
 
 use StMarks\Backend\Controllers\Controller;
 use StMarks\Shared\Config\Config;
+use StMarks\Shared\Services\SecurityEventService;
 use StMarks\Shared\Support\Middleware;
 
 /**
@@ -63,6 +64,14 @@ class RateLimitMiddleware extends Middleware
         if ($exceeded) {
             $retryAfter = $this->windowSeconds - ($now - $state['window_start']);
             header('Retry-After: ' . max($retryAfter, 1));
+            (new SecurityEventService())->record(
+                'rate_limit_exceeded',
+                $ip,
+                $_SERVER['HTTP_USER_AGENT'] ?? 'Unknown',
+                $this->bucket,
+                $_SERVER['REQUEST_URI'] ?? null,
+                "Exceeded {$this->maxRequests} requests in {$this->windowSeconds}s"
+            );
             $controller->error('Too many requests, please try again later.', 429);
             return false;
         }

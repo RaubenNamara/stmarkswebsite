@@ -25,6 +25,7 @@ const socialLinks: Array<{ icon: 'x' | 'facebook' | 'tiktok' | 'youtube' | 'what
       <div class="flex items-center gap-2 sm:gap-3">
         <router-link to="/admissions" class="whitespace-nowrap rounded-md border border-brand-gold px-2.5 py-1 font-bold text-brand-gold transition hover:bg-brand-gold hover:text-brand-navy-dark sm:px-3">ADMISSIONS</router-link>
         <a href="https://stmark.sc.ug/elearning/" target="_blank" rel="noopener" class="whitespace-nowrap rounded-md border border-emerald-400 px-2.5 py-1 font-bold text-emerald-400 transition hover:bg-emerald-400 hover:text-brand-navy-dark sm:px-3">eLearning</a>
+        <router-link to="/portal" class="whitespace-nowrap rounded-md border border-sky-400 px-2.5 py-1 font-bold text-sky-400 transition hover:bg-sky-400 hover:text-brand-navy-dark sm:px-3">Portal</router-link>
       </div>
 
       <div class="hidden items-center gap-3 md:flex">

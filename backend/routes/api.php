@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use StMarks\Backend\Controllers\Admin\AnalyticsController;
 use StMarks\Backend\Controllers\Admin\BoardMemberController;
 use StMarks\Backend\Controllers\Admin\CampusVoiceController;
 use StMarks\Backend\Controllers\Admin\ChaplaincyController;
@@ -20,6 +21,7 @@ use StMarks\Backend\Controllers\Admin\MentorshipController;
 use StMarks\Backend\Controllers\Admin\NewsController;
 use StMarks\Backend\Controllers\Admin\PerformanceController;
 use StMarks\Backend\Controllers\Admin\PostController;
+use StMarks\Backend\Controllers\Admin\SecurityController;
 use StMarks\Backend\Controllers\Admin\SlideController;
 use StMarks\Backend\Controllers\Admin\SmosaAlumniController;
 use StMarks\Backend\Controllers\Admin\SmosaFeedbackController;
@@ -47,6 +49,11 @@ Router::group(['prefix' => '/api', 'middleware' => ['auth']], function (): void 
 // (not PUT) throughout, since PHP doesn't populate $_FILES for PUT/PATCH bodies - see
 // Admin/NewsController's docblock, the reference pattern every other domain in Phase 3 follows.
 Router::group(['prefix' => '/api/admin', 'middleware' => ['auth']], function (): void {
+    Router::get('/analytics', AnalyticsController::class . '@index');
+
+    Router::get('/security-events', SecurityController::class . '@index');
+    Router::get('/security-events/summary', SecurityController::class . '@summary');
+
     Router::get('/news', NewsController::class . '@index');
     Router::get('/news/{id}', NewsController::class . '@show');
     Router::post('/news', NewsController::class . '@store', ['csrf']);
@@ -77,6 +84,7 @@ Router::group(['prefix' => '/api/admin', 'middleware' => ['auth']], function ():
     Router::post('/board-members', BoardMemberController::class . '@store', ['csrf']);
     Router::post('/board-members/{id}', BoardMemberController::class . '@update', ['csrf']);
     Router::delete('/board-members/{id}', BoardMemberController::class . '@destroy', ['csrf']);
+    Router::post('/board-members-reorder', BoardMemberController::class . '@reorder', ['csrf']);
 
     Router::get('/applications', JobApplicationController::class . '@index');
     Router::delete('/applications/{id}', JobApplicationController::class . '@destroy', ['csrf']);
