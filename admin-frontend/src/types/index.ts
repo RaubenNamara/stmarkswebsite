@@ -93,6 +93,7 @@ export interface CampusVoiceItem {
 export interface MediaItem {
   id: number
   title: string | null
+  caption: string | null
   type: 'image' | 'video' | 'link'
   file_url: string | null
   video_url: string | null
@@ -117,6 +118,15 @@ export interface ContactItem {
   email: string
   message: string
   is_read: number
+  created_at: string
+}
+
+export interface CalendarEventItem {
+  id: number
+  title: string
+  description: string | null
+  event_date: string
+  is_completed: number
   created_at: string
 }
 

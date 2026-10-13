@@ -4,7 +4,8 @@
     "type": "project",
     "require": {
         "php": ">=8.2",
-        "stmarks/shared": "*"
+        "stmarks/shared": "*",
+        "smalot/pdfparser": "^2.13"
     },
     "repositories": [
         {

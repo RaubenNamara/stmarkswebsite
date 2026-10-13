@@ -57,6 +57,12 @@ function pageLabel(type: string): string {
 const maxDaily = computed(() => Math.max(1, ...(summary.value?.daily_totals.map((d) => d.views) ?? [0])))
 const maxByPage = computed(() => Math.max(1, ...(summary.value?.by_page.map((p) => p.views) ?? [0])))
 const periodTotal = computed(() => summary.value?.daily_totals.reduce((sum, d) => sum + d.views, 0) ?? 0)
+// Rounded to 1dp rather than a whole number - with a short selected range (e.g. 2-3 days) a
+// whole-number average looks misleadingly precise/choppy day to day.
+const avgPerDay = computed(() => {
+  const days = summary.value?.daily_totals.length ?? 0
+  return days > 0 ? Math.round((periodTotal.value / days) * 10) / 10 : 0
+})
 
 function formatDate(date: string): string {
   return new Date(date + 'T00:00:00').toLocaleDateString(undefined, { month: 'short', day: 'numeric' })
@@ -120,12 +126,12 @@ onMounted(fetchSummary)
           <p class="mt-2 text-2xl font-bold text-gray-900">{{ summary.total_views.toLocaleString() }}</p>
         </div>
         <div class="bg-white rounded-xl shadow-sm ring-1 ring-gray-200 p-5">
-          <p class="text-xs font-semibold text-gray-500 uppercase tracking-wide">Views Today</p>
-          <p class="mt-2 text-2xl font-bold text-gray-900">{{ summary.today_views.toLocaleString() }}</p>
-        </div>
-        <div class="bg-white rounded-xl shadow-sm ring-1 ring-gray-200 p-5">
           <p class="text-xs font-semibold text-gray-500 uppercase tracking-wide">Views in Range</p>
           <p class="mt-2 text-2xl font-bold text-gray-900">{{ periodTotal.toLocaleString() }}</p>
+        </div>
+        <div class="bg-white rounded-xl shadow-sm ring-1 ring-gray-200 p-5">
+          <p class="text-xs font-semibold text-gray-500 uppercase tracking-wide">Avg Views / Day</p>
+          <p class="mt-2 text-2xl font-bold text-gray-900">{{ avgPerDay.toLocaleString() }}</p>
         </div>
         <div class="bg-white rounded-xl shadow-sm ring-1 ring-gray-200 p-5">
           <p class="text-xs font-semibold text-gray-500 uppercase tracking-wide">Most Visited Page</p>

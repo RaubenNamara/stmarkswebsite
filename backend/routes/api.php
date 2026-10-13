@@ -3,7 +3,9 @@
 declare(strict_types=1);
 
 use StMarks\Backend\Controllers\Admin\AnalyticsController;
+use StMarks\Backend\Controllers\Admin\ChatbotAnalyticsController;
 use StMarks\Backend\Controllers\Admin\BoardMemberController;
+use StMarks\Backend\Controllers\Admin\CalendarEventController;
 use StMarks\Backend\Controllers\Admin\CampusVoiceController;
 use StMarks\Backend\Controllers\Admin\ChaplaincyController;
 use StMarks\Backend\Controllers\Admin\ChristmasCantataController;
@@ -51,6 +53,15 @@ Router::group(['prefix' => '/api', 'middleware' => ['auth']], function (): void 
 Router::group(['prefix' => '/api/admin', 'middleware' => ['auth']], function (): void {
     Router::get('/analytics', AnalyticsController::class . '@index');
 
+    // Chatbot analytics: how visitors use the website assistant (anonymous; see ChatbotAnalyticsService)
+    Router::get('/chatbot/summary', ChatbotAnalyticsController::class . '@summary');
+    Router::get('/chatbot/messages', ChatbotAnalyticsController::class . '@messages');
+    Router::get('/chatbot/conversations', ChatbotAnalyticsController::class . '@conversations');
+    Router::get('/chatbot/conversations/{id}', ChatbotAnalyticsController::class . '@show');
+    Router::delete('/chatbot/conversations/{id}', ChatbotAnalyticsController::class . '@destroy', ['csrf']);
+    Router::post('/chatbot/purge', ChatbotAnalyticsController::class . '@purge', ['csrf']);
+    Router::get('/chatbot/export', ChatbotAnalyticsController::class . '@export');
+
     Router::get('/security-events', SecurityController::class . '@index');
     Router::get('/security-events/summary', SecurityController::class . '@summary');
 
@@ -72,6 +83,7 @@ Router::group(['prefix' => '/api/admin', 'middleware' => ['auth']], function ():
 
     Router::get('/media', MediaController::class . '@index');
     Router::post('/media', MediaController::class . '@store', ['csrf']);
+    Router::post('/media/{id}', MediaController::class . '@update', ['csrf']);
     Router::delete('/media/{id}', MediaController::class . '@destroy', ['csrf']);
 
     Router::get('/staff', StaffController::class . '@index');
@@ -85,6 +97,12 @@ Router::group(['prefix' => '/api/admin', 'middleware' => ['auth']], function ():
     Router::post('/board-members/{id}', BoardMemberController::class . '@update', ['csrf']);
     Router::delete('/board-members/{id}', BoardMemberController::class . '@destroy', ['csrf']);
     Router::post('/board-members-reorder', BoardMemberController::class . '@reorder', ['csrf']);
+
+    Router::get('/calendar-events', CalendarEventController::class . '@index');
+    Router::post('/calendar-events', CalendarEventController::class . '@store', ['csrf']);
+    Router::post('/calendar-events/{id}', CalendarEventController::class . '@update', ['csrf']);
+    Router::post('/calendar-events/{id}/toggle-completed', CalendarEventController::class . '@toggleCompleted', ['csrf']);
+    Router::delete('/calendar-events/{id}', CalendarEventController::class . '@destroy', ['csrf']);
 
     Router::get('/applications', JobApplicationController::class . '@index');
     Router::delete('/applications/{id}', JobApplicationController::class . '@destroy', ['csrf']);
@@ -201,6 +219,7 @@ Router::group(['prefix' => '/api/public'], function (): void {
     Router::get('/performances/{id}/pdf', PublicApi\PerformanceController::class . '@pdf');
 
     Router::get('/board-members', PublicApi\BoardMemberController::class . '@index');
+    Router::get('/calendar-events', PublicApi\CalendarEventController::class . '@index');
     Router::get('/high-achievers', PublicApi\HighAchieverController::class . '@index');
     Router::get('/co-curricular', PublicApi\CoCurricularController::class . '@index');
     Router::get('/mentorship', PublicApi\MentorshipController::class . '@index');
@@ -210,6 +229,9 @@ Router::group(['prefix' => '/api/public'], function (): void {
     Router::get('/christmas-cantata', PublicApi\ChristmasCantataController::class . '@index');
     Router::get('/chaplaincy', PublicApi\ChaplaincyController::class . '@index');
     Router::get('/student-leadership', PublicApi\StudentLeadershipController::class . '@index');
+    Router::get('/x-feed', PublicApi\XFeedController::class . '@index');
+    Router::get('/chatbot-knowledge', PublicApi\ChatbotKnowledgeController::class . '@index');
+    Router::post('/chatbot-log', PublicApi\ChatbotLogController::class . '@store', ['rate_limit:chatbot_log,120,300']);
 
     Router::post('/contact', PublicApi\ContactController::class . '@store', ['rate_limit:contact,10,300']);
     Router::post('/apply', PublicApi\JobApplicationController::class . '@store', ['rate_limit:apply,10,300']);

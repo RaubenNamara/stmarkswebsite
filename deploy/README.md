@@ -130,3 +130,18 @@ None of this touches local dev - `admin-frontend/vite.config.ts` and
 isn't set, `shared/.env` (local) is untouched, and the project-root `.htaccess` used by local
 XAMPP is untouched (`deploy/cpanel-root.htaccess` is a separate file). `npm run dev` and
 `npm run build` locally continue to work exactly as before.
+
+
+## Chatbot knowledge feed (PDF text extraction)
+
+The website chatbot reads the text of uploaded fee/programme PDFs through `smalot/pdfparser`, a pure-PHP
+library (no shell tools needed). It is listed in `backend/composer.json`, so the `composer install` in
+step 4 already installs it. The extracted text is cached in `storage/cache/pdf-text/` - make sure
+`storage/` is writable by PHP (it already must be for `storage/uploads/`). The feed is served at
+`/api/public/chatbot-knowledge`; nothing else needs configuring.
+
+## Chatbot analytics tables
+
+Run the migrations (`php scripts/migrate.php migrate` from `shared/`, as in step 2) so the `chatbot_conversations` and
+`chatbot_messages` tables exist. Visitors' questions are then logged anonymously at `/api/public/chatbot-log` and shown in the
+admin panel under *Chatbot Analytics*. Nothing else needs configuring.

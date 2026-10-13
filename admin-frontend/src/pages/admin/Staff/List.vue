@@ -3,6 +3,7 @@ import { computed, onMounted, reactive, ref } from 'vue'
 import { api, apiErrorMessage } from '@/services/api'
 import { useToast } from '@/composables/useToast'
 import ConfirmDialog from '@/components/common/ConfirmDialog.vue'
+import PhotoCropInput from '@/components/admin/PhotoCropInput.vue'
 import type { SinglePhotoItem } from '@/types'
 
 const toast = useToast()
@@ -23,30 +24,37 @@ const photoFile = ref<File | null>(null)
 // buckets by substring match rather than exact string. Using exact match here (as this list used
 // to) silently dropped members like "Wabwere Joseph" into the wrong bucket whenever their raw
 // category didn't literally equal one of the four canonical labels.
-const CATEGORY_ORDER = ['Administrator', 'Head of Department', 'Teaching Staff', 'Support Staff']
+//
+// "Support Staff" and "Non Teaching Staff" are two separate categories. Every existing
+// non-teaching-staff row was already saved with the literal category text "Support Staff" (a
+// historical workaround - "Non Teaching Staff" contains "teach", which would misfile it above),
+// so that stays the default/catch-all bucket. The genuinely new "Support Staff" category needed a
+// raw value that doesn't collide with that - saved as "General Support" (still just labeled
+// "Support Staff" everywhere an admin sees it) and matched explicitly before the catch-all.
+const CATEGORY_ORDER = ['Administrator', 'Head of Department', 'Teaching Staff', 'Non Teaching Staff', 'Support Staff']
 
 function canonicalCategory(category: unknown): string {
   const lower = String(category ?? '').toLowerCase()
   if (lower.includes('head')) return 'Head of Department'
   if (lower.includes('admin')) return 'Administrator'
   if (lower.includes('teach')) return 'Teaching Staff'
-  return 'Support Staff'
+  if (lower.includes('general support')) return 'Support Staff'
+  return 'Non Teaching Staff'
 }
 
-// The value saved for "Non Teaching Staff" is "Support Staff", not the label itself - the phrase
-// "Non Teaching Staff" contains "teach", which canonicalCategory()/PHP's matching would misread as
-// Teaching Staff. "Support Staff" is also what the public site already normalizes this bucket to.
 const categoryOptions = [
   { label: 'Administration', value: 'Administration' },
   { label: 'Head of Department', value: 'Head of Department' },
   { label: 'Teaching Staff', value: 'Teaching Staff' },
   { label: 'Non Teaching Staff', value: 'Support Staff' },
+  { label: 'Support Staff', value: 'General Support' },
 ]
 const CANONICAL_TO_OPTION: Record<string, string> = {
   Administrator: 'Administration',
   'Head of Department': 'Head of Department',
   'Teaching Staff': 'Teaching Staff',
-  'Support Staff': 'Support Staff',
+  'Support Staff': 'General Support',
+  'Non Teaching Staff': 'Support Staff',
 }
 
 const groups = computed(() => {
@@ -201,8 +209,7 @@ onMounted(fetchAll)
         </div>
         <div>
           <label class="block text-sm font-medium mb-1">Photo</label>
-          <img v-if="editingPhoto" :src="editingPhoto" class="h-20 mb-2 rounded object-cover" />
-          <input type="file" accept="image/*" @change="(e) => (photoFile = (e.target as HTMLInputElement).files?.[0] ?? null)" />
+          <PhotoCropInput v-model="photoFile" :existing-url="editingPhoto" />
           <p v-if="editingId !== null" class="text-xs text-gray-400 mt-1">Leave blank to keep the current photo.</p>
         </div>
 

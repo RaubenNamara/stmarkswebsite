@@ -10,7 +10,7 @@ const socialLinks: Array<{ icon: 'x' | 'facebook' | 'tiktok' | 'youtube' | 'what
 
 <template>
   <div class="bg-brand-navy-dark text-blue-100">
-    <div class="container-chrome flex flex-wrap items-center justify-center gap-x-5 gap-y-1.5 py-2 text-[11px] sm:justify-between sm:text-xs">
+    <div class="container-chrome flex flex-wrap items-center justify-center gap-x-5 gap-y-1.5 py-2 text-xs sm:justify-between sm:text-sm">
       <div class="flex flex-wrap items-center justify-center gap-x-5 gap-y-1.5">
         <a href="tel:+256775831844" class="flex items-center gap-1.5 whitespace-nowrap text-blue-100 transition hover:text-white">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5 shrink-0" fill="currentColor" viewBox="0 0 20 20"><path d="M2 3.5A1.5 1.5 0 013.5 2h1.148a1.5 1.5 0 011.465 1.175l.716 3.223a1.5 1.5 0 01-.75 1.643l-1.026.513a11.05 11.05 0 005.516 5.516l.513-1.026a1.5 1.5 0 011.643-.75l3.223.716A1.5 1.5 0 0117 15.352V16.5a1.5 1.5 0 01-1.5 1.5H14C6.82 18 1 12.18 1 5V3.5z" /></svg>
@@ -24,7 +24,7 @@ const socialLinks: Array<{ icon: 'x' | 'facebook' | 'tiktok' | 'youtube' | 'what
 
       <div class="flex items-center gap-2 sm:gap-3">
         <router-link to="/admissions" class="whitespace-nowrap rounded-md border border-brand-gold px-2.5 py-1 font-bold text-brand-gold transition hover:bg-brand-gold hover:text-brand-navy-dark sm:px-3">ADMISSIONS</router-link>
-        <a href="https://stmark.sc.ug/elearning/" target="_blank" rel="noopener" class="whitespace-nowrap rounded-md border border-emerald-400 px-2.5 py-1 font-bold text-emerald-400 transition hover:bg-emerald-400 hover:text-brand-navy-dark sm:px-3">eLearning</a>
+        <a href="https://espace.stmark.sc.ug/" target="_blank" rel="noopener" class="whitespace-nowrap rounded-md border border-emerald-400 px-2.5 py-1 font-bold text-emerald-400 transition hover:bg-emerald-400 hover:text-brand-navy-dark sm:px-3">eLearning</a>
         <router-link to="/portal" class="whitespace-nowrap rounded-md border border-sky-400 px-2.5 py-1 font-bold text-sky-400 transition hover:bg-sky-400 hover:text-brand-navy-dark sm:px-3">Portal</router-link>
       </div>
 

@@ -5,7 +5,7 @@ import { staticAsset } from '../utils/staticAsset'
 
 useHead({
   title: 'Portal',
-  meta: [{ name: 'description', content: "Every digital system built for St Mark's College Namagoma, in one place - eLearning, Admissions, eVoting, Cyber Monitor, eConcerting and Academics." }],
+  meta: [{ name: 'description', content: "Every digital system built for St. Mark's College Namagoma, in one place - eLearning, Admissions, eVoting, Cyber Monitor, eConcerting and Academics." }],
 })
 
 interface SystemLink {
@@ -26,21 +26,21 @@ const systems: SystemLink[] = [
     title: 'Academics',
     tagline: 'One platform for the whole school',
     features: ['Student records', 'Timetables & scheduling', 'Performance tracking'],
-    url: 'http://stmark.sc.ug/accademics',
+    url: 'https://portal.stmark.sc.ug/',
     external: true,
   },
-  { icon: '🎓', title: 'Admissions', tagline: 'Apply in minutes', text: 'Submit and track a school application entirely online.', url: 'https://stmark.sc.ug/stmarks_admission/', external: true },
-  { icon: '🛡️', title: 'Cyber Monitor', tagline: 'A safer digital campus', text: "Keeping our students safe online through the school's digital monitoring programme.", url: 'https://stmark.sc.ug/laptop_tracking_system/auth/login.php', external: true },
-  { icon: '🎶', title: 'eConcerting', tagline: 'Every performance, live', text: 'Livestreamed and recorded school concerts, performances and events.', url: 'https://stmark.sc.ug/concerting/', external: true },
-  { icon: '📚', title: 'eLearning', tagline: 'Learning without limits', text: 'Class notes, assignments and virtual lessons through the eSpace learning portal.', url: 'https://stmark.sc.ug/elearning/', external: true },
-  { icon: '🗳️', title: 'eVoting System', tagline: 'Every voice counted', text: 'Secure digital voting for student leadership and school elections.', url: 'https://stmark.sc.ug/votesystem/index.php', external: true },
+  { icon: '🎓', title: 'Admissions', tagline: 'Apply in minutes', text: 'Submit and track a school application entirely online.', url: 'https://admission.stmark.sc.ug/', external: true },
+  { icon: '🛡️', title: 'Cyber Monitor', tagline: 'A safer digital campus', text: "Keeping our students safe online through the school's digital monitoring programme.", url: 'https://cybermonitor.stmark.sc.ug/', external: true },
+  { icon: '🎶', title: 'eConcerting', tagline: 'Every performance, live', text: 'Livestreamed and recorded school concerts, performances and events.', url: 'https://concert.stmark.sc.ug/', external: true },
+  { icon: '📚', title: 'eLearning', tagline: 'Learning without limits', text: 'Class notes, assignments and virtual lessons through the eSpace learning portal.', url: 'https://espace.stmark.sc.ug/', external: true },
+  { icon: '🗳️', title: 'eVoting System', tagline: 'Every voice counted', text: 'Secure digital voting for student leadership and school elections.', url: 'https://vote.stmark.sc.ug/', external: true },
 ]
 </script>
 
 <template>
   <PageHeader
     title="School Systems Portal"
-    subtitle="One place to reach every digital system built for St Mark's College Namagoma."
+    subtitle="One place to reach every digital system built for St. Mark's College Namagoma."
     :bg-image="staticAsset('storage/images/smacon.jpg')"
   />
 

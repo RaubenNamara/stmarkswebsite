@@ -17,9 +17,16 @@ const router = createRouter({
         { path: '', redirect: '/dashboard' },
         { path: 'dashboard', name: 'Dashboard', component: () => import('@/pages/admin/Dashboard.vue'), meta: { title: 'Slide Show' } },
         { path: 'analytics', name: 'Analytics', component: () => import('@/pages/admin/Analytics/List.vue'), meta: { title: 'Website Analytics' } },
+        { path: 'chatbot', name: 'ChatbotAnalytics', component: () => import('@/pages/admin/ChatbotAnalytics/List.vue'), meta: { title: 'Chatbot Analytics' } },
         { path: 'security', name: 'Security', component: () => import('@/pages/admin/Security/List.vue'), meta: { title: 'Security Report' } },
         { path: 'news', name: 'News', component: () => import('@/pages/admin/News/List.vue'), meta: { title: 'Latest News' } },
         { path: 'media', name: 'Media', component: () => import('@/pages/admin/Media/List.vue'), meta: { title: 'Media Upload' } },
+        {
+          path: 'calendar-events',
+          name: 'CalendarEvents',
+          component: () => import('@/pages/admin/CalendarEvents/List.vue'),
+          meta: { title: 'School Calendar' },
+        },
         { path: 'staff', name: 'Staff', component: () => import('@/pages/admin/Staff/List.vue'), meta: { title: 'Manage Staff' } },
         {
           path: 'board-members',

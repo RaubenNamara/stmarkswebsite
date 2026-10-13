@@ -2,6 +2,24 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  /* The TinyMCE editor's content.css (imported by RichTextEditor) sets its own font-family on `body`, which
+     leaks onto the whole page - so the News page used a different font from every other admin page.
+     `html body` outranks that rule and hands the font back to the app's own (Tailwind) font on <html>. */
+  html body {
+    font-family: inherit;
+  }
+  body {
+    /* Plus Jakarta Sans has a narrow word space at small sizes; this keeps words from running together */
+    word-spacing: 0.06em;
+    text-rendering: optimizeLegibility;
+  }
+  h1, h2, h3, h4 {
+    letter-spacing: -0.02em;
+    word-spacing: 0.1em;
+  }
+}
+
 /* Printing a report (e.g. Analytics) should show only that page's content, not the sidebar/header
    chrome around it - MainLayout has no print awareness of its own, so this is global. */
 @media print {

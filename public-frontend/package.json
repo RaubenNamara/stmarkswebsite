@@ -6,9 +6,11 @@
   "scripts": {
     "dev": "vite",
     "build": "vite-ssg build && node scripts/generate-seo-files.mjs",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test": "node --test \"tests/**/*.test.ts\""
   },
   "dependencies": {
+    "@fontsource-variable/plus-jakarta-sans": "^5.3.0",
     "@unhead/vue": "^2.0.0",
     "axios": "^1.20.0",
     "pinia": "^4.0.3",
@@ -16,13 +18,13 @@
     "vue-router": "^4.6.4"
   },
   "devDependencies": {
+    "@tailwindcss/typography": "^0.5.20",
     "@types/node": "^24.13.3",
     "@vitejs/plugin-vue": "^6.0.8",
     "@vue/tsconfig": "^0.9.1",
     "autoprefixer": "^10.5.4",
     "postcss": "^8.5.28",
     "tailwindcss": "^3.4.19",
-    "@tailwindcss/typography": "^0.5.20",
     "typescript": "~6.0.2",
     "vite": "^8.2.2",
     "vite-ssg": "^28.1.0",

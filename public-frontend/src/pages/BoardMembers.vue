@@ -15,7 +15,7 @@ const members = data.data.board_members as Array<{ id: number; name: string; pos
 <template>
   <PageHeader
     title="Board Members"
-    subtitle="Meet the men and women who provide governance, guidance and oversight for St Mark's College Namagoma."
+    subtitle="Meet the men and women who provide governance, guidance and oversight for St. Mark's College Namagoma."
     :bg-image="staticAsset('storage/images/smacon.jpg')"
   />
 

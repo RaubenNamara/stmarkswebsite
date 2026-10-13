@@ -24,7 +24,7 @@ function excerptFor(content: string | null): string | null {
 <template>
   <PageHeader
     title="Chaplaincy"
-    subtitle="Nurturing faith, character and community — the spiritual heartbeat of life at St Mark's College Namagoma."
+    subtitle="Nurturing faith, character and community — the spiritual heartbeat of life at St. Mark's College Namagoma."
     :bg-image="staticAsset('storage/images/smacon.jpg')"
   />
 

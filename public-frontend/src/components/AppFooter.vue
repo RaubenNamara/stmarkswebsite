@@ -74,7 +74,7 @@ const mapsDirectionsUrl = `https://www.google.com/maps/dir/?api=1&origin=Kampala
               <router-link :to="href" class="text-blue-200/80 transition hover:text-white">{{ label }}</router-link>
             </li>
             <li>
-              <a href="https://stmark.sc.ug/laptop_tracking_system/auth/login.php" target="_blank" rel="noopener" class="text-blue-200/80 transition hover:text-white">Cyber Monitor</a>
+              <a href="https://cybermonitor.stmark.sc.ug/" target="_blank" rel="noopener" class="text-blue-200/80 transition hover:text-white">Cyber Monitor</a>
             </li>
           </ul>
 
@@ -109,7 +109,7 @@ const mapsDirectionsUrl = `https://www.google.com/maps/dir/?api=1&origin=Kampala
         <div class="rounded-2xl bg-white/5 p-6 ring-1 ring-white/10 transition duration-300 hover:-translate-y-1 hover:bg-white/[0.07] hover:shadow-lg hover:ring-white/20">
           <h3 class="font-display text-sm font-bold uppercase tracking-wide text-white">Find us</h3>
           <div class="mt-4 overflow-hidden rounded-xl ring-1 ring-white/10">
-            <iframe :src="mapsEmbedUrl" title="Map showing St Mark's College Namagoma" class="h-64 w-full" loading="lazy" referrerpolicy="no-referrer-when-downgrade" />
+            <iframe :src="mapsEmbedUrl" title="Map showing St. Mark's College Namagoma" class="h-64 w-full" loading="lazy" referrerpolicy="no-referrer-when-downgrade" />
           </div>
           <ul class="mt-4 space-y-2.5 text-sm">
             <li>
@@ -129,7 +129,7 @@ const mapsDirectionsUrl = `https://www.google.com/maps/dir/?api=1&origin=Kampala
       </div>
 
       <div class="mt-12 border-t border-white/10 pt-6 text-center text-sm">
-        <p>&copy; {{ year }} St Mark's College Namagoma. All rights reserved.</p>
+        <p>&copy; {{ year }} St. Mark's College Namagoma. All rights reserved.</p>
       </div>
     </div>
   </footer>

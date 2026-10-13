@@ -28,6 +28,16 @@ class MediaController extends Controller
         $result['ok'] ? $this->success(['media' => $this->service->all()], 'Media item created') : $this->validationError($result['errors']);
     }
 
+    public function update(string $id): void
+    {
+        $result = $this->service->update((int) $id, $this->input());
+        if (!$result['ok']) {
+            $this->error($result['errors']['general'] ?? 'Validation failed', isset($result['errors']['general']) ? 404 : 422, $result['errors']);
+            return;
+        }
+        $this->success(['media' => $this->service->all()], 'Media item updated');
+    }
+
     public function destroy(string $id): void
     {
         $this->service->delete((int) $id) ? $this->success([], 'Media item deleted') : $this->notFound();

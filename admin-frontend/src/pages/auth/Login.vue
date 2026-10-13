@@ -20,7 +20,7 @@ async function handleSubmit() {
 <template>
   <div>
     <h1 class="text-xl font-semibold text-slate-900">Admin sign in</h1>
-    <p class="mt-1 text-sm text-slate-500">St Mark's College Namagoma</p>
+    <p class="mt-1 text-sm text-slate-500">St. Mark's College Namagoma</p>
 
     <form class="mt-6 space-y-4" @submit.prevent="handleSubmit">
       <div v-if="auth.error" class="rounded-md bg-red-50 px-3 py-2 text-sm text-red-700">

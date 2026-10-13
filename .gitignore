@@ -33,6 +33,7 @@ admin-frontend/dist
 public-frontend/node_modules
 public-frontend/dist
 storage/uploads/*
+storage/cache/
 !storage/uploads/.gitkeep
 
 # Generated cPanel deployment bundles (deploy/README.md explains how to rebuild these) - not source

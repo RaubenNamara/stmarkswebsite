@@ -20,6 +20,24 @@ function formatDate(value: string): string {
   return new Date(value).toLocaleString('en-GB', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' })
 }
 
+function escapeHtml(text: string): string {
+  return text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+}
+
+// Turns any http(s)/www URL typed into a visitor's message into a real, clickable blue link -
+// the message is free-text from the public contact form, so the whole string is HTML-escaped
+// first and only the matched URL spans get wrapped in an <a>, never raw user HTML. whitespace-pre-
+// line on the container (template) still honors the original line breaks in this escaped string,
+// so there's no need to convert them to <br> here.
+function linkifyMessage(text: string): string {
+  return escapeHtml(text).replace(/(https?:\/\/[^\s<]+|www\.[^\s<]+)/gi, (match) => {
+    const trailing = match.match(/[.,;:!?)]+$/)?.[0] ?? ''
+    const url = trailing ? match.slice(0, -trailing.length) : match
+    const href = /^https?:\/\//i.test(url) ? url : `https://${url}`
+    return `<a href="${href}" target="_blank" rel="noopener noreferrer" class="text-blue-600 underline decoration-blue-300 underline-offset-2 hover:text-blue-800 break-all">${url}</a>${trailing}`
+  })
+}
+
 async function fetchAll() {
   loading.value = true
   try {
@@ -74,41 +92,50 @@ onMounted(fetchAll)
       <span class="text-sm">Loading...</span>
     </div>
 
-    <div v-else-if="items.length" class="space-y-3 2xl:columns-2 2xl:gap-4 2xl:space-y-0 2xl:[&>*]:mb-4 2xl:[&>*]:break-inside-avoid">
+    <div v-else-if="items.length" class="space-y-5 2xl:columns-2 2xl:gap-5 2xl:space-y-0 2xl:[&>*]:mb-5 2xl:[&>*]:break-inside-avoid">
       <div
         v-for="item in items"
         :key="item.id"
-        class="flex gap-4 rounded-xl bg-white p-5 shadow-sm ring-1 ring-gray-200 transition"
-        :class="item.is_read ? '' : 'ring-blue-200 bg-blue-50/30'"
+        class="overflow-hidden rounded-2xl border bg-white shadow-sm ring-1 ring-black/5 transition hover:shadow-md"
+        :class="item.is_read ? 'border-gray-200' : 'border-blue-300'"
       >
-        <span
-          class="flex h-11 w-11 shrink-0 items-center justify-center rounded-full text-sm font-bold"
-          :class="item.is_read ? 'bg-gray-100 text-gray-500' : 'bg-blue-900 text-white'"
-        >
-          {{ initials(item.name) }}
-        </span>
+        <!-- Accent header strip, not the whole-card tint the old design used - keeps the card
+             readable as plain white while still making unread status obvious at a glance. -->
+        <div class="h-1.5" :class="item.is_read ? 'bg-gray-200' : 'bg-gradient-to-r from-blue-600 via-brand-gold to-blue-600'" />
 
-        <div class="min-w-0 flex-1">
-          <div class="flex flex-wrap items-start justify-between gap-2">
-            <div class="min-w-0">
-              <p class="font-semibold text-gray-900 truncate">
-                {{ item.name }}
-                <span class="font-normal text-gray-400 text-sm">&lt;{{ item.email }}&gt;</span>
-              </p>
-              <p v-if="item.telephone" class="text-sm text-gray-500">{{ item.telephone }}</p>
+        <div class="flex gap-4 p-5 sm:p-6">
+          <span
+            class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full text-base font-bold shadow-sm"
+            :class="item.is_read ? 'bg-gray-100 text-gray-500' : 'bg-gradient-to-br from-blue-800 to-blue-950 text-white'"
+          >
+            {{ initials(item.name) }}
+          </span>
+
+          <div class="min-w-0 flex-1">
+            <div class="flex flex-wrap items-start justify-between gap-2">
+              <div class="min-w-0">
+                <p class="truncate font-semibold text-gray-900">{{ item.name }}</p>
+                <p class="truncate text-sm text-gray-500">{{ item.email }}</p>
+                <p v-if="item.telephone" class="text-sm text-gray-500">{{ item.telephone }}</p>
+              </div>
+              <span v-if="!item.is_read" class="shrink-0 rounded-full bg-blue-100 px-2.5 py-0.5 text-xs font-bold text-blue-800">Unread</span>
             </div>
-            <span v-if="!item.is_read" class="shrink-0 rounded-full bg-blue-100 px-2 py-0.5 text-xs font-bold text-blue-800">Unread</span>
-          </div>
 
-          <p class="mt-3 text-sm text-gray-700 whitespace-pre-line leading-relaxed">{{ item.message }}</p>
+            <!-- The message, in its own clearly-bordered box rather than running straight into
+                 the header - makes it visually obvious where the sender's own words start,
+                 especially once a message contains a clickable link in among plain text. -->
+            <div class="mt-4 rounded-xl border border-gray-200 bg-gray-50/70 p-4">
+              <p class="whitespace-pre-line text-sm leading-relaxed text-gray-700" v-html="linkifyMessage(item.message)" />
+            </div>
 
-          <div class="mt-4 flex flex-wrap items-center gap-4">
-            <span class="text-xs text-gray-400">{{ formatDate(item.created_at) }}</span>
-            <a :href="`mailto:${item.email}`" class="text-sm font-semibold text-blue-700 hover:underline">Reply</a>
-            <button v-if="!item.is_read" type="button" class="text-sm font-semibold text-gray-600 hover:underline" @click="markRead(item)">
-              Mark as read
-            </button>
-            <button type="button" class="text-sm font-semibold text-red-600 hover:underline" @click="requestDelete(item.id)">Delete</button>
+            <div class="mt-4 flex flex-wrap items-center gap-x-5 gap-y-2">
+              <span class="text-xs text-gray-400">{{ formatDate(item.created_at) }}</span>
+              <a :href="`mailto:${item.email}`" class="text-sm font-semibold text-blue-700 hover:underline">Reply</a>
+              <button v-if="!item.is_read" type="button" class="text-sm font-semibold text-gray-600 hover:underline" @click="markRead(item)">
+                Mark as read
+              </button>
+              <button type="button" class="text-sm font-semibold text-red-600 hover:underline" @click="requestDelete(item.id)">Delete</button>
+            </div>
           </div>
         </div>
       </div>

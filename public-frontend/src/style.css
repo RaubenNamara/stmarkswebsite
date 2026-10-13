@@ -3,14 +3,41 @@
 @tailwind utilities;
 
 @layer base {
+  /* overflow-x-hidden lives on html only, not body too - setting it on both forces overflow-y
+     to auto on each (a CSS spec side-effect of mixing hidden/visible on the two axes), making
+     html and body two separate nested scroll containers instead of one. That silently breaks
+     `position: sticky` (AppHeader.vue) sitewide - it sticks against the wrong scroll box and
+     just scrolls away instead of staying pinned to the viewport.
+     It has to stay on html specifically (not just body) because `overflow: hidden` on an
+     ancestor never clips `position: fixed` descendants (the WhatsApp/innovations-dock buttons in
+     Home.vue) - those are positioned against the viewport, and only html's own overflow actually
+     governs viewport-level horizontal scroll. */
   html {
-    @apply overflow-x-hidden;
+    @apply overflow-x-hidden bg-brand-navy-dark;
+    /* Without this, the vertical scrollbar's gutter is only reserved once html's content
+       actually needs to scroll - so the very first frame (before layout has settled) can render
+       a few pixels wider than every frame after it, and that reflow is what the width-gap on
+       load is: content sized to the "no scrollbar yet" width gets squeezed left once the
+       scrollbar claims its space. Reserving the gutter unconditionally, from the first frame,
+       removes that reflow entirely instead of just recoloring it. */
+    scrollbar-gutter: stable;
   }
   body {
-    @apply overflow-x-hidden text-gray-900 antialiased;
+    @apply text-gray-900 antialiased;
+    /* a touch more air than the default 1.5 reads cleaner in a geometric sans */
+    /* default size for text with no text-* class (Tailwind's own default is 16px) */
+    font-size: 1.0625rem;
+    line-height: 1.65;
+    /* Plus Jakarta Sans has a narrow word space at small sizes; this keeps words from running together */
+    word-spacing: 0.06em;
+    text-rendering: optimizeLegibility;
   }
   h1, h2, h3, h4 {
     @apply font-display;
+    /* modern headings: tight tracking and snug leading */
+    letter-spacing: -0.02em;
+    word-spacing: 0.1em;
+    line-height: 1.2;
   }
   a {
     @apply text-brand-navy;
@@ -21,6 +48,13 @@
 }
 
 @layer components {
+  /* The header's crest + school name keep the school's original Times New Roman lettering while the
+     rest of the site uses the modern font. word/letter-spacing are reset so it looks exactly as before. */
+  .brand-original-font {
+    font-family: "Times New Roman", Times, serif;
+    word-spacing: normal;
+    letter-spacing: normal;
+  }
   .btn {
     @apply inline-flex items-center justify-center gap-2 rounded-lg bg-brand-navy px-6 py-3
            text-sm font-semibold text-white shadow-md transition duration-200
@@ -69,7 +103,7 @@
      side - a flat max-width looks fine up to ~1600px but reads as wasted space well beyond
      that, so this keeps growing (with shrinking side padding) as the viewport does. */
   .container-wide {
-    @apply mx-auto w-full max-w-7xl px-6;
+    @apply mx-auto w-full max-w-7xl px-4 sm:px-6;
   }
   @media (min-width: 1536px) {
     .container-wide {
@@ -93,7 +127,7 @@
      the gap between them, not the content. Grid/card sections have enough content to make the
      extra width look intentional; a sparse nav row doesn't. */
   .container-chrome {
-    @apply mx-auto w-full max-w-[1800px] px-6 2xl:px-10;
+    @apply mx-auto w-full max-w-[1800px] px-4 sm:px-6 2xl:px-10;
   }
 
   /* Scroll-in entrance, applied client-side only by the v-reveal directive (see

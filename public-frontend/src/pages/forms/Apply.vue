@@ -52,7 +52,7 @@ async function submit() {
 <template>
   <PageHeader
     title="Apply — Careers"
-    subtitle="Join our team and help shape the future with St Mark's College."
+    subtitle="Join our team and help shape the future with St. Mark's College."
     :bg-image="staticAsset('storage/images/smacon.jpg')"
   />
 

@@ -58,7 +58,7 @@ onUnmounted(() => window.removeEventListener('keydown', onKeydown))
 </script>
 
 <template>
-  <PageHeader title="Gallery" subtitle="A look back at life, events and milestones at St Mark's College Namagoma." :bg-image="staticAsset('storage/images/smacon.jpg')" />
+  <PageHeader title="Gallery" subtitle="A look back at life, events and milestones at St. Mark's College Namagoma." :bg-image="staticAsset('storage/images/smacon.jpg')" />
 
   <section class="container-wide space-y-14 py-14">
     <EmptyState v-if="!events.length" message="No gallery events yet." />

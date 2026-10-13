@@ -27,7 +27,7 @@ const expanded = reactive<Record<number, boolean>>({})
 <template>
   <PageHeader
     title="SMOSA Alumni"
-    subtitle="Proud products of St Mark's College Namagoma - carrying its values into their careers and communities."
+    subtitle="Proud products of St. Mark's College Namagoma - carrying its values into their careers and communities."
     :bg-image="staticAsset('storage/images/smacon.jpg')"
   />
 
@@ -38,7 +38,7 @@ const expanded = reactive<Record<number, boolean>>({})
       <div v-reveal class="mx-auto max-w-2xl text-center">
         <span class="eyebrow">Alumni Spotlight</span>
         <h2 class="mt-2 font-display text-2xl font-bold text-brand-navy sm:text-3xl">Where SMACON has taken them</h2>
-        <p class="mt-3 text-gray-600">Old students of St Mark's College Namagoma, sharing how their journey shaped who they are today.</p>
+        <p class="mt-3 text-gray-600">Old students of St. Mark's College Namagoma, sharing how their journey shaped who they are today.</p>
       </div>
 
       <div class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">

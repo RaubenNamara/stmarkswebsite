@@ -73,7 +73,7 @@ const cleanedContent = computed(() => (news ? (news.content as string).replace(/
           @error="imageFailed = true"
         >
         <div v-else class="flex h-full min-h-[280px] items-center justify-center bg-gradient-to-br from-brand-navy to-brand-navy-dark">
-          <span class="font-display text-2xl font-extrabold text-white/20">St Mark's College</span>
+          <span class="font-display text-2xl font-extrabold text-white/20">St. Mark's College</span>
         </div>
       </div>
 
@@ -102,7 +102,7 @@ const cleanedContent = computed(() => (news ? (news.content as string).replace(/
     <section v-if="moreNews.length" class="bg-gray-50 py-14 sm:py-16">
       <div class="container-wide">
         <h2 class="font-display text-2xl font-bold text-gray-900">More News</h2>
-        <p class="mt-1 text-gray-500">Latest stories from St Mark's College Namagoma.</p>
+        <p class="mt-1 text-gray-500">Latest stories from St. Mark's College Namagoma.</p>
 
         <div class="mt-8 grid gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           <router-link v-for="item in moreNews" :key="item.id" :to="`/news/${item.slug}`" class="group flex flex-col">
@@ -120,7 +120,7 @@ const cleanedContent = computed(() => (news ? (news.content as string).replace(/
 
               <div v-if="item.published_at || item.created_at" class="absolute left-3 top-3 flex flex-col items-center rounded-lg bg-white px-2.5 py-1.5 leading-none shadow-card">
                 <span class="font-display text-lg font-extrabold text-brand-navy">{{ dayOf(item.published_at || item.created_at) }}</span>
-                <span class="mt-0.5 text-[10px] font-bold uppercase text-brand-navy/70">{{ monthOf(item.published_at || item.created_at) }}</span>
+                <span class="mt-0.5 text-[12px] font-bold uppercase text-brand-navy/70">{{ monthOf(item.published_at || item.created_at) }}</span>
               </div>
             </div>
 

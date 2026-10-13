@@ -38,7 +38,7 @@ const steps = [
 
 <template>
   <PageHeader
-    title="Join our team — Shape the future with St Mark's College"
+    title="Join our team — Shape the future with St. Mark's College"
     subtitle="Are you a dedicated professional who loves education and community development? We invite passionate teachers and support staff to apply and become part of a team that nurtures excellence."
     :bg-image="staticAsset('storage/images/smacon.jpg')"
   />
@@ -56,7 +56,7 @@ const steps = [
     <div v-reveal class="mx-auto max-w-2xl text-center">
       <span class="eyebrow">Why Work With Us</span>
       <h2 class="mt-2 font-display text-2xl font-bold text-brand-navy sm:text-3xl">A place to grow, teach and belong</h2>
-      <p class="mt-3 text-gray-600">At St Mark's College Namagoma we believe in empowering staff to deliver high-quality education, backed by continuous learning, wellbeing and collaboration.</p>
+      <p class="mt-3 text-gray-600">At St. Mark's College Namagoma we believe in empowering staff to deliver high-quality education, backed by continuous learning, wellbeing and collaboration.</p>
     </div>
 
     <div class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">

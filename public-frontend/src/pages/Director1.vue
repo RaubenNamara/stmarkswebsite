@@ -12,8 +12,8 @@ useHead({ title: "Director's Message" })
 
   <section class="mx-auto grid max-w-7xl gap-6 px-6 py-14 md:grid-cols-[280px_1fr] md:items-start">
     <div class="card border-t-4 border-brand-navy text-center">
-      <AvatarImage :src="staticAsset('images/director1.jpg')" alt="Owek Ddamulira Daniel" size="lg" />
-      <h2 class="text-lg font-bold text-brand-navy">Owek Ddamulira Daniel</h2>
+      <AvatarImage :src="staticAsset('images/director1.jpg')" alt="Omuk. DG Daniel Mukasa Ddamulira" size="lg" />
+      <h2 class="text-lg font-bold text-brand-navy">Omuk. DG Daniel Mukasa Ddamulira</h2>
       <p class="font-semibold text-gray-600">Director</p>
       <p class="mt-2 text-sm text-gray-600">A visionary education leader committed to institutional growth, integrity and academic excellence.</p>
     </div>
@@ -26,7 +26,7 @@ useHead({ title: "Director's Message" })
       <p class="mt-3 text-gray-600">Our focus remains on producing responsible citizens who will contribute positively to their communities and to the development of our motherland.</p>
       <p class="mt-3 font-semibold text-gray-800">Together, let us continue striving for excellence.</p>
       <div class="mt-6 font-bold text-brand-navy">
-        Owek Ddamulira Daniel<br>
+        Omuk. DG Daniel Mukasa Ddamulira<br>
         <span class="font-normal text-gray-600">Director, St. Mark's College Namagoma</span>
       </div>
     </div>

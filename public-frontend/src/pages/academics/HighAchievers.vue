@@ -15,7 +15,7 @@ const photoFailed = reactive<Record<number, boolean>>({})
 </script>
 
 <template>
-  <PageHeader title="High Achievers" subtitle="Celebrating the students whose results set the standard for excellence at St Mark's." :bg-image="staticAsset('storage/images/smacon.jpg')" />
+  <PageHeader title="High Achievers" subtitle="Celebrating the students whose results set the standard for excellence at St. Mark's." :bg-image="staticAsset('storage/images/smacon.jpg')" />
 
   <section class="container-wide py-14">
     <EmptyState v-if="!achievers.length" message="Nothing here yet." />

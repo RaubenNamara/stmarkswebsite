@@ -7,6 +7,6 @@ namespace StMarks\Shared\Models;
 class Media extends Model
 {
     protected string $table = 'media';
-    protected array $fillable = ['title', 'type', 'file_path', 'video_url', 'is_active'];
+    protected array $fillable = ['title', 'caption', 'type', 'file_path', 'video_url', 'is_active'];
     protected array $searchable = ['title'];
 }

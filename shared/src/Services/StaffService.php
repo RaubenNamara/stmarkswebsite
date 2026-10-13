@@ -39,11 +39,19 @@ class StaffService extends SinglePhotoContentService
      * app normalized this ad-hoc in three different controllers; this is the one place it happens
      * now (the plan's StaffDirectoryService consolidation).
      *
+     * "Support Staff" and "Non Teaching Staff" are two separate categories, not the same bucket
+     * under two names: every pre-existing row that means non-teaching staff was already saved
+     * with the literal category text "Support Staff" (a historical workaround - "Non Teaching
+     * Staff" contains "teach", which would misfile it above), so that's the default/catch-all
+     * bucket. A genuinely new "Support Staff" category added later needed a raw value that
+     * doesn't collide with that - the admin UI saves it as "General Support" (displayed to admins
+     * as just "Support Staff") - matched explicitly below, before the catch-all.
+     *
      * @return array<string, array> canonical category label => staff rows
      */
     public function groupedForDisplay(): array
     {
-        $order = ['Administrator', 'Head of Department', 'Teaching Staff', 'Support Staff'];
+        $order = ['Administrator', 'Head of Department', 'Teaching Staff', 'Non Teaching Staff', 'Support Staff'];
         $groups = array_fill_keys($order, []);
 
         foreach ($this->all() as $member) {
@@ -61,7 +69,8 @@ class StaffService extends SinglePhotoContentService
             str_contains($lower, 'head') => 'Head of Department',
             str_contains($lower, 'admin') => 'Administrator',
             str_contains($lower, 'teach') => 'Teaching Staff',
-            default => 'Support Staff',
+            str_contains($lower, 'general support') => 'Support Staff',
+            default => 'Non Teaching Staff',
         };
     }
 }
