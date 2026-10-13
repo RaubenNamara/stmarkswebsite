@@ -122,7 +122,7 @@ const mediaCardCount = (mediaImages.length ? 1 : 0) + mediaVideos.length
 const mediaGridCols = mediaCardCount <= 1 ? '' : mediaCardCount === 2 ? 'sm:grid-cols-2' : 'sm:grid-cols-2 lg:grid-cols-3'
 
 const leadership = [
-  { name: 'Omuk. DG Daniel Mukasa Ddamulira', role: 'Director', image: 'images/director1.jpg', url: '/director1', text: 'A visionary education leader committed to institutional growth, integrity and academic excellence.' },
+  { name: 'Omuk. DG Daniel Mukasa Ddamulira', role: 'Director', image: 'images/director-daniel.jpg', url: '/director1', text: 'A visionary education leader committed to institutional growth, integrity and academic excellence.' },
   { name: 'Canon Alice Ddamulira', role: 'Director', image: 'images/director2.jpg', url: '/director2', text: 'Dedicated to nurturing discipline, excellence and strong moral values within the school community.' },
   { name: 'Wabwire Joseph', role: 'Head Teacher', image: 'images/hm.jpg', url: '/headteacher', text: 'Provides strong academic leadership ensuring holistic development and consistent performance.' },
 ]
