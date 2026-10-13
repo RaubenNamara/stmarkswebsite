@@ -23,6 +23,7 @@ const PHRASES: Array<[RegExp, string | ((...match: string[]) => string)]> = [
   [/\bwhat is (st marks|the school|this school|your school)( college)?( namagoma)?$/g, 'overview'],
   [/\bwhy (is|are|was) .{0,30}\bcalled\b/g, 'collegename'],
   [/\b(meaning|origin) of the (college )?name\b/g, 'collegename'],
+  [/\bwho (own|owns|owned)\b/g, 'owner'],
   [/\bwork (at|for|with)\b/g, 'job'],
   [/\bhow much\b/g, 'fee'],
   [/\bget in touch\b/g, 'contact'],
@@ -122,6 +123,7 @@ export const SYNONYMS: Record<string, string> = {
   music: 'music', choir: 'music', band: 'music', dance: 'dance', drama: 'drama', debate: 'debate',
   club: 'club', society: 'club', extracurricular: 'cocurricular', activity: 'activity', activiti: 'activity',
   // people / jobs
+  owns: 'owner', owned: 'owner', owner: 'owner', ownership: 'owner', proprietor: 'owner', proprietorship: 'owner',
   vacancy: 'job', vacanci: 'job', job: 'job', career: 'job', employ: 'job', employment: 'job', hiring: 'job', hir: 'job', cv: 'job',
   // digital
   elearning: 'elearning', espace: 'espace', evoting: 'evoting', econcerting: 'econcerting', cybermonitor: 'cybermonitor',
