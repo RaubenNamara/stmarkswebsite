@@ -188,8 +188,14 @@ describe('people and programmes', () => {
     const head = ask('who is the head teacher').text
     assert.equal(head, 'Wabwere Joseph')
     assert.equal(ask('who is the chairman of the board').text, 'Rtn. Geofrey kulubya')
-    assert.equal(ask('who is the director').text, 'Omuk. DG Daniel Mukasa Ddamulira')
-    assert.match(ask('who runs the school').text, /• Director: .*\n• Head Teacher: /)
+    // the school has two directors: both are always named
+    assert.equal(ask('who is the director').text, '• Omuk. DG Daniel Mukasa Ddamulira\n• Canon Alice Ddamulira')
+    assert.equal(ask('who is the dirctor').text, ask('who is the director').text)
+    assert.match(ask('who runs the school').text, /• Directors: .* and Canon Alice Ddamulira\n• Head Teacher: /)
+    // a direct answer carries no follow-up buttons or links
+    const lead = ask('who is the director')
+    assert.equal(lead.suggestions.length, 0)
+    assert.equal(lead.links.length, 0)
   })
   test('staff, clubs and programmes', () => {
     assert.equal(ask('who is the head of security').text, 'Security:\n• Ariaka Fred (Head of Department)')

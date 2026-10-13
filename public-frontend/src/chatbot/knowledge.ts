@@ -66,6 +66,8 @@ export interface KnowledgeEntry {
 export const SCHOOL_NAME = "St. Mark's College Namagoma"
 /** Names published on the Home / Head Teacher pages. Live staff data (see liveAnswer.ts) takes precedence when available. */
 export const DIRECTOR_NAME = 'Omuk. DG Daniel Mukasa Ddamulira'
+/** The school has two directors. */
+export const DIRECTOR2_NAME = 'Canon Alice Ddamulira'
 export const HEADTEACHER_FALLBACK = 'Wabwire Joseph'
 export const PHONE_HEADTEACHER = ['+256 393 103 418', '+256 775 831 844', '+256 750 330 158']
 export const PHONE_PRO = '+256 772 996 680'
@@ -194,16 +196,10 @@ export const ENTRIES: KnowledgeEntry[] = [
     keywords: ['headteacher', 'director', 'board', 'leadership', 'management', 'who runs', 'administration', 'owner', 'proprietor', 'headmaster'],
     exclude: ['job'],
     answer:
-      '• Director: Omuk. DG Daniel Mukasa Ddamulira\n' +
+      '• Directors: Omuk. DG Daniel Mukasa Ddamulira and Canon Alice Ddamulira\n' +
       '• Head Teacher: Wabwire Joseph\n' +
-      '• The College has a Board of Governors made up of educationists, bankers and senior managers.\n\n' +
-      'See the pages below for their messages, the board and the staff.',
-    links: [
-      { label: "Head Teacher's message", url: '/headteacher' },
-      { label: 'Director', url: '/director1' },
-      { label: 'Board members', url: '/board-members' },
-      { label: 'Staff', url: '/staff' },
-    ],
+      '• The College has a Board of Governors made up of educationists, bankers and senior managers.',
+    links: [],
     related: ['contact', 'about-school'],
   },
   {

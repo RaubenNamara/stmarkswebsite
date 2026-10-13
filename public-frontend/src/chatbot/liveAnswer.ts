@@ -9,7 +9,7 @@
  *     engine falls back to its built-in answers or an honest "I don't know".
  */
 
-import { DIRECTOR_NAME, HEADTEACHER_FALLBACK } from './knowledge.ts'
+import { DIRECTOR_NAME, DIRECTOR2_NAME, HEADTEACHER_FALLBACK } from './knowledge.ts'
 import { sanitizeLinks, type ChatLink } from './links.ts'
 import { pdfPassages, search, type Hit, type LiveIndex } from './liveIndex.ts'
 import type { LiveSource, SourceKind } from './live.ts'
@@ -361,20 +361,19 @@ export function leadershipAnswer(query: string, index: LiveIndex): LiveReply | n
 
   // Answer just the role that was asked about - the bare name, since the question already names the
   // role. Only a general question lists several roles, and then each line needs its label.
+  // The school has two directors, so "the director" is always answered with both names.
   const all: Array<{ key: string; label: string; name: string }> = [
-    { key: 'director', label: 'Director', name: DIRECTOR_NAME },
+    { key: 'director', label: 'Directors', name: `${DIRECTOR_NAME} and ${DIRECTOR2_NAME}` },
     { key: 'headteacher', label: 'Head Teacher', name: head ? head.title : HEADTEACHER_FALLBACK },
   ]
   if (chair) all.push({ key: 'chair', label: chair.text, name: chair.title })
   const asked = all.filter((r) => tok.has(r.key))
-  const lines = asked.length === 1 ? [asked[0].name] : (asked.length ? asked : all).map((r) => `• ${r.label}: ${r.name}`)
+  const lines = asked.length === 1
+    ? (asked[0].key === 'director' ? [`• ${DIRECTOR_NAME}`, `• ${DIRECTOR2_NAME}`] : [asked[0].name])
+    : (asked.length ? asked : all).map((r) => `• ${r.label}: ${r.name}`)
   return {
     text: lines.join('\n'),
-    links: [
-      { label: "Head Teacher's message", url: '/headteacher' },
-      { label: 'Board members', url: '/board-members' },
-      { label: 'Staff', url: '/staff' },
-    ],
+    links: [],
     resolver: 'leadership',
     confidence: 1,
   }

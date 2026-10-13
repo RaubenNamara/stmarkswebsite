@@ -214,11 +214,8 @@ function answerReply(entry: KnowledgeEntry): BotReply {
   let text = entry.answer
   let suggestions: Suggestion[]
 
-  if (entry.id === 'faq') {
-    suggestions = related.map(chipFor)
-  } else {
-    suggestions = related.slice(0, 4).map(chipFor)
-  }
+  // A direct answer stands alone: no follow-up buttons after it (only the FAQ menu offers choices).
+  suggestions = entry.id === 'faq' ? related.map(chipFor) : []
 
   return reply('answer', text, {
     lastEntryId: entry.id,
@@ -384,8 +381,7 @@ export function respond(rawInput: string, ctx: ChatContext = EMPTY_CONTEXT, live
 
 /** Wraps a live-data answer as a reply, keeping conversation context when a built-in topic matched. */
 function liveReply(r: LiveReply, entry?: KnowledgeEntry): BotReply {
-  const related = (entry?.related ?? []).map((id) => byId.get(id)).filter((e): e is KnowledgeEntry => !!e)
-  const suggestions = r.suggestions ?? (related.length ? related.slice(0, 4).map(chipFor) : topLevelChips())
+  const suggestions = r.suggestions ?? []
   return reply(
     r.clarify ? 'clarify' : 'answer',
     r.text,
